@@ -1,12 +1,11 @@
 {
-    "name": "sylius/plugin-skeleton",
+    "name": "webgriffe/sylius-back-in-stock-notification-plugin",
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin"],
-    "description": "Acme example plugin for Sylius.",
+    "description": "Timely inform customers and guest visitors when a product return in stock",
     "license": "MIT",
     "require": {
-        "php": "^7.3",
-
+        "php": "^7.4",
         "sylius/sylius": "^1.8"
     },
     "require-dev": {
@@ -41,8 +40,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Acme\\SyliusExamplePlugin\\": "src/",
-            "Tests\\Acme\\SyliusExamplePlugin\\": "tests/"
+            "Webgriffe\\SyliusBackInStockNotificationPlugin\\": "src/",
+            "Tests\\Webgriffe\\SyliusBackInStockNotificationPlugin\\": "tests/"
         }
     },
     "autoload-dev": {
