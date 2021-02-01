@@ -1,0 +1,5 @@
+sylius_ui:
+  events:
+    sylius.shop.product.show.content:
+      blocks:
+        my_block_name: '@WebgriffeSyliusBackInStockNotificationPlugin/_addSubscription.html.twig'

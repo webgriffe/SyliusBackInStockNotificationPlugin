@@ -1,0 +1,44 @@
+{% extends '@SyliusShop/Account/layout.html.twig' %}
+
+{% block title %}{{ 'theme.email.stock.title'|trans }} - {{ parent() }}{% endblock %}
+
+{% block subcontent %}
+    <h1 class="h2">
+        {{ 'theme.email.stock.title'|trans }}
+    </h1>
+    {% if lines|length > 0 %}
+        <div class="sylius-grid-table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            {{ 'theme.email.stock.product'|trans }}
+                        </th>
+                        <th>
+                            {{ 'theme.email.stock.actions'|trans }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in lines %}
+                        <tr>
+                            <td>
+                                {{ line.product.name }}
+                            </td>
+                            <td>
+                                <div class="ui buttons">
+                                    <a href="{{ path('app_back_in_stock_notification_delete_subscription', {'hash': line.hash}) }}"
+                                       class="ui labeled icon button">
+                                        {{ 'theme.email.stock.remove'|trans }}
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>{{ 'theme.email.stock.empty'|trans }}</p>
+    {% endif %}
+{% endblock %}

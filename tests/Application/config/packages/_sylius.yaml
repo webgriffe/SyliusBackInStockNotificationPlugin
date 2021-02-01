@@ -14,3 +14,13 @@ parameters:
 sylius_shop:
     product_grid:
         include_all_descendants: true
+
+sylius_mailer:
+    sender:
+        name: "email_name_sender"
+        address: "email_address_sender"
+    emails:
+        back_in_stock_notification_success_subscription:
+            template: "@WebgriffeSyliusBackInStockNotificationPlugin/Email/back_in_stock_notification_success_subscription.html.twig"
+        back_in_stock_notification_alert:
+            template: "@WebgriffeSyliusBackInStockNotificationPlugin/Email/back_in_stock_notification_alert.html.twig"

@@ -1,0 +1,16 @@
+services:
+  Webgriffe\SyliusBackInStockNotificationPlugin\Command\AlertCommand:
+    arguments:
+      - '@logger'
+      - '@sylius.email_sender'
+      - '@sylius.availability_checker'
+      - '@sylius.repository.product_variant'
+      - '@app.repository.back_in_stock_notification'
+      - '@sylius.repository.channel'
+
+  Webgriffe\SyliusBackInStockNotificationPlugin\Controller\SubscriptionController:
+    tags: ['controller.service_arguments']
+
+  Webgriffe\SyliusBackInStockNotificationPlugin\Menu\BackInStockNotificationMenuItemAdder:
+    tags:
+      - { name: kernel.event_listener, event: sylius.menu.shop.account, method: addMenuItems }

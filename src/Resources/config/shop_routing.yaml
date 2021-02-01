@@ -1,0 +1,17 @@
+webgriffe_back_in_stock_notification_add_subscription:
+  path: /back-in-stock-notification/add-subscription
+  methods: [GET, POST]
+  defaults:
+    _controller: Webgriffe\SyliusBackInStockNotificationPlugin\Controller\SubscriptionController:addAction
+
+webgriffe_back_in_stock_notification_delete_subscription:
+  path: /back-in-stock-notification/delete-subscription/{hash}
+  methods: [GET]
+  defaults:
+    _controller: Webgriffe\SyliusBackInStockNotificationPlugin\Controller\SubscriptionController:deleteAction
+
+webgriffe_back_in_stock_notification_account_subscription_book_index:
+  path: /account/back-in-stock-notification
+  methods: [GET]
+  defaults:
+    _controller: Webgriffe\SyliusBackInStockNotificationPlugin\Controller\SubscriptionController:accountListAction

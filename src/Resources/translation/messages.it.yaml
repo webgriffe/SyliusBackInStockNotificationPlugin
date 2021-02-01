@@ -1,0 +1,11 @@
+webgriffe_bisn:
+    back_in_stock_notification:
+        recaptcha_failed: 'Errore durante la verifica del reCAPTCHA, riprova'
+        variant_not_found: 'Prodotto non trovato, non è possibile iscriversi alle notifiche'
+        variant_not_oos: 'Prodotto disponibile, non è possibile iscriversi alle notifiche'
+        already_saved: "Un'iscrizione con la mail email è già presente"
+        subscription_failed: 'Qualcosa è andato storto, riprova'
+        subscription_successfully: 'Ti sei iscritto con successo, controlla la tua email'
+        account_menu_label: 'Notifiche'
+        deletion-not-successful: 'Iscrizione non trovata'
+        deletion-successful: 'Mail eliminata con successo dalla lista delle notifiche'

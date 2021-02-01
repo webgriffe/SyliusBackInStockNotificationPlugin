@@ -1,0 +1,5 @@
+{% if product.isConfigurable() %}
+    {{ render(url('webgriffe_back_in_stock_notification_add_subscription')) }}
+{% else %}
+    {{ render(url('webgriffe_back_in_stock_notification_add_subscription', {'product_variant_code': product.code})) }}
+{% endif %}

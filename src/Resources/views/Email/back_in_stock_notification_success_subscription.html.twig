@@ -1,0 +1,26 @@
+{% extends '@SyliusShop/Email/layout-new.html.twig' %}
+
+{% block subject %}{{ 'theme.email.stock.subscription_title'|trans({}, null, localeCode) }}{% endblock %}
+
+{% block content %}
+
+    <div style="text-align: center; padding-bottom: 30px;">
+        <div style="font-size: 30px; line-height: 1.2;">
+            {{ 'theme.email.stock.subscription_title'|trans({}, null, localeCode) }}
+        </div>
+    </div>
+
+    <div style="text-align: center; padding-bottom: 15px; font-size: 15px;">
+        {{ 'theme.email.stock.subscription_message'|trans({
+            '{product}': product.name,
+            '{url}': url('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale})
+        }, null, localeCode)|raw }}
+    </div>
+
+    <div style="text-align: center; padding-bottom: 30px; font-size: 15px;">
+        {{ 'theme.email.stock.subscription_unsub'|trans({
+            '{url}': url('app_back_in_stock_notification_delete_subscription', {'hash': subscription.hash})
+        }, null, localeCode)|raw }}
+    </div>
+
+{% endblock %}

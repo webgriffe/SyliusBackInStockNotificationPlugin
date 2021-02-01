@@ -1,0 +1,6 @@
+sylius_resource:
+    resources:
+        app.back_in_stock_notification.subscriber:
+            driver: doctrine/orm
+            classes:
+                model: Webgriffe\SyliusBackInStockNotificationPlugin\Entity\Subscription

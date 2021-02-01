@@ -1,0 +1,24 @@
+{% form_theme form '@SyliusShop/Form/theme.html.twig' %}
+
+<div class="card-block card-item" id="overlay">
+
+    <div class="font-huge spacing-small">
+        <strong>{{ 'theme.product.stock_notify_title'|trans }}</strong>
+    </div>
+
+    <p class="font-big">
+        {{ 'theme.product.stock_notify_description'|trans }}
+    </p>
+
+    {{ form_start(form, {'attr': {'class': 'ui form form-default', 'id': 'back_in_stock_not'}, 'action': path('app_back_in_stock_notification_add_subscription')}) }}
+    {% if form.email is defined %}
+        {{ form_row(form.email, {'attr': {'data-test-add-email-to-back-in-stock-notification-list':''}}) }}
+    {% endif %}
+    <div class="form-group">
+        {{ 'theme.form.recaptcha'|trans|raw }}
+    </div>
+    {{ form_row(form.submit, {'label': 'theme.product.stock_form_action'|trans, 'attr': {'class': 'btn btn-primary btn-large full align-center', 'data-test-add-to-back-in-stock-notification-list': ''}})}}
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+
+</div>
