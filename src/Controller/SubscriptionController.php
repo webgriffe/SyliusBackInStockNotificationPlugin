@@ -196,7 +196,7 @@ class SubscriptionController extends AbstractController
             return $this->redirect($this->getRefererUrl($request));
         }
 
-        return $this->render('@WebgriffeSyliusBackInStockNotificationPlugin/add-subscription.html.twig', [
+        return $this->render('@WebgriffeSyliusBackInStockNotificationPlugin/simpleProductSubscription.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -241,7 +241,7 @@ class SubscriptionController extends AbstractController
             return $element['product'];
         });
 
-        return $this->render('Shop/BackInStockNotification/account-list-subscription.html.twig', [
+        return $this->render('Shop/BackInStockNotification/accountSubscriptionList.html.twig', [
             'lines' => $data,
         ]);
     }
