@@ -1,24 +1,21 @@
 {% form_theme form '@SyliusShop/Form/theme.html.twig' %}
+<div class="ui segment">
+    <h4 class="ui dividing header">{{ 'webgriffe_bisn.product_page.stock_notify_title'|trans }}</h4>
 
-<div class="card-block card-item" id="overlay">
-
-    <div class="font-huge spacing-small">
-        <strong>{{ 'theme.product.stock_notify_title'|trans }}</strong>
-    </div>
-
-    <p class="font-big">
-        {{ 'theme.product.stock_notify_description'|trans }}
+    <p>
+        {{ 'webgriffe_bisn.product_page.stock_notify_description'|trans }}
     </p>
 
     {{ form_start(form, {'attr': {'class': 'ui form form-default', 'id': 'back_in_stock_not'}, 'action': path('webgriffe_back_in_stock_notification_add_subscription')}) }}
     {% if form.email is defined %}
         {{ form_row(form.email, {'attr': {'data-test-add-email-to-back-in-stock-notification-list':''}}) }}
     {% endif %}
-    <div class="form-group">
-        {{ 'theme.form.recaptcha'|trans|raw }}
-    </div>
-    {{ form_row(form.submit, {'label': 'theme.product.stock_form_action'|trans, 'attr': {'class': 'btn btn-primary btn-large full align-center', 'data-test-add-to-back-in-stock-notification-list': ''}})}}
-    {{ form_rest(form) }}
-    {{ form_end(form) }}
 
+    <p>
+        {{ 'webgriffe_bisn.product_page.recaptcha_form'|trans|raw }}
+    </p>
+
+    <button type="submit" class="ui huge primary icon labeled button" {{ sylius_test_html_attribute('add-to-back-in-stock-notification-list') }}><i class="bell icon"></i> {{ 'webgriffe_bisn.product_page.form_action'|trans }}</button>
+    {{ form_row(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
 </div>
