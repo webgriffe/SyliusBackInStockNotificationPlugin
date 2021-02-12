@@ -10,6 +10,18 @@ services:
 
   Webgriffe\SyliusBackInStockNotificationPlugin\Controller\SubscriptionController:
     tags: ['controller.service_arguments']
+    arguments:
+      - '@sylius.context.channel'
+      - '@translator.data_collector'
+      - '@debug.validator'
+      - '@sylius.context.customer'
+      - '@sylius.availability_checker.default'
+      - '@sylius.repository.product_variant'
+      - '@sylius.email_sender'
+      - '@sylius.context.locale'
+      - '@sylius.repository.customer'
+      - '@app.repository.back_in_stock_notification'
+      - '@app.factory.back_in_stock_notification'
 
   Webgriffe\SyliusBackInStockNotificationPlugin\Menu\BackInStockNotificationMenuItemAdder:
     tags:

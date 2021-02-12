@@ -9,3 +9,8 @@ webgriffe_bisn:
         account_menu_label: 'Subscribed Products'
         deletion-not-successful: 'Subscription not found'
         deletion-successful: 'Mail is deleted from the notification alert list'
+    product_page:
+        stock_notify_title: 'Notify me when the product is available'
+        stock_notify_description: 'Insert your mail to get a notification when the product return in stock.'
+        recaptcha_form: 'This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.'
+        form_action: 'Notify me'
