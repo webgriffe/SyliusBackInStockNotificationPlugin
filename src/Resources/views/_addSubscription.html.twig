@@ -1,5 +1,5 @@
 {% if product.isConfigurable %}
     {{ render(url('webgriffe_back_in_stock_notification_add_subscription')) }}
 {% elseif product.isSimple and not product.variants.first.isInStock and product.variants.first.isTracked %}
-    {{ render(url('webgriffe_back_in_stock_notification_add_subscription', {'product_variant_code': product.code})) }}
+    {{ render(url('webgriffe_back_in_stock_notification_add_subscription', {'product_variant_code': product.variants.first.code})) }}
 {% endif %}

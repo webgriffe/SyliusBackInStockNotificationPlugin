@@ -14,3 +14,11 @@ webgriffe_bisn:
         stock_notify_description: 'Insert your mail to get a notification when the product return in stock.'
         recaptcha_form: 'This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.'
         form_action: 'Notify me'
+    subscription_mail:
+        subscription_title: 'Product not available'
+        subscription_message: 'Your request has been registered, we will send you an email as soon as the product <a href="{url}">{product}</a> is back in stock.'
+        subscription_unsub: 'Were not you the one who subscribed to these notifications? <a href="{url}">Click here</a> to delete yourself.'
+    alert_email:
+        alert_title: 'Product available again'
+        alert_message: 'We inform you that the product <a href="{url}">{product}</a> is back in stock'
+        alert_action: 'Buy now'

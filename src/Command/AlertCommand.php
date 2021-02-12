@@ -94,7 +94,7 @@ final class AlertCommand extends Command
             $variant = $this->productVariantRepository->findOneBy($criteria);
             if ($variant && $this->availabilityChecker->isStockAvailable($variant)) {
                 $this->sender->send(
-                    'back_in_stock_notification_alert',
+                    'webgriffe_back_in_stock_notification_alert',
                     [$subscription->getEmail()],
                     [
                         'subscription' => $subscription,

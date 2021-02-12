@@ -98,9 +98,11 @@ class SubscriptionController extends AbstractController
         if ($customer && $customerEmail = $customer->getEmail()) {
             $subscription->setEmail($customerEmail);
         }
-        $productVariantCode = $request->get('product_variant_code');
+        $productVariantCode = (string) $request->query->get('product_variant_code');
+        $template = '@WebgriffeSyliusBackInStockNotificationPlugin/configurableProductSubscription.html.twig';
         if ($productVariantCode) {
-            $subscription->setProductVariantCode((string) $productVariantCode);
+            $subscription->setProductVariantCode($productVariantCode);
+            $template = '@WebgriffeSyliusBackInStockNotificationPlugin/simpleProductSubscription.html.twig';
         }
 
         $form = $this->createFormBuilder($subscription)
@@ -181,7 +183,7 @@ class SubscriptionController extends AbstractController
 
             $this->backInStockNotificationRepository->add($subscription);
             $this->sender->send(
-                'back_in_stock_notification_success_subscription',
+                'webgriffe_back_in_stock_notification_success_subscription',
                 [$email],
                 [
                     'subscription' => $subscription,
@@ -196,9 +198,7 @@ class SubscriptionController extends AbstractController
             return $this->redirect($this->getRefererUrl($request));
         }
 
-        return $this->render('@WebgriffeSyliusBackInStockNotificationPlugin/simpleProductSubscription.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->render($template, ['form' => $form->createView(),]);
     }
 
     public function deleteAction(Request $request, string $hash): Response
@@ -241,7 +241,7 @@ class SubscriptionController extends AbstractController
             return $element['product'];
         });
 
-        return $this->render('Shop/BackInStockNotification/accountSubscriptionList.html.twig', [
+        return $this->render('@WebgriffeSyliusBackInStockNotificationPlugin/accountSubscriptionList.html.twig', [
             'lines' => $data,
         ]);
     }

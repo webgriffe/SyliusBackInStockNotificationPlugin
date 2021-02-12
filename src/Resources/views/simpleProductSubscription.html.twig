@@ -11,6 +11,8 @@
         {{ form_row(form.email, {'attr': {'data-test-add-email-to-back-in-stock-notification-list':''}}) }}
     {% endif %}
 
+    {{ form_row(form.product_variant_code, {'attr': {'data-test-add-email-to-back-in-stock-notification-list':''}}) }}
+
     <p>
         {{ 'webgriffe_bisn.product_page.recaptcha_form'|trans|raw }}
     </p>
