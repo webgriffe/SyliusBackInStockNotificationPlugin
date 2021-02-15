@@ -13,10 +13,6 @@
 
     {{ form_row(form.product_variant_code, {'attr': {'data-test-add-email-to-back-in-stock-notification-list':''}}) }}
 
-    <p>
-        {{ 'webgriffe_bisn.product_page.recaptcha_form'|trans|raw }}
-    </p>
-
     <button type="submit" class="ui huge primary icon labeled button" {{ sylius_test_html_attribute('add-to-back-in-stock-notification-list') }}><i class="bell icon"></i> {{ 'webgriffe_bisn.product_page.form_action'|trans }}</button>
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}

@@ -117,7 +117,7 @@ class SubscriptionController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && !$form->isValid()) {
-            $this->addFlash('error', $this->translator->trans('webgriffe_bisn.back_in_stock_notification.recaptcha_failed'));
+            $this->addFlash('error', $this->translator->trans('webgriffe_bisn.back_in_stock_notification.invalid_form'));
 
             return $this->redirect($this->getRefererUrl($request));
         }
