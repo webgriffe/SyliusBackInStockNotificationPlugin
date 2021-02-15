@@ -1,1 +1,0 @@
-sylius.cart_item.not_available: '%itemName% does not have sufficient stock. Click <a href="#">here</a>'

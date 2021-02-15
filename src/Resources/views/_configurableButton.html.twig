@@ -1,0 +1,18 @@
+{% if product.isConfigurable %}
+    <script>
+        //TODO: extract it on a separated js
+        document.addEventListener("DOMContentLoaded", function(event) {
+            document.querySelector('#trigger-notification-overlay').onclick = function(event) {
+                jQuery('#notification-overlay').modal('show')
+                const formData = new FormData(document.querySelector('#sylius-product-adding-to-cart'))
+                let productVariantCode= formData.get('sylius_add_to_cart[cartItem][variant]')
+                if (!productVariantCode) {
+                    //TODO: handle the case variant selection -> option matching
+                    productVariantCode = 'Sport_basic_white_T_Shirt-variant-3'
+                }
+                document.querySelector('#back_in_stock_not #form_product_variant_code').value = productVariantCode
+            }
+        })
+    </script>
+    <button type="button" id="trigger-notification-overlay" class="ui huge primary icon labeled button"><i class="bell icon"></i> {{ 'webgriffe_bisn.product_page.form_action'|trans }}</button>
+{% endif %}

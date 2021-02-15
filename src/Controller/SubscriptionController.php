@@ -99,10 +99,8 @@ class SubscriptionController extends AbstractController
             $subscription->setEmail($customerEmail);
         }
         $productVariantCode = (string) $request->query->get('product_variant_code');
-        $template = '@WebgriffeSyliusBackInStockNotificationPlugin/configurableProductSubscription.html.twig';
         if ($productVariantCode) {
             $subscription->setProductVariantCode($productVariantCode);
-            $template = '@WebgriffeSyliusBackInStockNotificationPlugin/simpleProductSubscription.html.twig';
         }
 
         $form = $this->createFormBuilder($subscription)
@@ -198,7 +196,10 @@ class SubscriptionController extends AbstractController
             return $this->redirect($this->getRefererUrl($request));
         }
 
-        return $this->render($template, ['form' => $form->createView(),]);
+        return $this->render(
+            '@WebgriffeSyliusBackInStockNotificationPlugin/productSubscriptionForm.html.twig',
+            ['form' => $form->createView(),]
+        );
     }
 
     public function deleteAction(Request $request, string $hash): Response
