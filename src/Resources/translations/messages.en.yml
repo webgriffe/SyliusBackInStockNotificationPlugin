@@ -6,9 +6,10 @@ webgriffe_bisn:
         already_saved: 'Subscription with the mail email is already present'
         subscription_failed: 'Something goes wrong, please try again'
         subscription_successfully: 'Successfully subscribed, check your email!'
-        account_menu_label: 'Subscribed Products'
         deletion-not-successful: 'Subscription not found'
         deletion-successful: 'Mail is deleted from the notification alert list'
+    my_account_section:
+        menu_label: 'Subscribed Products'
     product_page:
         stock_notify_title: 'Notify me when the product is available'
         stock_notify_description: 'Insert your mail to get a notification when the product return in stock.'
