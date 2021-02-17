@@ -234,12 +234,12 @@ class SubscriptionController extends AbstractController
 
             return [
                 'hash' => $subscription->getHash(),
-                'product' => $variant,
+                'variant' => $variant,
             ];
         }, $subscriptions);
 
         $data = array_filter($data, function ($element) {
-            return $element['product'];
+            return $element['variant'];
         });
 
         return $this->render('@WebgriffeSyliusBackInStockNotificationPlugin/accountSubscriptionList.html.twig', [

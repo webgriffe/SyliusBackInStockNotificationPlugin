@@ -9,7 +9,16 @@ webgriffe_bisn:
         deletion-not-successful: 'Subscription not found'
         deletion-successful: 'Mail is deleted from the notification alert list'
     my_account_section:
-        menu_label: 'Subscribed Products'
+        menu_label: 'Products notification'
+        title: 'Products notification'
+        sub_title: 'Manage your back in stock product notification'
+        empty_list: 'You have no active notifications.'
+        info_empty_list: 'Info'
+        product: 'Product'
+        option: 'Option'
+        remove: 'Remove'
+        actions: 'Action'
+        simple: 'Simple product'
     product_page:
         stock_notify_title: 'Notify me when the product is available'
         stock_notify_description: 'Insert your mail to get a notification when the product return in stock.'
