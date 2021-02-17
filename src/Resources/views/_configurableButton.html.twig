@@ -2,24 +2,46 @@
     <script>
         //TODO: extract it on a separated js
         document.addEventListener("DOMContentLoaded", function(event) {
-            document.querySelector('#trigger-notification-overlay').onclick = function(event) {
-                jQuery('#notification-overlay').modal('show')
+            function getSelectedVariantCode() {
+                const syliusVariantsStock = document.querySelector('#sylius-variants-stock')
                 const formData = new FormData(document.querySelector('#sylius-product-adding-to-cart'))
                 let productVariantCode= formData.get('sylius_add_to_cart[cartItem][variant]')
                 if (!productVariantCode) {
                     // handle the case variant selection -> option matching
-                    const syliusVariantsStock = document.querySelector('#sylius-variants-stock')
                     let variants = Array.from(syliusVariantsStock.children)
                     for (let optionCode of JSON.parse(syliusVariantsStock.dataset.optionCode)) {
-                        let optionValueSelected = formData.get('sylius_add_to_cart[cartItem][variant]['+optionCode+']')
+                        let optionValueSelected = formData.get(`sylius_add_to_cart[cartItem][variant][${optionCode}]`)
                         variants = variants.filter((variant) => JSON.parse(variant.dataset.optionsValue).includes(optionValueSelected))
                     }
                     if (variants.length === 1) {
                         productVariantCode = variants[0].dataset.variantCode
                     }
                 }
-                document.querySelector('#back_in_stock_not #form_product_variant_code').value = productVariantCode
+                return productVariantCode;
             }
+
+            function renderNotifyMeBtn() {
+                const selectedVariant = document.querySelector(`#sylius-variants-stock [data-variant-code="${getSelectedVariantCode()}"]`)
+                if (selectedVariant) {
+                    const notifyMeBtn = document.querySelector('#trigger-notification-overlay');
+                    const addToCartBtn = document.querySelector('#sylius-product-adding-to-cart button[type="submit"]');
+                    if (selectedVariant.dataset.available) {
+                        notifyMeBtn.style.display = 'none';
+                        addToCartBtn.style.display = 'block';
+                    } else {
+                        notifyMeBtn.style.display = 'block';
+                        addToCartBtn.style.display = 'none';
+                    }
+                }
+            }
+
+            document.querySelector('#trigger-notification-overlay').onclick = function(event) {
+                jQuery('#notification-overlay').modal('show')
+                document.querySelector('#back_in_stock_not #form_product_variant_code').value = getSelectedVariantCode()
+            }
+
+            document.querySelector('#sylius-product-adding-to-cart').onchange = renderNotifyMeBtn
+            renderNotifyMeBtn()
         })
     </script>
     <div id="sylius-variants-stock" data-option-code="{{ product.variants.first.optionValues|map(optionValue => "#{optionValue.optionCode}")|json_encode }}">
@@ -27,5 +49,5 @@
             <div data-options-value="{{ variant.optionValues|map(optionValue => "#{optionValue.code}")|json_encode }}" data-available="{{ sylius_inventory_is_available(variant) }}" data-variant-code="{{ variant.code }}"></div>
         {% endfor %}
     </div>
-    <button type="button" id="trigger-notification-overlay" class="ui huge primary icon labeled button"><i class="bell icon"></i> {{ 'webgriffe_bisn.product_page.form_action'|trans }}</button>
+    <button type="button" id="trigger-notification-overlay" class="ui huge primary icon labeled button" style="display: none"><i class="bell icon"></i> {{ 'webgriffe_bisn.product_page.form_action'|trans }}</button>
 {% endif %}
