@@ -28,7 +28,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
 use Webmozart\Assert\Assert;
 
-class SubscriptionController extends AbstractController
+final class SubscriptionController extends AbstractController
 {
     /** @var RepositoryInterface */
     private $backInStockNotificationRepository;
