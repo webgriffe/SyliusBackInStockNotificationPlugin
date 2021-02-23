@@ -1,5 +1,6 @@
 services:
   Webgriffe\SyliusBackInStockNotificationPlugin\Command\AlertCommand:
+    tags: ['console.command']
     arguments:
       - '@logger'
       - '@sylius.email_sender'

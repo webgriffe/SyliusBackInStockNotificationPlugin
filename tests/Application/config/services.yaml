@@ -4,3 +4,5 @@ parameters:
     locale: en_US
     email_address_sender: noreplay@example.com
     email_name_sender: Example Shop
+    router.request_context.host: '%env(resolve:ROUTER_REQUEST_CONTEXT_HOST)%'
+    router.request_context.scheme: '%env(resolve:ROUTER_REQUEST_CONTEXT_SCHEME)%'
