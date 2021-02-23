@@ -2,10 +2,6 @@
 <div class="ui segment">
     <h4 class="ui dividing header">{{ 'webgriffe_bisn.product_page.stock_notify_title'|trans }}</h4>
 
-    <p>
-        {{ 'webgriffe_bisn.product_page.stock_notify_description'|trans }}
-    </p>
-
     {{ form_start(form, {'attr': {'class': 'ui form form-default', 'id': 'back_in_stock_not'}, 'action': path('webgriffe_back_in_stock_notification_add_subscription')}) }}
     {% if form.email is defined %}
         {{ form_row(form.email, {'attr': {'data-test-add-email-to-back-in-stock-notification-list':''}}) }}

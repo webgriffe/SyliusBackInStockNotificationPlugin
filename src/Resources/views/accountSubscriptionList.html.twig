@@ -35,7 +35,9 @@
                     {% for line in lines %}
                         <tr class="item">
                             <td>
-                                {{ line.variant.product.name }}
+                                <a href="{{ path('sylius_shop_product_show', {'slug': line.variant.product.slug, '_locale': line.variant.product.translation.locale}) }}">
+                                    {{ line.variant.product.name }}
+                                </a>
                             </td>
                             <td>
                                 {% for optionValue in line.variant.optionValues %}
