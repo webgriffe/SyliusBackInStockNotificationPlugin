@@ -26,8 +26,8 @@ webgriffe_bisn:
     subscription_mail:
         subscription_title: 'Product not available'
         subscription_message: 'Your request has been registered, we will send you an email as soon as the product <a href="{url}">{product}</a> is back in stock.'
-        subscription_unsub: 'Were not you the one who subscribed to these notifications? <a href="{url}">Click here</a> to delete yourself.'
+        subscription_unsub: 'Were not you the one who subscribed to these notifications? <a href="{url}" target="_blank">Click here</a> to delete yourself.'
     alert_email:
         alert_title: 'Product available again'
-        alert_message: 'We inform you that the product <a href="{url}">{product}</a> is back in stock'
+        alert_message: 'We inform you that the product {product} is back in stock'
         alert_action: 'Buy now'

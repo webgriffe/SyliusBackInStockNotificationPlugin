@@ -11,13 +11,12 @@
 
     <div style="text-align: center; padding-bottom: 15px; font-size: 15px;">
         {{ 'webgriffe_bisn.alert_email.alert_message'|trans({
-            '{product}': product.name,
-            '{url}': url('sylius_shop_product_show', {'slug': product.slug, '_locale': localeCode})
+            '{product}': product.name
         }, null, localeCode)|raw }}
     </div>
 
     <div style="text-align: center; padding-bottom: 30px; font-size: 15px;">
-        <a href="{{ url('sylius_shop_product_show', {'slug': product.slug, '_locale': localeCode}, null, localeCode)|raw }}" style="display: inline-block; text-align: center; background: #fff; padding: 12px 28px; border-radius: 50px; color: #000; text-decoration: none; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;">
+        <a href="{{ url('sylius_shop_product_show', {'slug': product.slug, '_locale': localeCode}, null, localeCode) }}" style="display: inline-block; text-align: center; background: #1abb9c; padding: 18px 28px; color: #fff; text-decoration: none; text-transform: uppercase; border-radius: 3px;" target="_blank">
             {{ 'webgriffe_bisn.alert_email.alert_action'|trans({}, null, localeCode)|raw }}
         </a>
     </div>
