@@ -116,7 +116,7 @@ final class SubscriptionController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && !$form->isValid()) {
-            $this->addFlash('error', $this->translator->trans('webgriffe_bisn.back_in_stock_notification.invalid_form'));
+            $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.invalid_form'));
 
             return $this->redirect($this->getRefererUrl($request));
         }
@@ -146,14 +146,14 @@ final class SubscriptionController extends AbstractController
                 ['code' => $subscription->getProductVariantCode()]
             );
             if (!$variant) {
-                $this->addFlash('error', $this->translator->trans('webgriffe_bisn.back_in_stock_notification.variant_not_found'));
+                $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.variant_not_found'));
 
                 return $this->redirect($this->getRefererUrl($request));
             }
             Assert::implementsInterface($variant, ProductVariantInterface::class);
             /** @var ProductVariantInterface $variant */
             if ($this->availabilityChecker->isStockAvailable($variant)) {
-                $this->addFlash('error', $this->translator->trans('webgriffe_bisn.back_in_stock_notification.variant_not_oos'));
+                $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.variant_not_oos'));
 
                 return $this->redirect($this->getRefererUrl($request));
             }
@@ -163,7 +163,7 @@ final class SubscriptionController extends AbstractController
             );
             if ($subscriptionSaved) {
                 $this->addFlash('error', $this->translator->trans(
-                    'webgriffe_bisn.back_in_stock_notification.already_saved',
+                    'webgriffe_bisn.form_submission.already_saved',
                     ['email' => $email])
                 );
 
@@ -182,7 +182,7 @@ final class SubscriptionController extends AbstractController
                 //see: https://paragonie.com/blog/2015/09/comprehensive-guide-url-parameter-encryption-in-php
                 $hash = strtr(base64_encode(random_bytes(9)), '+/', '-_');
             } catch (Exception $e) {
-                $this->addFlash('error', $this->translator->trans('webgriffe_bisn.back_in_stock_notification.subscription_failed'));
+                $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.subscription_failed'));
 
                 return $this->redirect($this->getRefererUrl($request));
             }
@@ -200,7 +200,7 @@ final class SubscriptionController extends AbstractController
                 ]
             );
 
-            $this->addFlash('success', $this->translator->trans('webgriffe_bisn.back_in_stock_notification.subscription_successfully'));
+            $this->addFlash('success', $this->translator->trans('webgriffe_bisn.form_submission.subscription_successfully'));
 
             return $this->redirect($this->getRefererUrl($request));
         }
@@ -218,11 +218,11 @@ final class SubscriptionController extends AbstractController
             Assert::implementsInterface($subscription, SubscriptionInterface::class);
             /** @var SubscriptionInterface $subscription */
             $this->backInStockNotificationRepository->remove($subscription);
-            $this->addFlash('info', $this->translator->trans('webgriffe_bisn.back_in_stock_notification.deletion-successful'));
+            $this->addFlash('info', $this->translator->trans('webgriffe_bisn.deletion_submission.successful'));
 
             return $this->redirect($this->getRefererUrl($request));
         }
-        $this->addFlash('info', $this->translator->trans('webgriffe_bisn.back_in_stock_notification.deletion-not-successful'));
+        $this->addFlash('info', $this->translator->trans('webgriffe_bisn.deletion_submission.not-successful'));
 
         return $this->redirect($this->getRefererUrl($request));
     }
