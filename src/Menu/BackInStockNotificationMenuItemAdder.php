@@ -11,7 +11,7 @@ final class BackInStockNotificationMenuItemAdder
     public function addMenuItems(MenuBuilderEvent $event): void
     {
         $event->getMenu()
-            ->addChild('notification_subscription', ['route' => 'webgriffe_back_in_stock_notification_account_subscription_book_index'])
+            ->addChild('list_subscriptions', ['route' => 'webgriffe_back_in_stock_notification_account_list_subscriptions'])
             ->setLabel('webgriffe_bisn.my_account_section.menu_label')
             ->setLabelAttribute('icon', 'bell')
         ;

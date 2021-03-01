@@ -10,7 +10,7 @@ webgriffe_back_in_stock_notification_delete_subscription:
   defaults:
     _controller: Webgriffe\SyliusBackInStockNotificationPlugin\Controller\SubscriptionController:deleteAction
 
-webgriffe_back_in_stock_notification_account_subscription_book_index:
+webgriffe_back_in_stock_notification_account_list_subscriptions:
   path: /account/back-in-stock-notification
   methods: [GET]
   defaults:

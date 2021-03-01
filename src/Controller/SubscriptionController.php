@@ -7,6 +7,7 @@ namespace Webgriffe\SyliusBackInStockNotificationPlugin\Controller;
 use DateTime;
 use Exception;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
 use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
@@ -122,6 +123,8 @@ final class SubscriptionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $subscription = $form->getData();
+            Assert::implementsInterface($subscription, SubscriptionInterface::class);
+            /** @var SubscriptionInterface $subscription */
             $email = $subscription->getEmail();
             $errors = $this->validator->validate($email, new Email());
             if (!$email || count($errors)) {
@@ -131,10 +134,14 @@ final class SubscriptionController extends AbstractController
             }
             $customer = $this->customerRepository->findOneBy(['email' => $email]);
             if ($customer) {
-                $subscription->setCustomerId($customer->getId());
+                Assert::implementsInterface($customer, CustomerInterface::class);
+                /** @var CustomerInterface $customer */
+                $customerId = $customer->getId();
+                if (is_int($customerId)) {
+                    $subscription->setCustomerId($customerId);
+                }
             }
 
-            /** @var ProductVariantInterface|null $variant */
             $variant = $this->productVariantRepository->findOneBy(
                 ['code' => $subscription->getProductVariantCode()]
             );
@@ -143,6 +150,8 @@ final class SubscriptionController extends AbstractController
 
                 return $this->redirect($this->getRefererUrl($request));
             }
+            Assert::implementsInterface($variant, ProductVariantInterface::class);
+            /** @var ProductVariantInterface $variant */
             if ($this->availabilityChecker->isStockAvailable($variant)) {
                 $this->addFlash('error', $this->translator->trans('webgriffe_bisn.back_in_stock_notification.variant_not_oos'));
 
@@ -206,8 +215,8 @@ final class SubscriptionController extends AbstractController
     {
         $subscription = $this->backInStockNotificationRepository->findOneBy(['hash' => $hash]);
         if ($subscription) {
-            /** @var SubscriptionInterface $subscription */
             Assert::implementsInterface($subscription, SubscriptionInterface::class);
+            /** @var SubscriptionInterface $subscription */
             $this->backInStockNotificationRepository->remove($subscription);
             $this->addFlash('info', $this->translator->trans('webgriffe_bisn.back_in_stock_notification.deletion-successful'));
 

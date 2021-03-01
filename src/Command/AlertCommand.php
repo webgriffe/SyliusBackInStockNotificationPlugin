@@ -14,6 +14,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
+use Webmozart\Assert\Assert;
 
 final class AlertCommand extends Command
 {
@@ -59,14 +60,15 @@ final class AlertCommand extends Command
     {
         $this
             ->setDescription('Send an email to the user if the product is returned in stock')
-            ->setHelp('Check the stock status of the product in the webgriffe_back_in_stock_notification table and send and email to the user if the product is returned in stock');
+            ->setHelp('Check the stock status of the products in the webgriffe_back_in_stock_notification table and send and email to the user if the product is returned in stock');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var SubscriptionInterface $subscription */
         foreach ($this->backInStockNotificationRepository->findAll() as $subscription) {
             //I think that this load can be a bottle necklace
+            Assert::implementsInterface($subscription, SubscriptionInterface::class);
+            /** @var SubscriptionInterface $subscription */
             $channel = $this->channelRepository->find($subscription->getChannelId());
             $productVariantCode = $subscription->getProductVariantCode();
             if (!$productVariantCode) {
@@ -90,8 +92,8 @@ final class AlertCommand extends Command
             }
 
             $criteria = ['code' => $productVariantCode];
-            /** @var ProductVariantInterface|null $variant */
             $variant = $this->productVariantRepository->findOneBy($criteria);
+            /** @var ProductVariantInterface|null $variant */
             if ($variant && $this->availabilityChecker->isStockAvailable($variant)) {
                 $this->sender->send(
                     'webgriffe_back_in_stock_notification_alert',
