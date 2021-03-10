@@ -1,3 +1,19 @@
 services:
   _defaults:
     public: true
+
+  Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\Shop\ProductInventoryContext:
+    arguments:
+      - '@sylius.repository.customer'
+      - '@sylius.behat.notification_checker'
+      - '@sylius.behat.email_checker'
+      - '@translator.data_collector'
+      - '@app.repository.back_in_stock_notification'
+      - '@app.factory.back_in_stock_notification'
+      - '@sylius.context.locale'
+      - '@sylius.context.channel'
+      - '@Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Element\Product\ShowPage\SubscriptionFormElement'
+
+  Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Element\Product\ShowPage\SubscriptionFormElement:
+    parent: 'sylius.behat.element'
+    public: false

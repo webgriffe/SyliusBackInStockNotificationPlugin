@@ -4,12 +4,12 @@
 
     {{ form_start(form, {'attr': {'class': 'ui form form-default', 'id': 'back_in_stock_not'}, 'action': path('webgriffe_back_in_stock_notification_add_subscription')}) }}
     {% if form.email is defined %}
-        {{ form_row(form.email, {'attr': {'data-test-add-email-to-back-in-stock-notification-list':''}}) }}
+        {{ form_row(form.email, {'attr': {'data-test-fill-subscription-form-whit-my-email':''}}) }}
     {% endif %}
 
     {{ form_row(form.product_variant_code, {'attr': {'data-test-add-email-to-back-in-stock-notification-list':''}}) }}
 
-    <button type="submit" class="ui huge primary icon labeled button" {{ sylius_test_html_attribute('add-to-back-in-stock-notification-list') }}><i class="bell icon"></i> {{ 'webgriffe_bisn.product_page.form_action'|trans }}</button>
+    <button type="submit" class="ui huge primary icon labeled button" {{ sylius_test_html_attribute('subscribe-to-notifications') }}><i class="bell icon"></i> {{ 'webgriffe_bisn.product_page.form_action'|trans }}</button>
     {{ form_row(form._token) }}
     {{ form_end(form, {'render_rest': false}) }}
 </div>

@@ -5,8 +5,8 @@ namespace Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\S
 
 use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ProductInterface;
+use Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Element\Product\ShowPage\SubscriptionFormElementInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
-use Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Page\Shop\Product\ShowPageInterface;
 use Behat\Behat\Context\Context;
 use DateTime;
 use Sylius\Behat\NotificationType;
@@ -43,8 +43,8 @@ final class ProductInventoryContext implements Context
     /** @var ChannelContextInterface */
     private $channelContext;
 
-    /** @var ShowPageInterface */
-    private $showPage;
+    /** @var SubscriptionFormElementInterface */
+    private $subscriptionFormElement;
 
     /** @var CustomerRepositoryInterface */
     private $customerRepository;
@@ -58,7 +58,7 @@ final class ProductInventoryContext implements Context
         FactoryInterface $backInStockNotificationFactory,
         LocaleContextInterface $localeContext,
         ChannelContextInterface $channelContext,
-        ShowPageInterface $showPage
+        SubscriptionFormElementInterface $subscriptionFormElement
     ) {
         $this->notificationChecker = $notificationChecker;
         $this->emailChecker = $emailChecker;
@@ -67,7 +67,7 @@ final class ProductInventoryContext implements Context
         $this->backInStockNotificationFactory = $backInStockNotificationFactory;
         $this->localeContext = $localeContext;
         $this->channelContext = $channelContext;
-        $this->showPage = $showPage;
+        $this->subscriptionFormElement = $subscriptionFormElement;
         $this->customerRepository = $customerRepository;
     }
 
@@ -77,10 +77,13 @@ final class ProductInventoryContext implements Context
      */
     public function iSubscribeToTheAlertListForThisProduct(ProductInterface $product, string $email = null)
     {
+        if ($product->isConfigurable()) {
+            $this->subscriptionFormElement->openOverlayForConfigurableProduct();
+        }
         if ($email) {
-            $this->showPage->addToBackInStockListAsAGuest($product->getCode(), $email);
+            $this->subscriptionFormElement->submitFormAsAGuest($product->getCode(), $email);
         } else {
-            $this->showPage->addToBackInStockListAsALoggedCustomer($product->getCode());
+            $this->subscriptionFormElement->submitFormAsALoggedCustomer($product->getCode());
         }
     }
 
@@ -90,7 +93,7 @@ final class ProductInventoryContext implements Context
     public function iShouldBeNotifiedThatTheEmailIsSubscribedCorrectly()
     {
         $this->notificationChecker->checkNotification(
-            $this->translator->trans('app.back_in_stock_notification.subscription_successfully'),
+            $this->translator->trans('webgriffe_bisn.form_submission.subscription_successfully'),
             NotificationType::success()
         );
     }
@@ -101,7 +104,7 @@ final class ProductInventoryContext implements Context
     public function anEmailWithASuccessMessageShouldBeSentTo($email)
     {
         Assert::true($this->emailChecker->hasMessageTo(
-            $this->translator->trans('theme.email.stock.subscription_title'),
+            $this->translator->trans('webgriffe_bisn.subscription_mail.subscription_title'),
             $email
         ));
     }
@@ -112,7 +115,7 @@ final class ProductInventoryContext implements Context
     public function iShouldBeNotifiedThatTheEmailIsAlreadySubscribed(string $email)
     {
         $this->notificationChecker->checkNotification(
-            $this->translator->trans('app.back_in_stock_notification.already_saved', ['email' => $email]),
+            $this->translator->trans('webgriffe_bisn.form_submission.already_saved', ['email' => $email]),
             NotificationType::failure()
         );
     }

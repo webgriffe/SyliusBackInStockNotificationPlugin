@@ -10,9 +10,11 @@ default:
                 - sylius.behat.context.setup.shop_security
                 # Ui
                 - sylius.behat.context.ui.shop.product
-                - \Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\Shop\ProductInventoryContext
+                - Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\Shop\ProductInventoryContext
                 # Transform
                 - sylius.behat.context.transform.product
+                - sylius.behat.context.transform.product_option
                 - sylius.behat.context.transform.channel
+                - sylius.behat.context.transform.shared_storage
             filters:
                 tags: "@product_inventory && @ui"
