@@ -96,11 +96,11 @@ final class SubscriptionController extends AbstractController
         Assert::implementsInterface($subscription, SubscriptionInterface::class);
         /** @var SubscriptionInterface $subscription */
         $customer = $this->customerContext->getCustomer();
-        if ($customer && $customerEmail = $customer->getEmail()) {
-            $subscription->setEmail($customerEmail);
+        if ($customer !== null && $customer->getEmail() !== null) {
+            $subscription->setEmail($customer->getEmail());
         }
-        $productVariantCode = (string) $request->query->get('product_variant_code');
-        if ($productVariantCode) {
+        $productVariantCode = $request->query->get('product_variant_code');
+        if (is_string($productVariantCode)) {
             $subscription->setProductVariantCode($productVariantCode);
         }
 
@@ -110,7 +110,7 @@ final class SubscriptionController extends AbstractController
             ->add('submit', SubmitType::class)
             ->getForm();
 
-        if ($customer && $customer->getEmail()) {
+        if ($customer !== null && $customer->getEmail() !== null) {
             $form->remove('email');
         }
 
@@ -127,7 +127,7 @@ final class SubscriptionController extends AbstractController
             /** @var SubscriptionInterface $subscription */
             $email = $subscription->getEmail();
             $errors = $this->validator->validate($email, new Email());
-            if (!$email || count($errors)) {
+            if ($email === null || count($errors) > 0) {
                 $this->addFlash('error', $errors[0]->getMessage());
 
                 return $this->redirect($this->getRefererUrl($request));
@@ -230,14 +230,14 @@ final class SubscriptionController extends AbstractController
     public function accountListAction(): Response
     {
         $customer = $this->customerContext->getCustomer();
-        if (!$customer) {
+        if ($customer === null) {
             return $this->redirect($this->generateUrl('sylius_shop_login'));
         }
 
         $subscriptions = $this->backInStockNotificationRepository->findBy(['customerId' => $customer->getId()]);
         Assert::allImplementsInterface($subscriptions, SubscriptionInterface::class);
         /** @var SubscriptionInterface[] $subscriptions */
-        $data = array_map(function (SubscriptionInterface $subscription) {
+        $data = array_map(function (SubscriptionInterface $subscription): array {
             /** @var ProductVariantInterface|null $variant */
             $variant = $this->productVariantRepository->findOneBy(['code' => $subscription->getProductVariantCode()]);
 

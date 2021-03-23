@@ -71,7 +71,7 @@ final class AlertCommand extends Command
             /** @var SubscriptionInterface $subscription */
             $channel = $this->channelRepository->find($subscription->getChannelId());
             $productVariantCode = $subscription->getProductVariantCode();
-            if (!$productVariantCode) {
+            if ($productVariantCode === null) {
                 $this->backInStockNotificationRepository->remove($subscription);
                 $this->logger->warning(
                     'The back in stock subscription for the product does not have all the information required,' .
@@ -81,7 +81,7 @@ final class AlertCommand extends Command
 
                 continue;
             }
-            if (!$channel) {
+            if ($channel === null) {
                 $this->backInStockNotificationRepository->remove($subscription);
                 $this->logger->warning(
                     'None channel founded with the current id',
@@ -94,7 +94,7 @@ final class AlertCommand extends Command
             $criteria = ['code' => $productVariantCode];
             $variant = $this->productVariantRepository->findOneBy($criteria);
             /** @var ProductVariantInterface|null $variant */
-            if ($variant && $this->availabilityChecker->isStockAvailable($variant)) {
+            if ($variant !== null && $this->availabilityChecker->isStockAvailable($variant)) {
                 $this->sender->send(
                     'webgriffe_back_in_stock_notification_alert',
                     [$subscription->getEmail()],
