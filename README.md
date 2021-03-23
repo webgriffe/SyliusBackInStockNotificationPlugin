@@ -4,20 +4,57 @@
     </a>
 </p>
 
-<h1 align="center">Plugin Skeleton</h1>
+<h1 align="center">Back in Stock Notification Plugin</h1>
 
-<p align="center">Skeleton for starting Sylius plugins.</p>
+<p align="center">Plugin that add the possibility to receive an email notification when a product return in stock</p>
 
-## Documentation
+<p align="center"><a href="https://github.com/webgriffe/SyliusBackInStockNotificationPlugin/actions"><img src="https://github.com/webgriffe/SyliusBackInStockNotificationPlugin/workflows/Build/badge.svg" alt="Build Status" /></a></p>
 
-For a comprehensive guide on Sylius Plugins development please go to Sylius documentation,
-there you will find the <a href="https://docs.sylius.com/en/latest/plugin-development-guide/index.html">Plugin Development Guide</a>, that is full of examples.
+## Features
 
-## Quickstart Installation
+### Subscribe to get a Notification when a product return in stock
 
-1. Run `composer create-project sylius/plugin-skeleton ProjectName`.
+![Subscription process for configurable product](subscriprion_process.gif)
 
-2. From the plugin skeleton root directory, run the following commands:
+![Subscription for simple product](simple_product.png)
+
+### View your subscription in the apposite section of your account
+
+![See the apposite section in the my account](my_account_section.png)
+
+
+## Requirements
+
+* PHP `^7.3`
+* Sylius `^1.8`
+
+## Installation
+
+1. Run `composer require webgriffe/sylius-back-in-stock-notification-plugin`.
+
+2. Add the plugin to the `config/bundles.php` file:
+
+    ```php
+    Webgriffe\SyliusBackInStockNotificationPlugin\WebgriffeSyliusBackInStockNotificationPlugin::class => ['all' => true],
+    ```
+3. Import the plugin routes by creating a file in `config/routes/webgriffe_sylius_back_in_stock_notification_plugin.yaml` with the follwing content:
+
+    ```yaml
+    webgriffe_sylius_back_in_stock_notification_plugin:
+    resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/shop_routing.yaml"
+    ```
+4. Finish the installation by updating the database schema and installing assets:
+
+    ```bash
+    bin/console doctrine:migrations:diff
+    bin/console doctrine:migrations:migrate
+    bin/console assets:install
+    bin/console sylius:theme:assets:install
+    ```
+
+## Contributing
+
+To contribute to this plugin clone this repository, create a branch for your feature or bugfix, do your changes and then make sure al tests are passing.
 
     ```bash
     $ (cd tests/Application && yarn install)
@@ -30,45 +67,42 @@ there you will find the <a href="https://docs.sylius.com/en/latest/plugin-develo
 
 To be able to setup a plugin's database, remember to configure you database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
 
-## Usage
-
 ### Running plugin tests
 
   - PHPUnit
 
-    ```bash
-    vendor/bin/phpunit
-    ```
+  ```bash
+  vendor/bin/phpunit
+  ```
 
-  - PHPSpec
+- PHPSpec
 
-    ```bash
-    vendor/bin/phpspec run
-    ```
+  ```bash
+  vendor/bin/phpspec run
+  ```
 
-  - Behat (non-JS scenarios)
+- Behat (non-JS scenarios)
 
-    ```bash
-    vendor/bin/behat --strict --tags="~@javascript"
-    ```
+  ```bash
+  vendor/bin/behat --strict --tags="~@javascript"
+  ```
 
-  - Behat (JS scenarios)
- 
+- Behat (JS scenarios)
+
     1. [Install Symfony CLI command](https://symfony.com/download).
- 
+
     2. Start Headless Chrome:
-    
-      ```bash
-      google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1
-      ```
-    
+
+        ```bash
+        google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1
+        ```
     3. Install SSL certificates (only once needed) and run test application's webserver on `127.0.0.1:8080`:
-    
-      ```bash
-      symfony server:ca:install
-      APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
-      ```
-    
+
+        ```bash
+        symfony server:ca:install
+        APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
+        ```
+
     4. Run Behat:
     
       ```bash
@@ -103,10 +137,18 @@ To be able to setup a plugin's database, remember to configure you database cred
     (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load)
     (cd tests/Application && APP_ENV=test bin/console server:run -d public)
     ```
-    
+
 - Using `dev` environment:
 
     ```bash
     (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
     (cd tests/Application && APP_ENV=dev bin/console server:run -d public)
     ```
+
+## License
+
+This plugin is under the MIT license. See the complete license in the LICENSE file.
+
+## Credits
+
+Developed by [Webgriffe®](http://www.webgriffe.com/).
