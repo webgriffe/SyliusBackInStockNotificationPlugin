@@ -23,7 +23,7 @@
     {% if lines|length > 0 %}
         <div class="sylius-grid-wrapper">
             <div class="ui segment spaceless sylius-grid-table-wrapper">
-                <table class="ui sortable stackable very basic celled table">
+                <table class="ui sortable stackable very basic celled table" {{ sylius_test_html_attribute('grid-table') }}>
                     <thead>
                     <tr>
                         <th>{{ 'webgriffe_bisn.my_account_section.product'|trans }}</th>
@@ -31,9 +31,9 @@
                         <th>{{ 'webgriffe_bisn.my_account_section.actions'|trans }}</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody {{ sylius_test_html_attribute('grid-table-body') }}>
                     {% for line in lines %}
-                        <tr class="item">
+                        <tr class="item" {{ sylius_test_html_attribute('row') }}>
                             <td>
                                 <a href="{{ path('sylius_shop_product_show', {'slug': line.variant.product.slug, '_locale': line.variant.product.translation.locale}) }}">
                                     {{ line.variant.product.name }}
@@ -46,7 +46,7 @@
                                     {{ 'webgriffe_bisn.my_account_section.simple'|trans }}
                                 {% endfor %}
                             </td>
-                            <td>
+                            <td {{ sylius_test_html_attribute('actions') }}>
                                 <div class="ui buttons">
                                     <a href="{{ path('webgriffe_back_in_stock_notification_delete_subscription', {'hash': line.hash}) }}"
                                        class="ui labeled icon button">
@@ -62,7 +62,7 @@
             </div>
         </div>
     {% else %}
-        <div class="ui icon info message">
+        <div class="ui icon info message" {{ sylius_test_html_attribute('no-subscription') }}>
             <i class="info circle icon"></i>
             <div class="content">
                 <div class="header">

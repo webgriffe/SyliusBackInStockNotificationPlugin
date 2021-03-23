@@ -17,3 +17,14 @@ services:
   Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Element\Product\ShowPage\SubscriptionFormElement:
     parent: 'sylius.behat.element'
     public: false
+
+  Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Page\Shop\Account\Subscription\IndexPage:
+    parent: 'sylius.behat.symfony_page'
+    public: false
+    arguments:
+      - '@sylius.behat.table_accessor'
+
+  Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\Shop\AccountContext:
+    arguments:
+      - '@Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Page\Shop\Account\Subscription\IndexPage'
+      - '@sylius.behat.notification_checker'

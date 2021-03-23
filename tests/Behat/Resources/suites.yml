@@ -18,3 +18,21 @@ default:
                 - sylius.behat.context.transform.shared_storage
             filters:
                 tags: "@product_inventory && @ui"
+        ui_customer_account:
+            contexts:
+                - sylius.behat.context.hook.doctrine_orm
+                # Setup
+                - sylius.behat.context.setup.channel
+                - sylius.behat.context.setup.product
+                - sylius.behat.context.setup.customer
+                - sylius.behat.context.setup.shop_security
+                # Ui
+                - sylius.behat.context.ui.shop.product
+                - Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\Shop\ProductInventoryContext
+                - Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\Shop\AccountContext
+                # Transform
+                - sylius.behat.context.transform.product
+                - sylius.behat.context.transform.channel
+                - sylius.behat.context.transform.shared_storage
+            filters:
+                tags: "@customer_account && @ui"
