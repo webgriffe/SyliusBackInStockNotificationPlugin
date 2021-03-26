@@ -18,10 +18,13 @@
 
 ![Subscription for simple product](simple_product.png)
 
-### View your subscription in the apposite section of your account
+### View your subscriptions in the apposite section of your account
 
 ![See the apposite section in the my account](my_account_section.png)
 
+### View your client subscriptions in the apposite admin section
+
+![See the apposite section in the admin account](admin_account_section.png)
 
 ## Requirements
 
