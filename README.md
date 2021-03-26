@@ -62,12 +62,20 @@
 
 ## Configuration
 
-This module send mail using a Symfony Command. Unfortunately, the command line context does not know about your VirtualHost or domain name. To fix this, you need to configure the “request context”, which is a fancy way of saying that you need to configure your environment so that it knows what URL it should use when generating URLs. For further information you can see [Symfony Documentation](https://symfony.com/doc/2.6/cookbook/console/sending_emails.html). Edit the `app/config/services.yml` file by adding the following content:
+This module send mail using a Symfony Command. Unfortunately, the command line context does not know about your VirtualHost or domain name. To fix this, you need to configure the “request context”, which is a fancy way of saying that you need to configure your environment so that it knows what URL it should use when generating URLs. For further information you can see [Symfony Documentation](https://symfony.com/doc/2.6/cookbook/console/sending_emails.html).
+
+1. Edit the `app/config/services.yml` file by adding the following content:
 
 ```yaml
 parameters:
     router.request_context.host: example.org
     router.request_context.scheme: https
+```
+
+2. As said early this module provide a command that check the stock of the product. You have to set the command `bin/console webgriffe:back-in-stock-notification:alert` in the crontab, once a day is enough:
+
+```bash
+0 12 * * * <absolute-php-path> <absolute-path-to-sylius-dir>/bin/console webgriffe:back-in-stock-notification:alert
 ```
 
 ## Contributing
