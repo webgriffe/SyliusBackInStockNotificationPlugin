@@ -41,9 +41,17 @@
 
     ```yaml
     webgriffe_sylius_back_in_stock_notification_plugin:
-    resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/shop_routing.yaml"
+      resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/routing.yaml"
     ```
-4. Finish the installation by updating the database schema and installing assets:
+
+4. Import required config in your `config/packages/webgriffe_sylius_back_in_stock_notification_plugin.yaml` file:
+
+   ```yaml
+   imports:
+       - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/app/config.yaml" }
+   ```
+
+5. Finish the installation by updating the database schema and installing assets:
 
     ```bash
     bin/console doctrine:migrations:diff
@@ -51,6 +59,16 @@
     bin/console assets:install
     bin/console sylius:theme:assets:install
     ```
+
+## Configuration
+
+This module send mail using a Symfony Command. Unfortunately, the command line context does not know about your VirtualHost or domain name. To fix this, you need to configure the “request context”, which is a fancy way of saying that you need to configure your environment so that it knows what URL it should use when generating URLs. For further information you can see [Symfony Documentation](https://symfony.com/doc/2.6/cookbook/console/sending_emails.html). Edit the `app/config/services.yml` file by adding the following content:
+
+```yaml
+parameters:
+    router.request_context.host: example.org
+    router.request_context.scheme: https
+```
 
 ## Contributing
 
@@ -60,7 +78,7 @@ To contribute to this plugin clone this repository, create a branch for your fea
     $ (cd tests/Application && yarn install)
     $ (cd tests/Application && yarn build)
     $ (cd tests/Application && APP_ENV=test bin/console assets:install public)
-    
+
     $ (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
     $ (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
     ```
@@ -104,27 +122,27 @@ To be able to setup a plugin's database, remember to configure you database cred
         ```
 
     4. Run Behat:
-    
+
       ```bash
       vendor/bin/behat --strict --tags="@javascript"
       ```
-    
+
   - Static Analysis
-  
+
     - Psalm
-    
+
       ```bash
       vendor/bin/psalm
       ```
-      
+
     - PHPStan
-    
+
       ```bash
-      vendor/bin/phpstan analyse -c phpstan.neon -l max src/  
+      vendor/bin/phpstan analyse -c phpstan.neon -l max src/
       ```
 
   - Coding Standard
-  
+
     ```bash
     vendor/bin/ecs check src
     ```

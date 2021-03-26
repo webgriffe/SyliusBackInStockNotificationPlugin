@@ -1,12 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Webgriffe\SyliusBackInStockNotificationPlugin\Menu;
 
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
-final class BackInStockNotificationMenuItemAdder
+final class AccountMenuListener
 {
     public function addMenuItems(MenuBuilderEvent $event): void
     {

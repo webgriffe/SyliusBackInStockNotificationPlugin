@@ -1,2 +1,2 @@
 webgriffe_sylius_back_in_stock_notification_plugin:
-  resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/shop_routing.yaml"
+  resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/routing.yaml"

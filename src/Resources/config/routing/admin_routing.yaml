@@ -1,0 +1,14 @@
+webgriffe_admin_notification_subscription:
+  resource: |
+    alias: webgriffe.back_in_stock_notification_subscription
+    section: admin
+    path: subscriptions
+    templates: "@SyliusAdmin\\Crud"
+    redirect: update
+    grid: webgriffe_admin_notification_subscription
+    vars:
+        all:
+            subheader: webgriffe_bisn.admin.subscriptions_subtitle
+        index:
+            icon: 'bell'
+  type: sylius.resource

@@ -31,3 +31,9 @@ webgriffe_bisn:
         alert_title: 'Product available again'
         alert_message: 'We inform you that the product {product} is back in stock'
         alert_action: 'Buy now'
+    admin:
+        subscriptions_subtitle: 'Manage user subscriptions'
+        menu_label: 'Products notification'
+webgriffe:
+    ui:
+        back_in_stock_notification_subscriptions: 'Subscriptions'

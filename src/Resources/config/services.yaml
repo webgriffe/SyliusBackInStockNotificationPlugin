@@ -6,7 +6,7 @@ services:
       - '@sylius.email_sender'
       - '@sylius.availability_checker'
       - '@sylius.repository.product_variant'
-      - '@app.repository.back_in_stock_notification'
+      - '@webgriffe.repository.back_in_stock_notification_subscription'
       - '@sylius.repository.channel'
 
   Webgriffe\SyliusBackInStockNotificationPlugin\Controller\SubscriptionController:
@@ -21,9 +21,13 @@ services:
       - '@sylius.email_sender'
       - '@sylius.context.locale'
       - '@sylius.repository.customer'
-      - '@app.repository.back_in_stock_notification'
-      - '@app.factory.back_in_stock_notification'
+      - '@webgriffe.repository.back_in_stock_notification_subscription'
+      - '@webgriffe.factory.back_in_stock_notification_subscription'
 
-  Webgriffe\SyliusBackInStockNotificationPlugin\Menu\BackInStockNotificationMenuItemAdder:
+  Webgriffe\SyliusBackInStockNotificationPlugin\Menu\AccountMenuListener:
     tags:
       - { name: kernel.event_listener, event: sylius.menu.shop.account, method: addMenuItems }
+
+  Webgriffe\SyliusBackInStockNotificationPlugin\Menu\AdminMenuListener:
+    tags:
+      - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }

@@ -1,0 +1,35 @@
+sylius_grid:
+  grids:
+    webgriffe_admin_notification_subscription:
+      driver:
+        name: doctrine/orm
+        options:
+          class: Webgriffe\SyliusBackInStockNotificationPlugin\Entity\Subscription
+      fields:
+        email:
+          type: string
+          label: sylius.ui.email
+        product_variant_code:
+          type: string
+          label: sylius.ui.product
+        created_at:
+          type: datetime
+          label: sylius.ui.date
+          sortable: createdAt
+          options:
+            format: d-m-Y H:i:s
+      filters:
+        email:
+          type: string
+          label: sylius.ui.email
+        product_variant_code:
+          type: string
+          label: sylius.ui.product
+        created_at:
+          type: date
+          label: sylius.ui.date
+
+      actions:
+        item:
+          delete:
+            type: delete
