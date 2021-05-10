@@ -34,6 +34,9 @@ webgriffe_bisn:
     admin:
         subscriptions_subtitle: 'Manage user subscriptions'
         menu_label: 'Products notification'
+        delete_supscription: 'Delete Subscription'
+        show_product: 'Show Product'
+        show_customer: 'Show Customer'
 webgriffe:
     ui:
         back_in_stock_notification_subscriptions: 'Subscriptions'

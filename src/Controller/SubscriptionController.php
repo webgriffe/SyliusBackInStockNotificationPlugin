@@ -27,6 +27,7 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
+use Webgriffe\SyliusBackInStockNotificationPlugin\Form\SubscriptionType;
 use Webmozart\Assert\Assert;
 
 final class SubscriptionController extends AbstractController
@@ -92,24 +93,13 @@ final class SubscriptionController extends AbstractController
 
     public function addAction(Request $request): Response
     {
-        $subscription = $this->backInStockNotificationFactory->createNew();
-        Assert::implementsInterface($subscription, SubscriptionInterface::class);
-        /** @var SubscriptionInterface $subscription */
-        $customer = $this->customerContext->getCustomer();
-        if ($customer !== null && $customer->getEmail() !== null) {
-            $subscription->setEmail($customer->getEmail());
-        }
+        $form = $this->createForm(SubscriptionType::class);
         $productVariantCode = $request->query->get('product_variant_code');
         if (is_string($productVariantCode)) {
-            $subscription->setProductVariantCode($productVariantCode);
+            $form->setData(['product_variant_code' => $productVariantCode]);
         }
 
-        $form = $this->createFormBuilder($subscription)
-            ->add('email', EmailType::class)
-            ->add('product_variant_code', HiddenType::class)
-            ->add('submit', SubmitType::class)
-            ->getForm();
-
+        $customer = $this->customerContext->getCustomer();
         if ($customer !== null && $customer->getEmail() !== null) {
             $form->remove('email');
         }
@@ -122,29 +112,35 @@ final class SubscriptionController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $subscription = $form->getData();
+            $data = $form->getData();
+            $subscription = $this->backInStockNotificationFactory->createNew();
             Assert::implementsInterface($subscription, SubscriptionInterface::class);
             /** @var SubscriptionInterface $subscription */
-            $email = $subscription->getEmail();
-            $errors = $this->validator->validate($email, new Email());
-            if ($email === null || count($errors) > 0) {
-                $this->addFlash('error', $errors[0]->getMessage());
+
+            if (array_key_exists('email', $data)) {
+                $email = $data['email'];
+                if (!$email) {
+                    $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.invalid_form'));
+
+                    return $this->redirect($this->getRefererUrl($request));
+                }
+                $errors = $this->validator->validate($email, new Email());
+                if (count($errors) > 0) {
+                    $this->addFlash('error', $errors[0]->getMessage());
+
+                    return $this->redirect($this->getRefererUrl($request));
+                }
+                $subscription->setEmail($email);
+            } elseif ($customer && $customer->getEmail()) {
+                $subscription->setCustomer($customer);
+                $subscription->setEmail($customer->getEmail());
+            } else {
+                $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.invalid_form'));
 
                 return $this->redirect($this->getRefererUrl($request));
             }
-            $customer = $this->customerRepository->findOneBy(['email' => $email]);
-            if ($customer) {
-                Assert::implementsInterface($customer, CustomerInterface::class);
-                /** @var CustomerInterface $customer */
-                $customerId = $customer->getId();
-                if (is_int($customerId)) {
-                    $subscription->setCustomerId($customerId);
-                }
-            }
 
-            $variant = $this->productVariantRepository->findOneBy(
-                ['code' => $subscription->getProductVariantCode()]
-            );
+            $variant = $this->productVariantRepository->findOneBy(['code' => $data['product_variant_code']]);
             if (!$variant) {
                 $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.variant_not_found'));
 
@@ -158,23 +154,24 @@ final class SubscriptionController extends AbstractController
                 return $this->redirect($this->getRefererUrl($request));
             }
 
+            $subscription->setProductVariant($variant);
             $subscriptionSaved = $this->backInStockNotificationRepository->findOneBy(
-                ['email' => $email, 'productVariantCode' => $subscription->getProductVariantCode()]
+                ['email' => $subscription->getEmail(), 'productVariant' => $subscription->getProductVariant()]
             );
             if ($subscriptionSaved) {
                 $this->addFlash('error', $this->translator->trans(
                     'webgriffe_bisn.form_submission.already_saved',
-                    ['email' => $email])
+                    ['email' => $subscription->getEmail()])
                 );
 
                 return $this->redirect($this->getRefererUrl($request));
             }
 
             $currentChannel = $this->channelContext->getChannel();
-            $subscription
-                ->setLocaleCode($this->localeContext->getLocaleCode())
-                ->setCreatedAt(new DateTime())
-                ->setChannelId($currentChannel->getId());
+            $subscription->setLocaleCode($this->localeContext->getLocaleCode());
+            $subscription->setCreatedAt(new DateTime());
+            $subscription->setUpdatedAt(new DateTime());
+            $subscription->setChannel($currentChannel);
 
             try {
                 //I generate a random string to handle the delete action of the subscription using a GET
@@ -191,11 +188,10 @@ final class SubscriptionController extends AbstractController
             $this->backInStockNotificationRepository->add($subscription);
             $this->sender->send(
                 'webgriffe_back_in_stock_notification_success_subscription',
-                [$email],
+                [$subscription->getEmail()],
                 [
                     'subscription' => $subscription,
-                    'product' => $variant->getProduct(),
-                    'channel' => $currentChannel,
+                    'channel' => $subscription->getChannel(),
                     'localeCode' => $subscription->getLocaleCode(),
                 ]
             );
@@ -234,25 +230,12 @@ final class SubscriptionController extends AbstractController
             return $this->redirect($this->generateUrl('sylius_shop_login'));
         }
 
-        $subscriptions = $this->backInStockNotificationRepository->findBy(['customerId' => $customer->getId()]);
+        $subscriptions = $this->backInStockNotificationRepository->findBy(['customer' => $customer]);
         Assert::allImplementsInterface($subscriptions, SubscriptionInterface::class);
         /** @var SubscriptionInterface[] $subscriptions */
-        $data = array_map(function (SubscriptionInterface $subscription): array {
-            /** @var ProductVariantInterface|null $variant */
-            $variant = $this->productVariantRepository->findOneBy(['code' => $subscription->getProductVariantCode()]);
-
-            return [
-                'hash' => $subscription->getHash(),
-                'variant' => $variant,
-            ];
-        }, $subscriptions);
-
-        $data = array_filter($data, function ($element) {
-            return $element['variant'];
-        });
 
         return $this->render('@WebgriffeSyliusBackInStockNotificationPlugin/accountSubscriptionList.html.twig', [
-            'lines' => $data,
+            'subscriptions' => $subscriptions,
         ]);
     }
 

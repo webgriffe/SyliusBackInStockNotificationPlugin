@@ -4,136 +4,39 @@ declare(strict_types=1);
 
 namespace Webgriffe\SyliusBackInStockNotificationPlugin\Entity;
 
-use DateTimeInterface;
-use Doctrine\ORM\Mapping as ORM;
+use Sylius\Component\Channel\Model\ChannelInterface;
+use Sylius\Component\Core\Model\ProductVariantInterface;
+use Sylius\Component\Customer\Model\CustomerInterface;
+use Sylius\Component\Resource\Model\TimestampableTrait;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="webgriffe_back_in_stock_notification")
- */
 final class Subscription implements SubscriptionInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     *
-     * @var int
-     */
+    use TimestampableTrait;
+
+    /** @var int|null */
     private $id;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true, name="customer_id")
-     *
-     * @var int|null
-     */
-    private $customerId;
+    /** @var string|null */
+    private $hash;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @var string
-     */
+    /** @var string|null */
     private $email;
 
-    /**
-     * @ORM\Column(type="string", name="product_variant_code")
-     *
-     * @var string
-     */
-    private $productVariantCode;
+    /** @var CustomerInterface|null */
+    private $customer;
 
-    /**
-     * @ORM\Column(type="integer", name="channel_id")
-     *
-     * @var int
-     */
-    private $channelId;
+    /** @var ProductVariantInterface|null */
+    private $productVariant;
 
-    /**
-     * @ORM\Column(type="string", length=255, name="locale_code")
-     *
-     * @var string
-     */
+    /** @var ChannelInterface|null */
+    private $channel;
+
+    /** @var string|null */
     private $localeCode;
-
-    /**
-     * @ORM\Column(type="datetime", name="created_at")
-     *
-     * @var DateTimeInterface|null
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @var string
-     */
-    private $hash;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getCustomerId(): ?int
-    {
-        return $this->customerId;
-    }
-
-    public function setCustomerId(?int $customerId): SubscriptionInterface
-    {
-        $this->customerId = $customerId;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): SubscriptionInterface
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getProductVariantCode(): ?string
-    {
-        return $this->productVariantCode;
-    }
-
-    public function setProductVariantCode(string $productVariantCode): SubscriptionInterface
-    {
-        $this->productVariantCode = $productVariantCode;
-
-        return $this;
-    }
-
-    public function getLocaleCode(): ?string
-    {
-        return $this->localeCode;
-    }
-
-    public function setLocaleCode(string $localeCode): SubscriptionInterface
-    {
-        $this->localeCode = $localeCode;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(DateTimeInterface $createdAt): SubscriptionInterface
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     public function getHash(): ?string
@@ -141,22 +44,58 @@ final class Subscription implements SubscriptionInterface
         return $this->hash;
     }
 
-    public function setHash(string $hash): SubscriptionInterface
+    public function setHash(string $hash): void
     {
         $this->hash = $hash;
-
-        return $this;
     }
 
-    public function getChannelId(): ?int
+    public function getLocaleCode(): ?string
     {
-        return $this->channelId;
+        return $this->localeCode;
     }
 
-    public function setChannelId(int $channelId): SubscriptionInterface
+    public function setLocaleCode(string $localeCode): void
     {
-        $this->channelId = $channelId;
+        $this->localeCode = $localeCode;
+    }
 
-        return $this;
+    public function getChannel(): ?ChannelInterface
+    {
+        return $this->channel;
+    }
+
+    public function setChannel(?ChannelInterface $channel): void
+    {
+        $this->channel = $channel;
+    }
+
+    public function getCustomer(): ?CustomerInterface
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?CustomerInterface $customer): void
+    {
+        $this->customer = $customer;
+    }
+
+    public function getProductVariant(): ?ProductVariantInterface
+    {
+        return $this->productVariant;
+    }
+
+    public function setProductVariant(?ProductVariantInterface $productVariant): void
+    {
+        $this->productVariant = $productVariant;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
 }

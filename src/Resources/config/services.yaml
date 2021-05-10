@@ -5,9 +5,7 @@ services:
       - '@logger'
       - '@sylius.email_sender'
       - '@sylius.availability_checker'
-      - '@sylius.repository.product_variant'
       - '@webgriffe.repository.back_in_stock_notification_subscription'
-      - '@sylius.repository.channel'
 
   Webgriffe\SyliusBackInStockNotificationPlugin\Controller\SubscriptionController:
     tags: ['controller.service_arguments']

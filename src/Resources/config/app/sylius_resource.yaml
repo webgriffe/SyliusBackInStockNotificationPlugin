@@ -4,3 +4,4 @@ sylius_resource:
             driver: doctrine/orm
             classes:
                 model: Webgriffe\SyliusBackInStockNotificationPlugin\Entity\Subscription
+                repository: Webgriffe\SyliusBackInStockNotificationPlugin\Repository\SubscriptionRepository

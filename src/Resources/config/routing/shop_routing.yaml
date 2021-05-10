@@ -14,4 +14,8 @@ webgriffe_back_in_stock_notification_account_list_subscriptions:
   path: /account/back-in-stock-notification
   methods: [GET]
   defaults:
-    _controller: Webgriffe\SyliusBackInStockNotificationPlugin\Controller\SubscriptionController:accountListAction
+    _controller: webgriffe.controller.back_in_stock_notification_subscription:indexAction
+    _sylius:
+      section: shop_account
+      template: "@WebgriffeSyliusBackInStockNotificationPlugin/MyAccount/index.html.twig"
+      grid: webgriffe_back_in_stock_notification_account_list_subscriptions
