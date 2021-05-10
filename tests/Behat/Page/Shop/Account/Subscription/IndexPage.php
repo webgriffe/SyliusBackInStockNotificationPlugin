@@ -36,15 +36,15 @@ final class IndexPage extends SymfonyPage implements IndexPageInterface
 
     public function isPresentNoSubscriptionInfoMessage(): bool
     {
-        return $this->hasElement('no_subscription');
+        return !$this->hasElement('table');
     }
 
     protected function getDefinedElements(): array
     {
         return array_merge(parent::getDefinedElements(), [
             'customer_subscriptions' => '[data-test-grid-table]',
-            'first_subscription' => '[data-test-grid-table-body] [data-test-row]:first-child [data-test-actions] a',
-            'no_subscription' => '[data-test-no-subscription]',
+            'first_subscription' => '[data-test-grid-table-body] [data-test-row]:first-child [data-test-delete-button]',
+            'table' => '[data-test-grid-table-body]',
         ]);
     }
 }

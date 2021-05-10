@@ -1,6 +1,6 @@
 <div class="ui red buttons">
     <a href="{{ path('webgriffe_back_in_stock_notification_delete_subscription', {'hash': data}) }}"
-       class="ui labeled icon button">
+       class="ui labeled icon button" {{ sylius_test_html_attribute('delete-button') }}>
         <i class="icon credit trash alternative"></i>
         {{ 'webgriffe_bisn.my_account_section.remove'|trans }}
     </a>
