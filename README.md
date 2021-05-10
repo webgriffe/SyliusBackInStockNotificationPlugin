@@ -67,7 +67,7 @@
 
 This module send mail using a Symfony Command. Unfortunately, the command line context does not know about your VirtualHost or domain name. To fix this, you need to configure the “request context”, which is a fancy way of saying that you need to configure your environment so that it knows what URL it should use when generating URLs. For further information you can see [Symfony Documentation](https://symfony.com/doc/2.6/cookbook/console/sending_emails.html).
 
-1. Edit the `app/config/services.yml` file by adding the following content:
+1. Edit the `config/services.yml` file by adding the following content:
 
 ```yaml
 parameters:
