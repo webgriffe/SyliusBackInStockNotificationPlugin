@@ -1,0 +1,7 @@
+{% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
+
+{% if options.link.data.customer is not null %}
+    {% set path = path(options.link.route, {'id': options.link.data.customer.id}) %}
+
+    {{ buttons.show(path, action.label) }}
+{% endif %}

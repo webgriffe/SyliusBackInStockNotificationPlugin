@@ -35,9 +35,9 @@
                 }
             }
 
-            document.querySelector('#trigger-notification-overlay').onclick = function(event) {
+            document.querySelector('#trigger-notification-overlay').onclick = function() {
                 jQuery('#notification-overlay').modal('show')
-                document.querySelector('#back_in_stock_not #form_product_variant_code').value = getSelectedVariantCode()
+                document.querySelector('#back_in_stock_not input[type="hidden"]').value = getSelectedVariantCode()
             }
 
             document.querySelector('#sylius-product-adding-to-cart').onchange = renderNotifyMeBtn

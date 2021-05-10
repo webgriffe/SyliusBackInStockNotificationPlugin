@@ -11,8 +11,8 @@
 
     <div style="text-align: center; padding-bottom: 15px; font-size: 15px;">
         {{ 'webgriffe_bisn.subscription_mail.subscription_message'|trans({
-            '{product}': product.name,
-            '{url}': url('sylius_shop_product_show', {'slug': product.slug, '_locale': product.translation.locale})
+            '{product}': subscription.productVariant.product.name,
+            '{url}': url('sylius_shop_product_show', {'slug': subscription.productVariant.product.slug, '_locale': subscription.productVariant.product.translation.locale})
         }, null, localeCode)|raw }}
     </div>
 
