@@ -7,9 +7,7 @@ namespace Webgriffe\SyliusBackInStockNotificationPlugin\Controller;
 use DateTime;
 use Exception;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
-use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
-use Sylius\Component\Core\Repository\CustomerRepositoryInterface;
 use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
 use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Sylius\Component\Inventory\Checker\AvailabilityCheckerInterface;
@@ -18,12 +16,10 @@ use Sylius\Component\Mailer\Sender\SenderInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
 use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
@@ -37,9 +33,6 @@ final class SubscriptionController extends AbstractController
 
     /** @var FactoryInterface */
     private $backInStockNotificationFactory;
-
-    /** @var CustomerRepositoryInterface */
-    private $customerRepository;
 
     /** @var LocaleContextInterface */
     private $localeContext;
@@ -74,13 +67,11 @@ final class SubscriptionController extends AbstractController
         ProductVariantRepositoryInterface $productVariantRepository,
         SenderInterface $sender,
         LocaleContextInterface $localeContext,
-        CustomerRepositoryInterface $customerRepository,
         RepositoryInterface $backInStockNotificationRepository,
         FactoryInterface $backInStockNotificationFactory
     ) {
         $this->backInStockNotificationRepository = $backInStockNotificationRepository;
         $this->backInStockNotificationFactory = $backInStockNotificationFactory;
-        $this->customerRepository = $customerRepository;
         $this->localeContext = $localeContext;
         $this->sender = $sender;
         $this->productVariantRepository = $productVariantRepository;
@@ -118,22 +109,23 @@ final class SubscriptionController extends AbstractController
             /** @var SubscriptionInterface $subscription */
 
             if (array_key_exists('email', $data)) {
-                $email = $data['email'];
-                if (!$email) {
+                $errors = $this->validator->validate($data['email'], [new Email(), new NotBlank()]);
+                if (count($errors) > 0) {
+                    $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.invalid_email'));
+
+                    return $this->redirect($this->getRefererUrl($request));
+                }
+                $subscription->setEmail($data['email']);
+            } elseif ($customer !== null) {
+                $email = $customer->getEmail();
+                if ($email !== null) {
+                    $subscription->setCustomer($customer);
+                    $subscription->setEmail($email);
+                } else {
                     $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.invalid_form'));
 
                     return $this->redirect($this->getRefererUrl($request));
                 }
-                $errors = $this->validator->validate($email, new Email());
-                if (count($errors) > 0) {
-                    $this->addFlash('error', $errors[0]->getMessage());
-
-                    return $this->redirect($this->getRefererUrl($request));
-                }
-                $subscription->setEmail($email);
-            } elseif ($customer && $customer->getEmail()) {
-                $subscription->setCustomer($customer);
-                $subscription->setEmail($customer->getEmail());
             } else {
                 $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.invalid_form'));
 
@@ -221,22 +213,6 @@ final class SubscriptionController extends AbstractController
         $this->addFlash('info', $this->translator->trans('webgriffe_bisn.deletion_submission.not-successful'));
 
         return $this->redirect($this->getRefererUrl($request));
-    }
-
-    public function accountListAction(): Response
-    {
-        $customer = $this->customerContext->getCustomer();
-        if ($customer === null) {
-            return $this->redirect($this->generateUrl('sylius_shop_login'));
-        }
-
-        $subscriptions = $this->backInStockNotificationRepository->findBy(['customer' => $customer]);
-        Assert::allImplementsInterface($subscriptions, SubscriptionInterface::class);
-        /** @var SubscriptionInterface[] $subscriptions */
-
-        return $this->render('@WebgriffeSyliusBackInStockNotificationPlugin/accountSubscriptionList.html.twig', [
-            'subscriptions' => $subscriptions,
-        ]);
     }
 
     private function getRefererUrl(Request $request): string

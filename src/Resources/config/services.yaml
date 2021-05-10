@@ -18,7 +18,6 @@ services:
       - '@sylius.repository.product_variant'
       - '@sylius.email_sender'
       - '@sylius.context.locale'
-      - '@sylius.repository.customer'
       - '@webgriffe.repository.back_in_stock_notification_subscription'
       - '@webgriffe.factory.back_in_stock_notification_subscription'
 

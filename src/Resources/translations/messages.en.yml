@@ -1,6 +1,7 @@
 webgriffe_bisn:
     form_submission:
         invalid_form: 'Error during form submitting, please try again'
+        invalid_email: 'Error during form submitting, please check email syntax'
         variant_not_found: 'Product not found, it is not possible to subscribe to notifications'
         variant_not_oos: 'Product in stock, it is not possible to subscribe to notifications'
         already_saved: 'Subscription with the mail email is already present'
