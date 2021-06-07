@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Webgriffe\SyliusBackInStockNotificationPlugin\Command;
@@ -13,7 +14,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
-use Webmozart\Assert\Assert;
 
 final class AlertCommand extends Command
 {
@@ -54,10 +54,9 @@ final class AlertCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        //I think that this load in the long time can be a bottle necklace
+        /** @var SubscriptionInterface $subscription */
         foreach ($this->backInStockNotificationRepository->findAll() as $subscription) {
-            //I think that this load in the long time can be a bottle necklace
-            Assert::isInstanceOf($subscription, SubscriptionInterface::class);
-            /** @var SubscriptionInterface $subscription */
             $channel = $subscription->getChannel();
             $productVariant = $subscription->getProductVariant();
             if ($productVariant === null || $channel === null) {

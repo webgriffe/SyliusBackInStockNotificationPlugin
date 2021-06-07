@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Webgriffe\SyliusBackInStockNotificationPlugin\Menu;
@@ -11,13 +12,12 @@ final class AdminMenuListener
     {
         $customersMenu = $event->getMenu()->getChild('customers');
 
-        if (!is_null($customersMenu)) {
+        if (null !== $customersMenu) {
             $customersMenu
                 ->addChild('list_subscriptions', ['route' => 'webgriffe_admin_back_in_stock_notification_subscription_index'])
                 ->setLabel('webgriffe_bisn.admin.menu_label')
                 ->setLabelAttribute('icon', 'bell')
             ;
         }
-
     }
 }

@@ -24,7 +24,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Form\SubscriptionType;
-use Webmozart\Assert\Assert;
 
 final class SubscriptionController extends AbstractController
 {
@@ -108,8 +107,6 @@ final class SubscriptionController extends AbstractController
             $data = $form->getData();
             /** @var SubscriptionInterface $subscription */
             $subscription = $this->backInStockNotificationFactory->createNew();
-            /** @psalm-suppress RedundantConditionGivenDocblockType */
-            Assert::isInstanceOf($subscription, SubscriptionInterface::class);
 
             if (array_key_exists('email', $data)) {
                 $email = (string) $data['email'];
@@ -136,14 +133,13 @@ final class SubscriptionController extends AbstractController
                 return $this->redirect($this->getRefererUrl($request));
             }
 
+            /** @var ProductVariantInterface|null $variant */
             $variant = $this->productVariantRepository->findOneBy(['code' => $data['product_variant_code']]);
-            if (!$variant) {
+            if (null === $variant) {
                 $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.variant_not_found'));
 
                 return $this->redirect($this->getRefererUrl($request));
             }
-            Assert::isInstanceOf($variant, ProductVariantInterface::class);
-            /** @var ProductVariantInterface $variant */
             if ($this->availabilityChecker->isStockAvailable($variant)) {
                 $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.variant_not_oos'));
 
@@ -155,9 +151,12 @@ final class SubscriptionController extends AbstractController
                 ['email' => $subscription->getEmail(), 'productVariant' => $subscription->getProductVariant()]
             );
             if ($subscriptionSaved) {
-                $this->addFlash('error', $this->translator->trans(
-                    'webgriffe_bisn.form_submission.already_saved',
-                    ['email' => $subscription->getEmail()])
+                $this->addFlash(
+                    'error',
+                    $this->translator->trans(
+                        'webgriffe_bisn.form_submission.already_saved',
+                        ['email' => $subscription->getEmail()]
+                    )
                 );
 
                 return $this->redirect($this->getRefererUrl($request));
@@ -199,16 +198,15 @@ final class SubscriptionController extends AbstractController
 
         return $this->render(
             '@WebgriffeSyliusBackInStockNotificationPlugin/productSubscriptionForm.html.twig',
-            ['form' => $form->createView(),]
+            ['form' => $form->createView()]
         );
     }
 
     public function deleteAction(Request $request, string $hash): Response
     {
+        /** @var SubscriptionInterface|null $subscription */
         $subscription = $this->backInStockNotificationRepository->findOneBy(['hash' => $hash]);
-        if ($subscription) {
-            Assert::isInstanceOf($subscription, SubscriptionInterface::class);
-            /** @var SubscriptionInterface $subscription */
+        if (null !== $subscription) {
             $this->backInStockNotificationRepository->remove($subscription);
             $this->addFlash('info', $this->translator->trans('webgriffe_bisn.deletion_submission.successful'));
 
