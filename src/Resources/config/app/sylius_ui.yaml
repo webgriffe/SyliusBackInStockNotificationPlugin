@@ -6,3 +6,6 @@ sylius_ui:
     sylius.shop.product.show.add_to_cart_form:
       blocks:
         webgriffe_bisn_add_subscription: '@WebgriffeSyliusBackInStockNotificationPlugin/_configurableButton.html.twig'
+    sylius.shop.layout.after_body:
+      blocks:
+        webgriffe_bisn_add_javascript: '@WebgriffeSyliusBackInStockNotificationPlugin/_javascript.html.twig'
