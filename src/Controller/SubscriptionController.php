@@ -85,6 +85,7 @@ final class SubscriptionController extends AbstractController
     public function addAction(Request $request): Response
     {
         $form = $this->createForm(SubscriptionType::class);
+        /** @var string|null $productVariantCode */
         $productVariantCode = $request->query->get('product_variant_code');
         if (is_string($productVariantCode)) {
             $form->setData(['product_variant_code' => $productVariantCode]);
@@ -103,19 +104,22 @@ final class SubscriptionController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var array $data */
             $data = $form->getData();
-            $subscription = $this->backInStockNotificationFactory->createNew();
-            Assert::implementsInterface($subscription, SubscriptionInterface::class);
             /** @var SubscriptionInterface $subscription */
+            $subscription = $this->backInStockNotificationFactory->createNew();
+            /** @psalm-suppress RedundantConditionGivenDocblockType */
+            Assert::isInstanceOf($subscription, SubscriptionInterface::class);
 
             if (array_key_exists('email', $data)) {
-                $errors = $this->validator->validate($data['email'], [new Email(), new NotBlank()]);
+                $email = (string) $data['email'];
+                $errors = $this->validator->validate($email, [new Email(), new NotBlank()]);
                 if (count($errors) > 0) {
                     $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.invalid_email'));
 
                     return $this->redirect($this->getRefererUrl($request));
                 }
-                $subscription->setEmail($data['email']);
+                $subscription->setEmail($email);
             } elseif ($customer !== null) {
                 $email = $customer->getEmail();
                 if ($email !== null) {
@@ -138,7 +142,7 @@ final class SubscriptionController extends AbstractController
 
                 return $this->redirect($this->getRefererUrl($request));
             }
-            Assert::implementsInterface($variant, ProductVariantInterface::class);
+            Assert::isInstanceOf($variant, ProductVariantInterface::class);
             /** @var ProductVariantInterface $variant */
             if ($this->availabilityChecker->isStockAvailable($variant)) {
                 $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.variant_not_oos'));
@@ -203,7 +207,7 @@ final class SubscriptionController extends AbstractController
     {
         $subscription = $this->backInStockNotificationRepository->findOneBy(['hash' => $hash]);
         if ($subscription) {
-            Assert::implementsInterface($subscription, SubscriptionInterface::class);
+            Assert::isInstanceOf($subscription, SubscriptionInterface::class);
             /** @var SubscriptionInterface $subscription */
             $this->backInStockNotificationRepository->remove($subscription);
             $this->addFlash('info', $this->translator->trans('webgriffe_bisn.deletion_submission.successful'));
