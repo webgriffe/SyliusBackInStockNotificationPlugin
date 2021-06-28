@@ -44,7 +44,7 @@ jobs:
         with:
           php-version: "${{ matrix.php }}"
           extensions: intl
-          tools: symfony
+          tools: symfony, composer-require-checker
           coverage: none
 
       -
@@ -135,6 +135,10 @@ jobs:
       -
         name: Validate composer.json
         run: composer validate --ansi --strict
+
+      -
+        name: Check dependencies are properly required
+        run: composer-require-checker check
 
       -
         name: Validate database schema
