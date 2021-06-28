@@ -6,7 +6,23 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
+        "doctrine/dbal": "^2.13",
+        "doctrine/migrations": "^3.1",
+        "doctrine/orm": "^2.7",
+        "psr/log": "^1.1",
+        "sylius/mailer-bundle": "^1.5",
+        "sylius/resource-bundle": "^1.6",
         "sylius/sylius": "~1.8.0",
+        "symfony/config": "^4.4 || ^5.2",
+        "symfony/console": "^4.4 || ^5.2",
+        "symfony/dependency-injection": "^4.4 || ^5.2",
+        "symfony/form": "^4.4 || ^5.2",
+        "symfony/framework-bundle": "^4.4 || ^5.2",
+        "symfony/http-foundation": "^4.4 || ^5.2",
+        "symfony/http-kernel": "^4.4 || ^5.2",
+        "symfony/translation": "^4.4",
+        "symfony/translation-contracts": "^1.1.9",
+        "symfony/validator": "^4.4 || ^5.2",
         "webmozart/assert": "^1.9"
     },
     "require-dev": {
@@ -41,11 +57,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Webgriffe\\SyliusBackInStockNotificationPlugin\\": "src/",
-            "Tests\\Webgriffe\\SyliusBackInStockNotificationPlugin\\": "tests/"
+            "Webgriffe\\SyliusBackInStockNotificationPlugin\\": "src/"
         }
     },
     "autoload-dev": {
+        "psr-4": {
+            "Tests\\Webgriffe\\SyliusBackInStockNotificationPlugin\\": "tests/"
+        },
         "classmap": ["tests/Application/Kernel.php"]
     },
     "extra": {
