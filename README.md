@@ -29,7 +29,7 @@
 ## Requirements
 
 * PHP `^7.3`
-* Sylius `^1.8`
+* Sylius `~1.8.0`
 
 ## Installation
 
@@ -37,31 +37,32 @@
 
 2. Add the plugin to the `config/bundles.php` file:
 
-    ```php
-    Webgriffe\SyliusBackInStockNotificationPlugin\WebgriffeSyliusBackInStockNotificationPlugin::class => ['all' => true],
-    ```
+```php
+Webgriffe\SyliusBackInStockNotificationPlugin\WebgriffeSyliusBackInStockNotificationPlugin::class => ['all' => true],
+```
+
 3. Import the plugin routes by creating a file in `config/routes/webgriffe_sylius_back_in_stock_notification_plugin.yaml` with the follwing content:
 
-    ```yaml
-    webgriffe_sylius_back_in_stock_notification_plugin:
-      resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/routing.yaml"
-    ```
+```yaml
+webgriffe_sylius_back_in_stock_notification_plugin:
+  resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/routing.yaml"
+```
 
 4. Import required config in your `config/packages/webgriffe_sylius_back_in_stock_notification_plugin.yaml` file:
 
-   ```yaml
-   imports:
-       - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/app/config.yaml" }
-   ```
+```yaml
+imports:
+   - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/app/config.yaml" }
+```
 
 5. Finish the installation by updating the database schema and installing assets:
 
-    ```bash
-    bin/console doctrine:migrations:diff
-    bin/console doctrine:migrations:migrate
-    bin/console assets:install
-    bin/console sylius:theme:assets:install
-    ```
+```bash
+bin/console doctrine:migrations:diff
+bin/console doctrine:migrations:migrate
+bin/console assets:install
+bin/console sylius:theme:assets:install
+```
 
 ## Configuration
 
@@ -97,94 +98,95 @@ If you want to use our Behat defined steps you have to include our Behat class i
 
 To contribute to this plugin clone this repository, create a branch for your feature or bugfix, do your changes and then make sure al tests are passing.
 
-    ```bash
-    (cd tests/Application && yarn install)
-    (cd tests/Application && yarn build)
-    (cd tests/Application && APP_ENV=test bin/console assets:install public)
+```bash
+(cd tests/Application && yarn install)
+(cd tests/Application && yarn build)
+(cd tests/Application && APP_ENV=test bin/console assets:install public)
 
-    (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
-    (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
-    ```
+(cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
+(cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
+```
 
 To be able to setup a plugin's database, remember to configure you database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
 
 ### Running plugin tests
 
-  - PHPUnit
+#### PHPUnit
 
-  ```bash
-  vendor/bin/phpunit
-  ```
+```bash
+vendor/bin/phpunit
+```
 
-- PHPSpec
+#### PHPSpec
 
-  ```bash
-  vendor/bin/phpspec run
-  ```
+```bash
+vendor/bin/phpspec run
+```
 
-- Behat (non-JS scenarios)
+#### Behat (non-JS scenarios)
 
-  ```bash
-  vendor/bin/behat --strict --tags="~@javascript"
-  ```
+```bash
+vendor/bin/behat --strict --tags="~@javascript"
+```
 
-- Behat (JS scenarios)
+#### Behat (JS scenarios)
 
-    1. [Install Symfony CLI command](https://symfony.com/download).
+1. [Install Symfony CLI command](https://symfony.com/download).
+    
+2. Start Headless Chrome:
 
-    2. Start Headless Chrome:
+```bash
+google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1
+```
 
-        ```bash
-        google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1
-        ```
-    3. Install SSL certificates (only once needed) and run test application's webserver on `127.0.0.1:8080`:
+3. Install SSL certificates (only once needed) and run test application's webserver on `127.0.0.1:8080`:
 
-        ```bash
-        symfony server:ca:install
-        APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
-        ```
+```bash
+symfony server:ca:install
+APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
+```
 
-    4. Run Behat:
+4. Run Behat:
 
-      ```bash
-      vendor/bin/behat --strict --tags="@javascript"
-      ```
+```bash
+vendor/bin/behat --strict --tags="@javascript"
+```
+  
+#### Static Analysis
 
-  - Static Analysis
+##### Psalm
 
-    - Psalm
+```bash
+vendor/bin/psalm
+```
 
-      ```bash
-      vendor/bin/psalm
-      ```
+##### PHPStan
 
-    - PHPStan
+```bash
+vendor/bin/phpstan analyse -c phpstan.neon -l max src/
+```
 
-      ```bash
-      vendor/bin/phpstan analyse -c phpstan.neon -l max src/
-      ```
+##### Coding Standard
 
-  - Coding Standard
-
-    ```bash
-    vendor/bin/ecs check src
-    ```
+```bash
+vendor/bin/ecs check src
+```
 
 ### Opening Sylius with your plugin
 
 - Using `test` environment:
 
-    ```bash
-    (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=test bin/console server:run -d public)
-    ```
+```bash
+(cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load)
+(cd tests/Application && APP_ENV=test bin/console server:run -d public)
+```
 
 - Using `dev` environment:
 
-    ```bash
-    (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=dev bin/console server:run -d public)
-    ```
+```bash
+(cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
+(cd tests/Application && APP_ENV=dev bin/console server:run -d public)
+```
 
 ## License
 
