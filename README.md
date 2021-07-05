@@ -81,6 +81,18 @@ parameters:
 0 12 * * * <absolute-php-path> <absolute-path-to-sylius-dir>/bin/console webgriffe:back-in-stock-notification:alert
 ```
 
+## Optional Configuration
+
+If you want to use our Behat defined steps you have to include our Behat class in your autoloader-dev. To achieve this adds the following line to your `composer.json`:
+
+```json
+"autoload-dev": {
+    "psr-4": {
+      "Tests\\Webgriffe\\SyliusBackInStockNotificationPlugin\\": "vendor/webgriffe/sylius-back-in-stock-notification-plugin/tests/"
+    }
+},
+```
+
 ## Contributing
 
 To contribute to this plugin clone this repository, create a branch for your feature or bugfix, do your changes and then make sure al tests are passing.
