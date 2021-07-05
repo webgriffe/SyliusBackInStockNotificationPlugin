@@ -44,7 +44,7 @@ jobs:
         with:
           php-version: "${{ matrix.php }}"
           extensions: intl
-          tools: symfony, composer-require-checker
+          tools: symfony, composer-require-checker:2.1.0
           coverage: none
 
       -
