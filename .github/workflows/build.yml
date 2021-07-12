@@ -137,6 +137,10 @@ jobs:
         run: composer validate --ansi --strict
 
       -
+        name: Run Coding Standard
+        run: vendor/bin/ecs check src
+
+      -
         name: Check dependencies are properly required
         run: composer-require-checker check
 
