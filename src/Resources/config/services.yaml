@@ -1,4 +1,8 @@
 services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
   Webgriffe\SyliusBackInStockNotificationPlugin\Command\AlertCommand:
     tags: ['console.command']
     arguments:
