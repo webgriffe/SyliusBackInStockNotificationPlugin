@@ -11,8 +11,8 @@ services:
     tags: ['controller.service_arguments']
     arguments:
       - '@sylius.context.channel'
-      - '@translator.data_collector'
-      - '@debug.validator'
+      - '@translator'
+      - '@validator'
       - '@sylius.context.customer'
       - '@sylius.availability_checker.default'
       - '@sylius.repository.product_variant'
