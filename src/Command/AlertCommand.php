@@ -79,10 +79,13 @@ final class AlertCommand extends Command
 
             if ($this->availabilityChecker->isStockAvailable($productVariant)) {
                 $this->sendEmail($subscription, $productVariant, $channel);
-                $this->backInStockNotificationRepository->remove($subscription);
+                $subscription->setNotify(true);
+                $this->entityManager->persist($subscription);
+                //$this->backInStockNotificationRepository->remove($subscription);
             }
         }
 
+        $this->entityManager->flush();
         return 0;
     }
 
