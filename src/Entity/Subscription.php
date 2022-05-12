@@ -34,6 +34,9 @@ class Subscription implements SubscriptionInterface
     /** @var string|null */
     private $localeCode;
 
+    /** @var boolean */
+    private $notify = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -97,5 +100,21 @@ class Subscription implements SubscriptionInterface
     public function setEmail(string $email): void
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNotify(): bool
+    {
+        return $this->notify;
+    }
+
+    /**
+     * @param bool $notify
+     */
+    public function setNotify(bool $notify): void
+    {
+        $this->notify = $notify;
     }
 }
