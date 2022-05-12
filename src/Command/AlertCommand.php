@@ -77,7 +77,7 @@ final class AlertCommand extends Command
                 continue;
             }
 
-            if ($this->availabilityChecker->isStockAvailable($productVariant)) {
+            if ($this->availabilityChecker->isStockAvailable($productVariant) && $productVariant->isEnabled() && $productVariant->getProduct()->isEnabled() ) {
                 $this->sendEmail($subscription, $productVariant, $channel);
                 $subscription->setNotify(true);
                 $this->entityManager->persist($subscription);
