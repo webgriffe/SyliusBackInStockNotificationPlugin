@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Webgriffe\SyliusBackInStockNotificationPlugin\Command;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
@@ -30,18 +31,24 @@ final class AlertCommand extends Command
 
     /** @var LoggerInterface */
     private $logger;
+    /**
+     * @var EntityManagerInterface
+     */
+    private $entityManager;
 
     public function __construct(
         LoggerInterface $logger,
         SenderInterface $sender,
         AvailabilityCheckerInterface $availabilityChecker,
         RepositoryInterface $backInStockNotificationRepository,
+        EntityManagerInterface $entityManager,
         string $name = null
     ) {
         $this->backInStockNotificationRepository = $backInStockNotificationRepository;
         $this->availabilityChecker = $availabilityChecker;
         $this->sender = $sender;
         $this->logger = $logger;
+        $this->entityManager = $entityManager;
         parent::__construct($name);
     }
 
