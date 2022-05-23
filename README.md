@@ -28,8 +28,8 @@
 
 ## Requirements
 
-* PHP `^7.3`
-* Sylius `~1.8.0`
+* PHP `^8.0`
+* Sylius `^1.11.2`
 
 ## Installation
 
@@ -178,14 +178,14 @@ vendor/bin/ecs check src
 
 ```bash
 (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load)
-(cd tests/Application && APP_ENV=test bin/console server:run -d public)
+APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
 ```
 
 - Using `dev` environment:
 
 ```bash
 (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
-(cd tests/Application && APP_ENV=dev bin/console server:run -d public)
+APP_ENV=dev symfony server:start --port=8080 --dir=tests/Application/public --daemon
 ```
 
 ## License

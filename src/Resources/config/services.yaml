@@ -2,17 +2,19 @@ services:
   Webgriffe\SyliusBackInStockNotificationPlugin\Command\AlertCommand:
     tags: ['console.command']
     arguments:
-      - '@logger'
+      - '@monolog.logger'
       - '@sylius.email_sender'
-      - '@sylius.availability_checker'
+      - '@sylius.availability_checker.default'
       - '@webgriffe.repository.back_in_stock_notification_subscription'
 
   Webgriffe\SyliusBackInStockNotificationPlugin\Controller\SubscriptionController:
     tags: ['controller.service_arguments']
+    calls:
+      - [ setContainer, [ '@service_container' ] ]
     arguments:
-      - '@sylius.context.channel'
-      - '@translator'
-      - '@validator'
+      - '@sylius.context.channel.cached'
+      - '@translator.data_collector'
+      - '@debug.validator'
       - '@sylius.context.customer'
       - '@sylius.availability_checker.default'
       - '@sylius.repository.product_variant'

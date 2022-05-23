@@ -16,8 +16,8 @@ Feature: Ability to get notified for a specific product when it will be back in 
     Given there is a customer "Francis Underwood" identified by an email "francis@underwood.com" and a password "whitehouse"
     And I am logged in as "francis@underwood.com"
     When I view product "T-shirt banana"
-    And I set its "Size" to "Large"
-    And I set its "Size" to "Small"
+    And I select its Size as "Large"
+    And I select its Size as "Small"
     And I subscribe to the alert list for the product "T-shirt banana"
     Then I should be notified that the email is subscribed correctly
     And an email with a success message should be sent to "francis@underwood.com"
@@ -25,8 +25,8 @@ Feature: Ability to get notified for a specific product when it will be back in 
   @ui @javascript
   Scenario: Being able to subscribe to the alert list for the out of stock product
     When I view product "T-shirt banana"
-    And I set its "Size" to "Large"
-    And I set its "Size" to "Small"
+    And I select its Size as "Large"
+    And I select its Size as "Small"
     And I subscribe to the alert list for the product "T-shirt banana" with the email "ted@example.com"
     Then I should be notified that the email is subscribed correctly
     And an email with a success message should be sent to "ted@example.com"
