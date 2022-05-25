@@ -1,0 +1,11 @@
+{% if data %}
+    <span class="ui blue label">
+        <i class="bell icon"></i>
+        {{ 'webgriffe_bisn.admin.notified'|trans }}
+    </span>
+{% else %}
+    <span class="ui red label">
+        <i class="bell icon"></i>
+        {{ 'webgriffe_bisn.admin.not-notified'|trans }}
+    </span>
+{% endif %}

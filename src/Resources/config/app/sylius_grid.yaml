@@ -35,6 +35,11 @@ sylius_grid:
           sortable: createdAt
           options:
             format: d-m-Y H:i:s
+        notify:
+          type: twig
+          label: sylius.ui.state
+          options:
+            template: "@WebgriffeSyliusBackInStockNotificationPlugin/Admin/Grid/Field/notify.html.twig"
       filters:
         email:
           type: string
@@ -47,6 +52,9 @@ sylius_grid:
         created_at:
           type: date
           label: sylius.ui.date
+        notify:
+          type: boolean
+          label: sylius.ui.state
       actions:
         item:
           product_details:
@@ -90,6 +98,11 @@ sylius_grid:
           type: string
           label: sylius.ui.code
           path: productVariant.code
+        notify:
+          type: twig
+          label: sylius.ui.state
+          options:
+            template: "@WebgriffeSyliusBackInStockNotificationPlugin/MyAccount/notify.html.twig"
         created_at:
           type: datetime
           label: sylius.ui.date

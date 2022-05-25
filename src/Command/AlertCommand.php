@@ -13,35 +13,21 @@ use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
 
 final class AlertCommand extends Command
 {
     protected static $defaultName = 'webgriffe:back-in-stock-notification:alert';
 
-    /** @var RepositoryInterface */
-    private $backInStockNotificationRepository;
-
-    /** @var AvailabilityCheckerInterface */
-    private $availabilityChecker;
-
-    /** @var SenderInterface */
-    private $sender;
-
-    /** @var LoggerInterface */
-    private $logger;
-
     public function __construct(
-        LoggerInterface $logger,
-        SenderInterface $sender,
-        AvailabilityCheckerInterface $availabilityChecker,
-        RepositoryInterface $backInStockNotificationRepository,
+        private LoggerInterface $logger,
+        private SenderInterface $sender,
+        private AvailabilityCheckerInterface $availabilityChecker,
+        private RepositoryInterface $backInStockNotificationRepository,
+        private RouterInterface $router,
         string $name = null
     ) {
-        $this->backInStockNotificationRepository = $backInStockNotificationRepository;
-        $this->availabilityChecker = $availabilityChecker;
-        $this->sender = $sender;
-        $this->logger = $logger;
         parent::__construct($name);
     }
 
@@ -55,8 +41,9 @@ final class AlertCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         //I think that this load in the long time can be a bottle necklace
+        $subscriptions = $this->backInStockNotificationRepository->findBy(['notify' => false]);
         /** @var SubscriptionInterface $subscription */
-        foreach ($this->backInStockNotificationRepository->findAll() as $subscription) {
+        foreach ($subscriptions as $subscription) {
             $channel = $subscription->getChannel();
             $productVariant = $subscription->getProductVariant();
             if ($productVariant === null || $channel === null) {
@@ -69,9 +56,11 @@ final class AlertCommand extends Command
                 continue;
             }
 
-            if ($this->availabilityChecker->isStockAvailable($productVariant)) {
+            if ($this->availabilityChecker->isStockAvailable($productVariant) && $productVariant->isEnabled() && $productVariant->getProduct()?->isEnabled()) {
+                $this->router->getContext()->setHost($channel->getHostname() ?? 'localhost');
                 $this->sendEmail($subscription, $productVariant, $channel);
-                $this->backInStockNotificationRepository->remove($subscription);
+                $subscription->setNotify(true);
+                $this->backInStockNotificationRepository->add($subscription);
             }
         }
 

@@ -38,6 +38,8 @@ webgriffe_bisn:
         delete_supscription: 'Delete Subscription'
         show_product: 'Show Product'
         show_customer: 'Show Customer'
+        notified: 'Notified'
+        not-notified: 'Not Notified'
 webgriffe:
     ui:
         back_in_stock_notification_subscriptions: 'Subscriptions'

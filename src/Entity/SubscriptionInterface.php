@@ -22,4 +22,8 @@ interface SubscriptionInterface extends ResourceInterface, CustomerAwareInterfac
     public function getLocaleCode(): ?string;
 
     public function setLocaleCode(string $localeCode): void;
+
+    public function isNotify(): bool;
+
+    public function setNotify(bool $notify): void;
 }

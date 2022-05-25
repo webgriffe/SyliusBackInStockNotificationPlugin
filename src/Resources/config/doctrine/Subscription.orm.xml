@@ -20,6 +20,8 @@
 
         <field name="updatedAt" column="updated_at" type="datetime" nullable="true" />
 
+        <field name="notify" column="notify" type="boolean" nullable="false" />
+
         <many-to-one field="customer" target-entity="Sylius\Component\Customer\Model\CustomerInterface">
             <join-column name="customer_id" />
         </many-to-one>

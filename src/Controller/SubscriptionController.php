@@ -27,58 +27,18 @@ use Webgriffe\SyliusBackInStockNotificationPlugin\Form\SubscriptionType;
 
 final class SubscriptionController extends AbstractController
 {
-    /** @var RepositoryInterface */
-    private $backInStockNotificationRepository;
-
-    /** @var FactoryInterface */
-    private $backInStockNotificationFactory;
-
-    /** @var LocaleContextInterface */
-    private $localeContext;
-
-    /** @var SenderInterface */
-    private $sender;
-
-    /** @var ProductVariantRepositoryInterface */
-    private $productVariantRepository;
-
-    /** @var AvailabilityCheckerInterface */
-    private $availabilityChecker;
-
-    /** @var CustomerContextInterface */
-    private $customerContext;
-
-    /** @var ValidatorInterface */
-    private $validator;
-
-    /** @var TranslatorInterface */
-    private $translator;
-
-    /** @var ChannelContextInterface */
-    private $channelContext;
-
     public function __construct(
-        ChannelContextInterface $channelContext,
-        TranslatorInterface $translator,
-        ValidatorInterface $validator,
-        CustomerContextInterface $customerContext,
-        AvailabilityCheckerInterface $availabilityChecker,
-        ProductVariantRepositoryInterface $productVariantRepository,
-        SenderInterface $sender,
-        LocaleContextInterface $localeContext,
-        RepositoryInterface $backInStockNotificationRepository,
-        FactoryInterface $backInStockNotificationFactory
+        private ChannelContextInterface $channelContext,
+        private TranslatorInterface $translator,
+        private ValidatorInterface $validator,
+        private CustomerContextInterface $customerContext,
+        private AvailabilityCheckerInterface $availabilityChecker,
+        private ProductVariantRepositoryInterface $productVariantRepository,
+        private SenderInterface $sender,
+        private LocaleContextInterface $localeContext,
+        private RepositoryInterface $backInStockNotificationRepository,
+        private FactoryInterface $backInStockNotificationFactory,
     ) {
-        $this->backInStockNotificationRepository = $backInStockNotificationRepository;
-        $this->backInStockNotificationFactory = $backInStockNotificationFactory;
-        $this->localeContext = $localeContext;
-        $this->sender = $sender;
-        $this->productVariantRepository = $productVariantRepository;
-        $this->availabilityChecker = $availabilityChecker;
-        $this->customerContext = $customerContext;
-        $this->validator = $validator;
-        $this->translator = $translator;
-        $this->channelContext = $channelContext;
     }
 
     public function addAction(Request $request): Response
@@ -148,7 +108,11 @@ final class SubscriptionController extends AbstractController
 
             $subscription->setProductVariant($variant);
             $subscriptionSaved = $this->backInStockNotificationRepository->findOneBy(
-                ['email' => $subscription->getEmail(), 'productVariant' => $subscription->getProductVariant()]
+                [
+                    'email' => $subscription->getEmail(),
+                    'productVariant' => $subscription->getProductVariant(),
+                    'notify' => false
+                ]
             );
             if ($subscriptionSaved) {
                 $this->addFlash(
@@ -174,7 +138,8 @@ final class SubscriptionController extends AbstractController
                 //see: https://paragonie.com/blog/2015/09/comprehensive-guide-url-parameter-encryption-in-php
                 $hash = strtr(base64_encode(random_bytes(9)), '+/', '-_');
             } catch (Exception $e) {
-                $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.subscription_failed'));
+                $this->addFlash('error',
+                    $this->translator->trans('webgriffe_bisn.form_submission.subscription_failed'));
 
                 return $this->redirect($this->getRefererUrl($request));
             }
@@ -191,7 +156,8 @@ final class SubscriptionController extends AbstractController
                 ]
             );
 
-            $this->addFlash('success', $this->translator->trans('webgriffe_bisn.form_submission.subscription_successfully'));
+            $this->addFlash('success',
+                $this->translator->trans('webgriffe_bisn.form_submission.subscription_successfully'));
 
             return $this->redirect($this->getRefererUrl($request));
         }
@@ -206,13 +172,13 @@ final class SubscriptionController extends AbstractController
     {
         /** @var SubscriptionInterface|null $subscription */
         $subscription = $this->backInStockNotificationRepository->findOneBy(['hash' => $hash]);
-        if (null !== $subscription) {
-            $this->backInStockNotificationRepository->remove($subscription);
-            $this->addFlash('info', $this->translator->trans('webgriffe_bisn.deletion_submission.successful'));
+        if ($subscription === null) {
+            $this->addFlash('info', $this->translator->trans('webgriffe_bisn.deletion_submission.not-successful'));
 
             return $this->redirect($this->getRefererUrl($request));
         }
-        $this->addFlash('info', $this->translator->trans('webgriffe_bisn.deletion_submission.not-successful'));
+        $this->backInStockNotificationRepository->remove($subscription);
+        $this->addFlash('info', $this->translator->trans('webgriffe_bisn.deletion_submission.successful'));
 
         return $this->redirect($this->getRefererUrl($request));
     }
