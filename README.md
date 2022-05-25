@@ -66,17 +66,16 @@ bin/console sylius:theme:assets:install
 
 ## Configuration
 
-This module send mail using a Symfony Command. Unfortunately, the command line context does not know about your VirtualHost or domain name. To fix this, you need to configure the “request context”, which is a fancy way of saying that you need to configure your environment so that it knows what URL it should use when generating URLs. For further information you can see [Symfony Documentation](https://symfony.com/doc/2.6/cookbook/console/sending_emails.html).
+This module sends mail using a Symfony Command. Unfortunately, the command line context does not know about your VirtualHost or domain name. To fix this, the Command loads the hostname from the Subscription's channel, if nothing set it defaults to `localhost`. In console commands, URLs use http by default. You can change this globally with these configuration parameters:
 
 1. Edit the `config/services.yml` file by adding the following content:
 
 ```yaml
 parameters:
-    router.request_context.host: example.org
     router.request_context.scheme: https
 ```
 
-2. As said early this module provide a command that check the stock of the product. You have to set the command `bin/console webgriffe:back-in-stock-notification:alert` in the crontab, once a day is enough:
+2. As said early this module provides a command that check the stock of the product. You have to set the command `bin/console webgriffe:back-in-stock-notification:alert` in the crontab, once a day is enough:
 
 ```bash
 0 12 * * * <absolute-php-path> <absolute-path-to-sylius-dir>/bin/console webgriffe:back-in-stock-notification:alert
@@ -185,7 +184,7 @@ APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --d
 
 ```bash
 (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
-APP_ENV=dev symfony server:start --port=8080 --dir=tests/Application/public --daemon
+APP_ENV=dev symfony server:start --dir=tests/Application/public --daemon
 ```
 
 ## License
