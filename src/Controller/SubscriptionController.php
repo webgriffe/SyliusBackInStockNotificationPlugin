@@ -111,7 +111,7 @@ final class SubscriptionController extends AbstractController
                 [
                     'email' => $subscription->getEmail(),
                     'productVariant' => $subscription->getProductVariant(),
-                    'notify' => false
+                    'notify' => false,
                 ]
             );
             if ($subscriptionSaved) {
@@ -138,8 +138,10 @@ final class SubscriptionController extends AbstractController
                 //see: https://paragonie.com/blog/2015/09/comprehensive-guide-url-parameter-encryption-in-php
                 $hash = strtr(base64_encode(random_bytes(9)), '+/', '-_');
             } catch (Exception $e) {
-                $this->addFlash('error',
-                    $this->translator->trans('webgriffe_bisn.form_submission.subscription_failed'));
+                $this->addFlash(
+                    'error',
+                    $this->translator->trans('webgriffe_bisn.form_submission.subscription_failed')
+                );
 
                 return $this->redirect($this->getRefererUrl($request));
             }
@@ -156,8 +158,10 @@ final class SubscriptionController extends AbstractController
                 ]
             );
 
-            $this->addFlash('success',
-                $this->translator->trans('webgriffe_bisn.form_submission.subscription_successfully'));
+            $this->addFlash(
+                'success',
+                $this->translator->trans('webgriffe_bisn.form_submission.subscription_successfully')
+            );
 
             return $this->redirect($this->getRefererUrl($request));
         }
