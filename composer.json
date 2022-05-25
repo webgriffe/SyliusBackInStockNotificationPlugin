@@ -24,6 +24,7 @@
     "symfony/framework-bundle": "^5.4",
     "symfony/http-foundation": "^5.4",
     "symfony/http-kernel": "^5.4",
+    "symfony/routing": "^5.4",
     "symfony/translation-contracts": "^2.0",
     "symfony/validator": "^5.4",
     "webmozart/assert": "^1.10"
