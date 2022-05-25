@@ -10,7 +10,8 @@ final class AccountMenuListener
 {
     public function addMenuItems(MenuBuilderEvent $event): void
     {
-        $event->getMenu()
+        $event
+            ->getMenu()
             ->addChild('list_subscriptions', ['route' => 'webgriffe_back_in_stock_notification_account_list_subscriptions'])
             ->setLabel('webgriffe_bisn.my_account_section.menu_label')
             ->setLabelAttribute('icon', 'bell')

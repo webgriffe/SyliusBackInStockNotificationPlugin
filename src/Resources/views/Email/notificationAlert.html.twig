@@ -16,7 +16,7 @@
     </div>
 
     <div style="text-align: center; padding-bottom: 30px; font-size: 15px;">
-        <a href="{{ url('sylius_shop_product_show', {'slug': product.slug, '_locale': localeCode}, null, localeCode) }}" style="display: inline-block; text-align: center; background: #1abb9c; padding: 18px 28px; color: #fff; text-decoration: none; text-transform: uppercase; border-radius: 3px;" target="_blank">
+        <a href="{{ url('sylius_shop_product_show', {'slug': product.slug, '_locale': localeCode}, true, localeCode) }}" style="display: inline-block; text-align: center; background: #1abb9c; padding: 18px 28px; color: #fff; text-decoration: none; text-transform: uppercase; border-radius: 3px;" target="_blank">
             {{ 'webgriffe_bisn.alert_email.alert_action'|trans({}, null, localeCode)|raw }}
         </a>
     </div>
