@@ -33,7 +33,7 @@
 
 ## Installation
 
-1. Run `composer require webgriffe/sylius-back-in-stock-notification-plugin`.
+1. Run `composer require webgriffe/sylius-back-in-stock-notification-plugin --no-scripts`.
 
 2. Add the plugin to the `config/bundles.php` file:
 
@@ -55,13 +55,19 @@ imports:
    - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/app/config.yaml" }
 ```
 
-5. Finish the installation by updating the database schema and installing assets:
+5. Update the database schema and install assets:
 
 ```bash
-bin/console doctrine:migrations:diff
 bin/console doctrine:migrations:migrate
 bin/console assets:install
 bin/console sylius:theme:assets:install
+```
+
+6. Rebuild cache:
+
+```bash
+bin/console cache:clear
+bin/console cache:warmup
 ```
 
 ## Configuration
