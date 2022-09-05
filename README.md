@@ -108,6 +108,8 @@ To contribute to this plugin clone this repository, create a branch for your fea
 (cd tests/Application && yarn build)
 (cd tests/Application && APP_ENV=test bin/console assets:install public)
 
+docker-compose up -d # only if you haven't mysql and mailhog installed locally 
+
 (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
 (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
 ```
