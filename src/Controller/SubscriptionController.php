@@ -114,7 +114,7 @@ final class SubscriptionController extends AbstractController
                     'notify' => false,
                 ],
             );
-            if ($subscriptionSaved) {
+            if ($subscriptionSaved !== null) {
                 $this->addFlash(
                     'error',
                     $this->translator->trans(
