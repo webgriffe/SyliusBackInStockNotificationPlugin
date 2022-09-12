@@ -19,5 +19,10 @@
                 <referencedProperty name="Symfony\Bundle\FrameworkBundle\Controller\AbstractController::$container"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
+        <DeprecatedMethod>
+            <errorLevel type="suppress">
+                <referencedMethod name="Sylius\Component\Mailer\Sender\SenderInterface::send"/>
+            </errorLevel>
+        </DeprecatedMethod>
     </issueHandlers>
 </psalm>

@@ -79,6 +79,8 @@ final class AlertCommand extends Command
                 'channel' => $channel,
                 'localeCode' => $subscription->getLocaleCode(),
             ],
+            [],
+            [],
         );
     }
 }

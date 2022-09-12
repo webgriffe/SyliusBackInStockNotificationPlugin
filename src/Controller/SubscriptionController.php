@@ -156,6 +156,8 @@ final class SubscriptionController extends AbstractController
                     'channel' => $subscription->getChannel(),
                     'localeCode' => $subscription->getLocaleCode(),
                 ],
+                [],
+                [],
             );
 
             $this->addFlash(
