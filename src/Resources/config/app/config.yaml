@@ -1,5 +1,0 @@
-imports:
-      - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/app/sylius_grid.yaml" }
-      - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/app/sylius_mailer.yaml" }
-      - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/app/sylius_resource.yaml" }
-      - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/app/sylius_ui.yaml" }

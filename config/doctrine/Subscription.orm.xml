@@ -4,34 +4,35 @@
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                                       http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <mapped-superclass name="Webgriffe\SyliusBackInStockNotificationPlugin\Entity\Subscription" table="webgriffe_back_in_stock_notification_subscription">
+    <mapped-superclass name="Webgriffe\SyliusBackInStockNotificationPlugin\Entity\Subscription"
+                       table="webgriffe_back_in_stock_notification_subscription">
 
         <id name="id" column="id" type="integer">
-            <generator strategy="AUTO" />
+            <generator strategy="AUTO"/>
         </id>
 
-        <field name="hash" type="string" column="hash" unique="true" />
+        <field name="hash" type="string" column="hash" unique="true"/>
 
-        <field name="email" type="string" column="email" />
+        <field name="email" type="string" column="email"/>
 
-        <field name="localeCode" type="string" column="local_code" />
+        <field name="localeCode" type="string" column="local_code"/>
 
-        <field name="createdAt" column="created_at" type="datetime" />
+        <field name="createdAt" column="created_at" type="datetime"/>
 
-        <field name="updatedAt" column="updated_at" type="datetime" nullable="true" />
+        <field name="updatedAt" column="updated_at" type="datetime" nullable="true"/>
 
-        <field name="notify" column="notify" type="boolean" nullable="false" />
+        <field name="notify" column="notify" type="boolean" nullable="false"/>
 
         <many-to-one field="customer" target-entity="Sylius\Component\Customer\Model\CustomerInterface">
-            <join-column name="customer_id" />
+            <join-column name="customer_id"/>
         </many-to-one>
 
         <many-to-one field="productVariant" target-entity="Sylius\Component\Core\Model\ProductVariantInterface">
-            <join-column name="product_variant_id" nullable="false" />
+            <join-column name="product_variant_id" nullable="false"/>
         </many-to-one>
 
         <many-to-one field="channel" target-entity="Sylius\Component\Channel\Model\ChannelInterface">
-            <join-column name="channel_id" nullable="false" />
+            <join-column name="channel_id" nullable="false"/>
         </many-to-one>
 
     </mapped-superclass>

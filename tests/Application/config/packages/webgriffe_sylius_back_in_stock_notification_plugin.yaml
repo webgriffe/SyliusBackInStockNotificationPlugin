@@ -1,2 +1,2 @@
 imports:
-  - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/app/config.yaml" }
+    - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/config/packages.yaml" }

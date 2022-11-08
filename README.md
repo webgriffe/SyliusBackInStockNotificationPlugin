@@ -45,14 +45,14 @@ Webgriffe\SyliusBackInStockNotificationPlugin\WebgriffeSyliusBackInStockNotifica
 
 ```yaml
 webgriffe_sylius_back_in_stock_notification_plugin:
-  resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/routing.yaml"
+  resource: "@WebgriffeSyliusBackInStockNotificationPlugin/config/routing.yaml"
 ```
 
-4. Import required config in your `config/packages/webgriffe_sylius_back_in_stock_notification_plugin.yaml` file:
+4. Import required packages config in your `config/packages/webgriffe_sylius_back_in_stock_notification_plugin.yaml` file:
 
 ```yaml
 imports:
-   - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/Resources/config/app/config.yaml" }
+   - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/config/packages.yaml" }
 ```
 
 5. Update the database schema and install assets:

@@ -20,7 +20,7 @@ final class WebgriffeSyliusBackInStockNotificationExtension extends Extension im
     public function load(array $configs, ContainerBuilder $container): void
     {
         $this->processConfiguration($this->getConfiguration([], $container), $configs);
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
 
         $loader->load('services.yaml');
     }
