@@ -75,7 +75,7 @@ final class AlertCommand extends Command
     private function sendEmail(
         SubscriptionInterface $subscription,
         ProductVariantInterface $productVariant,
-        ChannelInterface $channel
+        ChannelInterface $channel,
     ): void {
         $this->sender->send(
             'webgriffe_back_in_stock_notification_alert',
