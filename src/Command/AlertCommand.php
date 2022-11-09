@@ -43,7 +43,6 @@ final class AlertCommand extends Command
     {
         //I think that this load in the long time can be a bottle necklace
         $subscriptions = $this->backInStockNotificationRepository->findBy(['notify' => false]);
-        /** @var SubscriptionInterface $subscription */
         foreach ($subscriptions as $subscription) {
             $channel = $subscription->getChannel();
             $productVariant = $subscription->getProductVariant();
