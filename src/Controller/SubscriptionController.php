@@ -14,7 +14,6 @@ use Sylius\Component\Inventory\Checker\AvailabilityCheckerInterface;
 use Sylius\Component\Locale\Context\LocaleContextInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
 use Sylius\Component\Resource\Factory\FactoryInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +23,13 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Form\SubscriptionType;
+use Webgriffe\SyliusBackInStockNotificationPlugin\Repository\SubscriptionRepositoryInterface;
 
 final class SubscriptionController extends AbstractController
 {
+    /**
+     * @param FactoryInterface<SubscriptionInterface> $backInStockNotificationFactory
+     */
     public function __construct(
         private ChannelContextInterface $channelContext,
         private TranslatorInterface $translator,
@@ -36,7 +39,7 @@ final class SubscriptionController extends AbstractController
         private ProductVariantRepositoryInterface $productVariantRepository,
         private SenderInterface $sender,
         private LocaleContextInterface $localeContext,
-        private RepositoryInterface $backInStockNotificationRepository,
+        private SubscriptionRepositoryInterface $backInStockNotificationRepository,
         private FactoryInterface $backInStockNotificationFactory,
     ) {
     }

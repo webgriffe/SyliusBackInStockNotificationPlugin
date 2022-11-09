@@ -7,18 +7,18 @@ use FriendsOfBehat\PageObjectExtension\Element\Element;
 
 final class SubscriptionFormElement extends Element implements SubscriptionFormElementInterface
 {
-    public function submitFormAsAGuest(string $variant, string $email)
+    public function submitFormAsAGuest(string $variant, string $email): void
     {
         $this->getElement('add_email')->setValue($email);
         $this->getElement('submit_form')->click();
     }
 
-    public function submitFormAsALoggedCustomer(string $variant)
+    public function submitFormAsALoggedCustomer(string $variant): void
     {
         $this->getElement('submit_form')->click();
     }
 
-    public function openOverlayForConfigurableProduct()
+    public function openOverlayForConfigurableProduct(): void
     {
         $this->getElement('open_overlay')->click();
     }

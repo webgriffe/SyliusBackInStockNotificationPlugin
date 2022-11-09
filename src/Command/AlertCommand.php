@@ -9,12 +9,12 @@ use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Inventory\Checker\AvailabilityCheckerInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
+use Webgriffe\SyliusBackInStockNotificationPlugin\Repository\SubscriptionRepositoryInterface;
 
 final class AlertCommand extends Command
 {
@@ -24,7 +24,7 @@ final class AlertCommand extends Command
         private LoggerInterface $logger,
         private SenderInterface $sender,
         private AvailabilityCheckerInterface $availabilityChecker,
-        private RepositoryInterface $backInStockNotificationRepository,
+        private SubscriptionRepositoryInterface $backInStockNotificationRepository,
         private RouterInterface $router,
         string $name = null,
     ) {
@@ -57,7 +57,11 @@ final class AlertCommand extends Command
                 continue;
             }
 
-            if ($this->availabilityChecker->isStockAvailable($productVariant) && $productVariant->isEnabled() && $productVariant->getProduct()?->isEnabled()) {
+            if (
+                $this->availabilityChecker->isStockAvailable($productVariant) &&
+                $productVariant->isEnabled() &&
+                $productVariant->getProduct()?->isEnabled() === true
+            ) {
                 $this->router->getContext()->setHost($channel->getHostname() ?? 'localhost');
                 $this->sendEmail($subscription, $productVariant, $channel);
                 $subscription->setNotify(true);
@@ -68,8 +72,11 @@ final class AlertCommand extends Command
         return 0;
     }
 
-    private function sendEmail(SubscriptionInterface $subscription, ProductVariantInterface $productVariant, ChannelInterface $channel): void
-    {
+    private function sendEmail(
+        SubscriptionInterface $subscription,
+        ProductVariantInterface $productVariant,
+        ChannelInterface $channel
+    ): void {
         $this->sender->send(
             'webgriffe_back_in_stock_notification_alert',
             [$subscription->getEmail()],

@@ -27,7 +27,7 @@ final class AccountContext implements Context
     /**
      * @When /^I browse to my product subscriptions$/
      */
-    public function iBrowseToMyProductSubscriptions()
+    public function iBrowseToMyProductSubscriptions(): void
     {
         $this->subscriptionIndexPage->open();
     }
@@ -35,7 +35,7 @@ final class AccountContext implements Context
     /**
      * @When /^I delete the first subscription$/
      */
-    public function iDeleteTheFirstSubscription()
+    public function iDeleteTheFirstSubscription(): void
     {
         $this->subscriptionIndexPage->deleteFirstSubscription();
     }
@@ -43,7 +43,7 @@ final class AccountContext implements Context
     /**
      * @Then /^I should be notified that the subscription has been successfully deleted$/
      */
-    public function iShouldBeNotifiedThatTheSubscriptionHasBeenSuccessfullyDeleted()
+    public function iShouldBeNotifiedThatTheSubscriptionHasBeenSuccessfullyDeleted(): void
     {
         $this->notificationChecker->checkNotification('Mail is deleted from the notification alert list', NotificationType::info());
     }
@@ -51,7 +51,7 @@ final class AccountContext implements Context
     /**
      * @Then /^there should be no subscriptions$/
      */
-    public function thereShouldBeNoSubscriptions()
+    public function thereShouldBeNoSubscriptions(): void
     {
         Assert::true($this->subscriptionIndexPage->isPresentNoSubscriptionInfoMessage());
     }
@@ -59,7 +59,7 @@ final class AccountContext implements Context
     /**
      * @Then /^I should see only one subscription$/
      */
-    public function iShouldSeeOnlyOneSubscription()
+    public function iShouldSeeOnlyOneSubscription(): void
     {
         Assert::same($this->subscriptionIndexPage->countSubscriptions(), 1);
     }

@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method Tests\\\\Webgriffe\\\\SyliusBackInStockNotificationPlugin\\\\Behat\\\\Page\\\\Shop\\\\Account\\\\Subscription\\\\IndexPage\\:\\:__construct\\(\\) has parameter \\$minkParameters with generic interface ArrayAccess but does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: tests/Behat/Page/Shop/Account/Subscription/IndexPage.php

@@ -17,6 +17,6 @@ final class SubscriptionRepository extends EntityRepository implements Subscript
             ->andWhere('subscription.channel = :channelId')
             ->setParameter('customerId', $customerId)
             ->setParameter('channelId', $channelId)
-            ;
+        ;
     }
 }

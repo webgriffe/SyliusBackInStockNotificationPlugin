@@ -5,9 +5,9 @@ namespace Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Element\Prod
 
 interface SubscriptionFormElementInterface
 {
-    public function openOverlayForConfigurableProduct();
+    public function openOverlayForConfigurableProduct(): void;
 
-    public function submitFormAsAGuest(string $variant, string $email);
+    public function submitFormAsAGuest(string $variant, string $email): void;
 
-    public function submitFormAsALoggedCustomer(string $variant);
+    public function submitFormAsALoggedCustomer(string $variant): void;
 }
