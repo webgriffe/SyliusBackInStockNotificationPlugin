@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\Shop;
@@ -31,7 +32,7 @@ final class ProductInventoryContext implements Context
         NotificationCheckerInterface $notificationChecker,
         EmailCheckerInterface $emailChecker,
         TranslatorInterface $translator,
-        SubscriptionFormElementInterface $subscriptionFormElement
+        SubscriptionFormElementInterface $subscriptionFormElement,
     ) {
         $this->notificationChecker = $notificationChecker;
         $this->emailChecker = $emailChecker;
@@ -66,7 +67,7 @@ final class ProductInventoryContext implements Context
     {
         $this->notificationChecker->checkNotification(
             $this->translator->trans('webgriffe_bisn.form_submission.subscription_successfully'),
-            NotificationType::success()
+            NotificationType::success(),
         );
     }
 
@@ -77,7 +78,7 @@ final class ProductInventoryContext implements Context
     {
         Assert::true($this->emailChecker->hasMessageTo(
             $this->translator->trans('webgriffe_bisn.subscription_mail.subscription_title'),
-            $email
+            $email,
         ));
     }
 
@@ -88,7 +89,7 @@ final class ProductInventoryContext implements Context
     {
         $this->notificationChecker->checkNotification(
             $this->translator->trans('webgriffe_bisn.form_submission.already_saved', ['email' => $email]),
-            NotificationType::failure()
+            NotificationType::failure(),
         );
     }
 }

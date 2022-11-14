@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Element\Product\ShowPage;
@@ -28,7 +29,7 @@ final class SubscriptionFormElement extends Element implements SubscriptionFormE
         return array_merge(parent::getDefinedElements(), [
             'open_overlay' => '#trigger-notification-overlay',
             'add_email' => '[data-test-fill-subscription-form-whit-my-email]',
-            'submit_form' => '[data-test-subscribe-to-notifications]'
+            'submit_form' => '[data-test-subscribe-to-notifications]',
         ]);
     }
 }

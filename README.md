@@ -176,7 +176,7 @@ vendor/bin/phpstan analyse -c phpstan.neon
 ##### Coding Standard
 
 ```bash
-vendor/bin/ecs check src
+vendor/bin/ecs check
 ```
 
 ### Opening Sylius with your plugin
