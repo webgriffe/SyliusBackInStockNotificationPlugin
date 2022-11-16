@@ -68,7 +68,6 @@ final class SubscriptionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var array $data */
             $data = $form->getData();
-            /** @var SubscriptionInterface $subscription */
             $subscription = $this->backInStockNotificationFactory->createNew();
 
             if (array_key_exists('email', $data)) {
@@ -179,7 +178,6 @@ final class SubscriptionController extends AbstractController
 
     public function deleteAction(Request $request, string $hash): Response
     {
-        /** @var SubscriptionInterface|null $subscription */
         $subscription = $this->backInStockNotificationRepository->findOneBy(['hash' => $hash]);
         if ($subscription === null) {
             $this->addFlash('info', $this->translator->trans('webgriffe_bisn.deletion_submission.not-successful'));
