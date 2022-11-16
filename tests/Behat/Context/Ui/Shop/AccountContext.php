@@ -12,16 +12,8 @@ use Webmozart\Assert\Assert;
 
 final class AccountContext implements Context
 {
-    /** @var IndexPageInterface */
-    private $subscriptionIndexPage;
-
-    /** @var NotificationCheckerInterface */
-    private $notificationChecker;
-
-    public function __construct(IndexPageInterface $subscriptionIndexPage, NotificationCheckerInterface $notificationChecker)
+    public function __construct(private IndexPageInterface $subscriptionIndexPage, private NotificationCheckerInterface $notificationChecker)
     {
-        $this->subscriptionIndexPage = $subscriptionIndexPage;
-        $this->notificationChecker = $notificationChecker;
     }
 
     /**

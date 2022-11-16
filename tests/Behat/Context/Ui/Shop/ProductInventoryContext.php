@@ -16,28 +16,8 @@ use Webmozart\Assert\Assert;
 
 final class ProductInventoryContext implements Context
 {
-    /** @var NotificationCheckerInterface */
-    private $notificationChecker;
-
-    /** @var EmailCheckerInterface */
-    private $emailChecker;
-
-    /** @var TranslatorInterface */
-    private $translator;
-
-    /** @var SubscriptionFormElementInterface */
-    private $subscriptionFormElement;
-
-    public function __construct(
-        NotificationCheckerInterface $notificationChecker,
-        EmailCheckerInterface $emailChecker,
-        TranslatorInterface $translator,
-        SubscriptionFormElementInterface $subscriptionFormElement,
-    ) {
-        $this->notificationChecker = $notificationChecker;
-        $this->emailChecker = $emailChecker;
-        $this->translator = $translator;
-        $this->subscriptionFormElement = $subscriptionFormElement;
+    public function __construct(private NotificationCheckerInterface $notificationChecker, private EmailCheckerInterface $emailChecker, private TranslatorInterface $translator, private SubscriptionFormElementInterface $subscriptionFormElement)
+    {
     }
 
     /**
