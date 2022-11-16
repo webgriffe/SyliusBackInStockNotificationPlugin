@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
-        "doctrine/dbal": "^2.7.0",
+        "doctrine/dbal": "^3.5.1",
         "doctrine/migrations": "^3.0",
         "doctrine/orm": "^2.12",
         "psr/log": "^2.0",
