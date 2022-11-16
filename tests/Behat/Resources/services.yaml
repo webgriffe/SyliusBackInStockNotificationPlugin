@@ -4,14 +4,9 @@ services:
 
   Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\Shop\ProductInventoryContext:
     arguments:
-      - '@sylius.repository.customer'
       - '@sylius.behat.notification_checker'
       - '@sylius.behat.email_checker'
       - '@translator.data_collector'
-      - '@webgriffe.repository.back_in_stock_notification_subscription'
-      - '@webgriffe.factory.back_in_stock_notification_subscription'
-      - '@sylius.context.locale'
-      - '@sylius.context.channel'
       - '@Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Element\Product\ShowPage\SubscriptionFormElement'
 
   Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Element\Product\ShowPage\SubscriptionFormElement:
