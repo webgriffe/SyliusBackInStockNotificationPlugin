@@ -42,7 +42,7 @@ final class WebgriffeSyliusBackInStockNotificationExtension extends Extension im
 
     protected function getMigrationsDirectory(): string
     {
-        return '@WebgriffeSyliusBackInStockNotificationPlugin/Migrations';
+        return '@WebgriffeSyliusBackInStockNotificationPlugin/migrations';
     }
 
     protected function getNamespacesOfMigrationsExecutedBefore(): array
