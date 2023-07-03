@@ -104,6 +104,7 @@ If you want to use our Behat defined steps you have to include our Behat class i
 To contribute to this plugin clone this repository, create a branch for your feature or bugfix, do your changes and then make sure al tests are passing.
 
 ```bash
+composer install
 (cd tests/Application && yarn install)
 (cd tests/Application && yarn build)
 (cd tests/Application && APP_ENV=test bin/console assets:install public)

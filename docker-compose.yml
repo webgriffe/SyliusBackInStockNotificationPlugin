@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.4'
 services:
   db:
     image: 'mysql:8.0'
@@ -8,16 +8,11 @@ services:
       - MYSQL_DATABASE=webgriffe_sylius_back_in_stock_notification_plugin_test
       - MYSQL_USER=sylius
       - MYSQL_PASSWORD=sylius
-    ports:
-      - '3306:3306'
     volumes:
         - mysql_data:/var/lib/mysql:rw
 
   mailhog:
     image: 'mailhog/mailhog:latest'
-    ports:
-      - '1025:1025'
-      - '8025:8025'
 
 volumes:
     mysql_data:

@@ -11,3 +11,6 @@
 /behat.yml
 /phpspec.yml
 /phpunit.xml
+/docker-compose.override.yml
+
+.phpunit.result.cache
