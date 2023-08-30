@@ -14,7 +14,7 @@ services:
             - [ setContainer, [ '@service_container' ] ]
         arguments:
             - '@sylius.context.channel.cached'
-            - '@translator.data_collector'
+            - '@translator'
             - '@debug.validator'
             - '@sylius.context.customer'
             - '@sylius.availability_checker.default'
