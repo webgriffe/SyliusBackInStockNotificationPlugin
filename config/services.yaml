@@ -15,7 +15,7 @@ services:
         arguments:
             - '@sylius.context.channel.cached'
             - '@translator'
-            - '@debug.validator'
+            - '@validator'
             - '@sylius.context.customer'
             - '@sylius.availability_checker.default'
             - '@sylius.repository.product_variant'
