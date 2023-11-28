@@ -4,9 +4,9 @@ services:
         image: 'mysql:8.0'
         environment:
             - MYSQL_ALLOW_EMPTY_PASSWORD=true
-            - MYSQL_DATABASE=webgriffe_sylius_back_in_stock_notification_plugin_test
             - MYSQL_USER=sylius
             - MYSQL_PASSWORD=sylius
+            - MYSQL_ROOT_PASSWORD=root
         volumes:
             - mysql_data:/var/lib/mysql:rw
     
