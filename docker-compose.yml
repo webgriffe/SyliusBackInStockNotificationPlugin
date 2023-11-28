@@ -1,18 +1,17 @@
 version: '3.4'
 services:
-  db:
-    image: 'mysql:8.0'
-    shm_size: 2gb
-    environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=true
-      - MYSQL_DATABASE=webgriffe_sylius_back_in_stock_notification_plugin_test
-      - MYSQL_USER=sylius
-      - MYSQL_PASSWORD=sylius
-    volumes:
-        - mysql_data:/var/lib/mysql:rw
-
-  mailhog:
-    image: 'mailhog/mailhog:latest'
+    db:
+        image: 'mysql:8.0'
+        environment:
+            - MYSQL_ALLOW_EMPTY_PASSWORD=true
+            - MYSQL_DATABASE=webgriffe_sylius_back_in_stock_notification_plugin_test
+            - MYSQL_USER=sylius
+            - MYSQL_PASSWORD=sylius
+        volumes:
+            - mysql_data:/var/lib/mysql:rw
+    
+    mailhog:
+        image: 'mailhog/mailhog:latest'
 
 volumes:
     mysql_data:
