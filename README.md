@@ -63,11 +63,32 @@ bin/console assets:install
 bin/console sylius:theme:assets:install
 ```
 
-6. Rebuild cache:
+6. Install the plugin JS assets by adding the source to your webpack configuration:
+
+```js
+// Shop config
+Encore.setOutputPath('public/build/shop/')
+    .setPublicPath('/build/shop')
+    .addEntry('shop-entry', './vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/private/entry.js')
+    .addEntry('webgriffe-sylius-back-in-stock-notification-entry', './vendor/webgriffe/sylius-back-in-stock-notification-plugin/public/js/back-in-stock-notification.js') // The line to add
+    .disableSingleRuntimeChunk()
+    .cleanupOutputBeforeBuild()
+    .enableSourceMaps(!Encore.isProduction())
+    .enableVersioning(Encore.isProduction())
+    .enablePostCssLoader()
+    .enableSassLoader()
+```
+
+7. Run yarn build:
+
+```bash
+bin/console yarn:build
+```
+
+8. Clear cache:
 
 ```bash
 bin/console cache:clear
-bin/console cache:warmup
 ```
 
 ## Configuration
