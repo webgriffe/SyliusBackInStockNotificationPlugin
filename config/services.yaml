@@ -15,7 +15,6 @@ services:
         arguments:
             - '@sylius.context.channel.cached'
             - '@translator'
-            - '@validator'
             - '@sylius.context.customer'
             - '@sylius.availability_checker.default'
             - '@sylius.repository.product_variant'
@@ -41,3 +40,10 @@ services:
             - '@sylius.availability_checker.default'
         tags:
             - { name: twig.runtime }
+    
+    Webgriffe\SyliusBackInStockNotificationPlugin\Validator\SubscriptionUniqueValidator:
+        arguments:
+            - '@webgriffe.repository.back_in_stock_notification_subscription'
+            - '@sylius.repository.product_variant'
+        tags:
+            - { name: validator.constraint_validator }

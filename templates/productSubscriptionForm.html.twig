@@ -8,6 +8,8 @@
         'action': path('webgriffe_back_in_stock_notification_add_subscription')
     }) }}
 
+    {{ form_errors(form) }}
+
     {% if form.email is defined %}
         {{ form_row(form.email, {'attr': {'data-test-fill-subscription-form-whit-my-email':''}}) }}
     {% endif %}
