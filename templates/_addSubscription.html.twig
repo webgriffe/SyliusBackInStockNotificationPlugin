@@ -1,7 +1,12 @@
+{# @var \Sylius\Component\Core\Model\ProductInterface product #}
+{# @var \Sylius\Component\Core\Model\ProductVariantInterface variant #}
+
+{% set variant = product|sylius_resolve_variant %}
+
 {% if product.isConfigurable %}
     <div id="notification-overlay" class="ui modal">
         {{ render(url('webgriffe_back_in_stock_notification_add_subscription')) }}
     </div>
-{% elseif product.isSimple and not product.variants.first.isInStock and product.variants.first.isTracked %}
-    {{ render(url('webgriffe_back_in_stock_notification_add_subscription', {'product_variant_code': product.variants.first.code})) }}
+{% elseif not is_product_variant_available(variant) %}
+    {{ render(url('webgriffe_back_in_stock_notification_add_subscription', {'product_variant_code': variant.code})) }}
 {% endif %}
