@@ -96,9 +96,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
   });
-  observer.observe(container, { attributes: false, childList: true, subtree: true });
 
   if (container) {
+    observer.observe(container, { attributes: false, childList: true, subtree: true });
     subscribeToBackInStockNotification(container)
   }
 })
