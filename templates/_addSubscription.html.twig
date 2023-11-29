@@ -8,5 +8,8 @@
         {{ render(url('webgriffe_back_in_stock_notification_add_subscription')) }}
     </div>
 {% elseif not is_product_variant_available(variant) %}
-    {{ render(url('webgriffe_back_in_stock_notification_add_subscription', {'product_variant_code': variant.code})) }}
+    {% set url = url('webgriffe_back_in_stock_notification_add_subscription', {'product_variant_code': variant.code}) %}
+    <div data-back-in-stock-notification-form-container data-action="{{ url }}">
+        {{ render(url) }}
+    </div>
 {% endif %}
