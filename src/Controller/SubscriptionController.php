@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Webgriffe\SyliusBackInStockNotificationPlugin\Controller;
 
 use DateTime;
-use Exception;
 use Sylius\Component\Channel\Context\ChannelContextInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
@@ -17,13 +16,11 @@ use Sylius\Component\Resource\Factory\FactoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Form\SubscriptionType;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Repository\SubscriptionRepositoryInterface;
+use Webmozart\Assert\Assert;
 
 final class SubscriptionController extends AbstractController
 {
@@ -33,7 +30,6 @@ final class SubscriptionController extends AbstractController
     public function __construct(
         private ChannelContextInterface $channelContext,
         private TranslatorInterface $translator,
-        private ValidatorInterface $validator,
         private CustomerContextInterface $customerContext,
         private AvailabilityCheckerInterface $availabilityChecker,
         private ProductVariantRepositoryInterface $productVariantRepository,
@@ -59,95 +55,10 @@ final class SubscriptionController extends AbstractController
         }
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && !$form->isValid()) {
-            $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.invalid_form'));
-
-            return $this->redirect($this->getRefererUrl($request));
-        }
-
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var array $data */
+            /** @var array{email?: string, product_variant_code: string} $data */
             $data = $form->getData();
-            $subscription = $this->backInStockNotificationFactory->createNew();
-
-            if (array_key_exists('email', $data)) {
-                $email = (string) $data['email'];
-                $errors = $this->validator->validate($email, [new Email(), new NotBlank()]);
-                if (count($errors) > 0) {
-                    $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.invalid_email'));
-
-                    return $this->redirect($this->getRefererUrl($request));
-                }
-                $subscription->setEmail($email);
-            } elseif ($customer !== null) {
-                $email = $customer->getEmail();
-                if ($email !== null) {
-                    $subscription->setCustomer($customer);
-                    $subscription->setEmail($email);
-                } else {
-                    $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.invalid_form'));
-
-                    return $this->redirect($this->getRefererUrl($request));
-                }
-            } else {
-                $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.invalid_form'));
-
-                return $this->redirect($this->getRefererUrl($request));
-            }
-
-            /** @var ProductVariantInterface|null $variant */
-            $variant = $this->productVariantRepository->findOneBy(['code' => $data['product_variant_code']]);
-            if (null === $variant) {
-                $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.variant_not_found'));
-
-                return $this->redirect($this->getRefererUrl($request));
-            }
-            if ($this->availabilityChecker->isStockAvailable($variant)) {
-                $this->addFlash('error', $this->translator->trans('webgriffe_bisn.form_submission.variant_not_oos'));
-
-                return $this->redirect($this->getRefererUrl($request));
-            }
-
-            $subscription->setProductVariant($variant);
-            $subscriptionSaved = $this->backInStockNotificationRepository->findOneBy(
-                [
-                    'email' => $subscription->getEmail(),
-                    'productVariant' => $subscription->getProductVariant(),
-                    'notify' => false,
-                ],
-            );
-            if ($subscriptionSaved !== null) {
-                $this->addFlash(
-                    'error',
-                    $this->translator->trans(
-                        'webgriffe_bisn.form_submission.already_saved',
-                        ['email' => $subscription->getEmail()],
-                    ),
-                );
-
-                return $this->redirect($this->getRefererUrl($request));
-            }
-
-            $currentChannel = $this->channelContext->getChannel();
-            $subscription->setLocaleCode($this->localeContext->getLocaleCode());
-            $subscription->setCreatedAt(new DateTime());
-            $subscription->setUpdatedAt(new DateTime());
-            $subscription->setChannel($currentChannel);
-
-            try {
-                //I generate a random string to handle the delete action of the subscription using a GET
-                //This way is easier and does not send sensible information
-                //see: https://paragonie.com/blog/2015/09/comprehensive-guide-url-parameter-encryption-in-php
-                $hash = strtr(base64_encode(random_bytes(9)), '+/', '-_');
-            } catch (Exception) {
-                $this->addFlash(
-                    'error',
-                    $this->translator->trans('webgriffe_bisn.form_submission.subscription_failed'),
-                );
-
-                return $this->redirect($this->getRefererUrl($request));
-            }
-            $subscription->setHash($hash);
+            $subscription = $this->createSubscriptionFromData($data);
 
             $this->backInStockNotificationRepository->add($subscription);
             $this->sender->send(
@@ -198,5 +109,44 @@ final class SubscriptionController extends AbstractController
         }
 
         return $referer;
+    }
+
+    /**
+     * @param array{email?: string, product_variant_code: string} $data
+     */
+    private function createSubscriptionFromData(array $data): SubscriptionInterface
+    {
+        $customer = $this->customerContext->getCustomer();
+        $email = null;
+        $subscription = $this->backInStockNotificationFactory->createNew();
+        if (array_key_exists('email', $data)) {
+            $email = $data['email'];
+        }
+        if ($customer !== null) {
+            $email = $customer->getEmail();
+        }
+        Assert::stringNotEmpty($email);
+        $subscription->setEmail($email);
+        $subscription->setCustomer($customer);
+
+        $productVariantCode = $data['product_variant_code'];
+        $productVariant = $this->productVariantRepository->findOneBy(['code' => $productVariantCode]);
+        Assert::isInstanceOf($productVariant, ProductVariantInterface::class);
+        Assert::false($this->availabilityChecker->isStockAvailable($productVariant), 'Product variant is in stock');
+        $subscription->setProductVariant($productVariant);
+
+        $subscription->setChannel($this->channelContext->getChannel());
+        $subscription->setLocaleCode($this->localeContext->getLocaleCode());
+        $now = new DateTime();
+        $subscription->setCreatedAt($now);
+        $subscription->setUpdatedAt($now);
+
+        //I generate a random string to handle the delete action of the subscription using a GET
+        //This way is easier and does not send sensible information
+        //see: https://paragonie.com/blog/2015/09/comprehensive-guide-url-parameter-encryption-in-php
+        $hash = strtr(base64_encode(random_bytes(9)), '+/', '-_');
+        $subscription->setHash($hash);
+
+        return $subscription;
     }
 }
