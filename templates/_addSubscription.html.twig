@@ -9,7 +9,7 @@
     </div>
 {% elseif not is_product_variant_available(variant) %}
     {% set url = url('webgriffe_back_in_stock_notification_add_subscription', {'product_variant_code': variant.code}) %}
-    <div data-back-in-stock-notification-form-container="true" data-action="{{ url }}">
+    <div data-back-in-stock-notification-form-container="true">
         {{ render(url) }}
     </div>
 {% endif %}
