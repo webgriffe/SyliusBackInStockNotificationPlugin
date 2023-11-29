@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
   }
 
   function subscribeToBackInStockNotification(container) {
-    console.log(container)
     const form = container.querySelector('form')
 
     const submitFormThroughAjax = e => {
@@ -85,6 +84,20 @@ document.addEventListener("DOMContentLoaded", function (event) {
   }
 
   const container = document.querySelector('[data-back-in-stock-notification-form-container]')
+
+  const observer = new MutationObserver((mutationList, observer) => {
+    for (const mutation of mutationList) {
+      if (mutation.type === "childList") {
+        for (const node of mutation.addedNodes) {
+          if (node.nodeType === 1 && node.parentNode.getAttribute('data-back-in-stock-notification-form-container')) {
+            subscribeToBackInStockNotification(container)
+          }
+        }
+      }
+    }
+  });
+  observer.observe(container, { attributes: false, childList: true, subtree: true });
+
   if (container) {
     subscribeToBackInStockNotification(container)
   }
