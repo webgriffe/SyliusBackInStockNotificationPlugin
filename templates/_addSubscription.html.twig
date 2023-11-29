@@ -4,7 +4,7 @@
 {% set variant = product|sylius_resolve_variant %}
 
 {% if product.isConfigurable %}
-    <div id="notification-overlay" class="ui modal">
+    <div id="notification-overlay" class="ui modal" data-back-in-stock-notification-form-container="true">
         {{ render(url('webgriffe_back_in_stock_notification_add_subscription')) }}
     </div>
 {% elseif not is_product_variant_available(variant) %}
