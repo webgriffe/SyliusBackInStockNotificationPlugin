@@ -1,0 +1,36 @@
+webgriffe_bisn:
+    form_submission:
+        subscription_successfully: 'Iscritto correttamente, verifica la tua email!'
+    deletion_submission:
+        not-successful: 'Iscrizione non trovata'
+        successful: 'La tua email è stata disiscritta dal servizio di notifica'
+    my_account_section:
+        menu_label: 'Notifiche prodotti non disponibili'
+        title: 'Notifiche prodotti non disponibili'
+        sub_title: 'Gestisci le tue notifiche prodotti non disponibili'
+        empty_list: 'Non hai nessuna notifica attiva.'
+        info_empty_list: 'Info'
+        product: 'Prodotto'
+        option: 'Opzione'
+        remove: 'Rimuovi'
+        actions: 'Azioni'
+        simple: 'Prodotto semplice'
+    product_page:
+        stock_notify_title: 'Ricevi una notifica email quando il prodotto ritorna disponibile'
+        form_action: 'Notificami'
+    subscription_mail:
+        subscription_title: 'Prodotto non disponibile'
+        subscription_message: 'La tua richiesta è stata registrata, ti invieremo una email non appena il prodotto <a href="{url}">{product}</a> torna disponibile.'
+        subscription_unsub: 'Non sei tu che ti sei iscritto a questa notifica? <a href="{url}" target="_blank">Clicca qui</a> per cancellare la tua email.'
+    alert_email:
+        alert_title: 'Prodotto nuovamente disponibile'
+        alert_message: 'Ti informiamo che il prodotto {product} è di nuovo disponibile'
+        alert_action: 'Compralo ora'
+    admin:
+        subscriptions_subtitle: 'Gestisci le iscrizioni degli utenti'
+        menu_label: 'Notifiche prodotti non disponibili'
+        delete_supscription: 'Cancella iscrizione'
+        show_product: 'Mostra prodotto'
+        show_customer: 'Mostra cliente'
+        notified: 'Notificato'
+        not-notified: 'Non notificato'
