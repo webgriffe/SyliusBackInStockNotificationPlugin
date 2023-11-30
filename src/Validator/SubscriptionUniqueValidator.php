@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Webgriffe\SyliusBackInStockNotificationPlugin\Validator;
 
+use Sylius\Component\Core\Model\CustomerInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Core\Repository\ProductVariantRepositoryInterface;
+use Sylius\Component\Customer\Context\CustomerContextInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -20,6 +22,7 @@ final class SubscriptionUniqueValidator extends ConstraintValidator
     public function __construct(
         private SubscriptionRepositoryInterface $subscriptionRepository,
         private ProductVariantRepositoryInterface $productVariantRepository,
+        private CustomerContextInterface $customerContext,
     ) {
     }
 
@@ -41,7 +44,15 @@ final class SubscriptionUniqueValidator extends ConstraintValidator
         }
 
         $productVariantCode = $value['product_variant_code'];
-        $email = $value['email'];
+        if (array_key_exists('email', $value)) {
+            $email = $value['email'];
+        } else {
+            $customer = $this->customerContext->getCustomer();
+            if (!$customer instanceof CustomerInterface) {
+                return;
+            }
+            $email = $customer->getEmail();
+        }
         if (!is_string($productVariantCode) || !is_string($email)) {
             return;
         }
