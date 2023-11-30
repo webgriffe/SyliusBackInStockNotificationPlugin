@@ -29,7 +29,7 @@
         "symfony/translation-contracts": "^2.0",
         "symfony/validator": "^5.4 || ^6.0",
         "symfony/webpack-encore-bundle": "^1.15",
-        "twig/twig": "^3.8",
+        "twig/twig": "^2.0 || ^3.0",
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
