@@ -12,6 +12,8 @@ services:
   Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Element\Product\ShowPage\SubscriptionFormElement:
     parent: 'sylius.behat.element'
     public: false
+    arguments:
+        - '@sylius.behat.page.shop.product.show'
 
   Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Page\Shop\Account\Subscription\IndexPage:
     parent: 'sylius.behat.symfony_page'

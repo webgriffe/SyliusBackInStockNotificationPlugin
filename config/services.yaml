@@ -45,5 +45,6 @@ services:
         arguments:
             - '@webgriffe.repository.back_in_stock_notification_subscription'
             - '@sylius.repository.product_variant'
+            - '@sylius.context.customer'
         tags:
             - { name: validator.constraint_validator }

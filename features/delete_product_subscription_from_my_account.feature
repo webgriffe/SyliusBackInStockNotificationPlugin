@@ -8,7 +8,7 @@ Feature: Ability to delete a particular subscription from my account
     And there is a customer "Francis Underwood" identified by an email "francis@underwood.com" and a password "whitehouse"
     And I am logged in as "francis@underwood.com"
 
-  @ui
+  @ui @javascript
   Scenario: Being able to delete a subscription from my account
     When I view product "Knitted cap apple"
     And I subscribe to the alert list for the product "Knitted cap apple"

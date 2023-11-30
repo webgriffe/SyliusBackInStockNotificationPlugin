@@ -29,7 +29,9 @@ final class SubscriptionType extends AbstractType
                 ],
             ])
             ->add('product_variant_code', HiddenType::class)
-            ->add('submit', SubmitType::class)
+            ->add('submit', SubmitType::class, [
+                'label' => 'webgriffe_bisn.product_page.form_action',
+            ])
         ;
     }
 

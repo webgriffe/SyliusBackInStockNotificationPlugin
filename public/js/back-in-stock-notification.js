@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   if (notificationTrigger) {
     notificationTrigger.onclick = function () {
       jQuery('#notification-overlay').modal('show')
-      document.querySelector('#back_in_stock_not input[type="hidden"]').value = getSelectedVariantCode()
+      document.querySelector('input[back-in-stock-notification-plugin-variant-code-input][type="hidden"]').value = getSelectedVariantCode()
     }
   }
 
