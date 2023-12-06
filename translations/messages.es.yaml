@@ -1,0 +1,36 @@
+webgriffe_bisn:
+    form_submission:
+        subscription_successfully: 'Inscripción realizada con éxito, ¡verifica tu correo electrónico!'
+    deletion_submission:
+        not-successful: 'Suscripción no encontrada'
+        successful: 'El correo electrónico ha sido eliminado de la lista de alertas de notificación'
+    my_account_section:
+        menu_label: 'Notificación de productos'
+        title: 'Notificación de productos'
+        sub_title: 'Administra tus notificaciones de productos de nuevo en stock'
+        empty_list: 'No tienes notificaciones activas.'
+        info_empty_list: 'Información'
+        product: 'Producto'
+        option: 'Opción'
+        remove: 'Eliminar'
+        actions: 'Acción'
+        simple: 'Producto simple'
+    product_page:
+        stock_notify_title: 'Recibe una notificación por correo electrónico cuando el producto vuelva a estar en stock'
+        form_action: 'Notifícame'
+    subscription_mail:
+        subscription_title: 'Producto no disponible'
+        subscription_message: 'Tu solicitud ha sido registrada, te enviaremos un correo electrónico tan pronto como el producto <a href="{url}">{product}</a> esté de nuevo en stock.'
+        subscription_unsub: '¿No fuiste tú quien se suscribió a estas notificaciones? <a href="{url}" target="_blank">Haz clic aquí</a> para eliminarte.'
+    alert_email:
+        alert_title: 'Producto disponible nuevamente'
+        alert_message: 'Te informamos que el producto {product} está de nuevo en stock'
+        alert_action: 'Comprar ahora'
+    admin:
+        subscriptions_subtitle: 'Administrar suscripciones de usuarios'
+        menu_label: 'Notificación de productos'
+        delete_supscription: 'Eliminar suscripción'
+        show_product: 'Mostrar producto'
+        show_customer: 'Mostrar cliente'
+        notified: 'Notificado'
+        not-notified: 'No notificado'
