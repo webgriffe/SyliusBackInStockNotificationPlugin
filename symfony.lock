@@ -128,6 +128,15 @@
             "ref": "518ac22defa04a8a1d82479ed362e2921487adf0"
         }
     },
+    "phpstan/phpstan": {
+        "version": "1.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "5e490cc197fb6bb1ae22e5abbc531ddc633b6767"
+        }
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
