@@ -9,6 +9,9 @@ use Twig\TwigFunction;
 
 final class AvailabilityExtension extends AbstractExtension
 {
+    /**
+     * @psalm-suppress InvalidArgument
+     */
     public function getFunctions(): array
     {
         return [
