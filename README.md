@@ -14,22 +14,20 @@
 
 ### Subscribe to get a Notification when a product return in stock
 
-![Subscription process for configurable product](subscriprion_process.gif)
-
-![Subscription for simple product](simple_product.png)
+![Subscription for simple product](docs/product.png)
 
 ### View your subscriptions in the apposite section of your account
 
-![See the apposite section in the my account](my_account_section.png)
+![See the apposite section in the my account](docs/my_account_section.png)
 
 ### View your client subscriptions in the apposite admin section
 
-![See the apposite section in the admin account](admin_account_section.png)
+![See the apposite section in the admin account](docs/admin_account_section.png)
 
 ## Requirements
 
-* PHP `^8.1`
-* Sylius `^1.14`
+* PHP `^8.2`
+* Sylius `^2.0`
 
 ## Installation
 
@@ -63,29 +61,7 @@ bin/console assets:install
 bin/console sylius:theme:assets:install
 ```
 
-6. Install the plugin JS assets by adding the source to your webpack configuration:
-
-```js
-// Shop config
-Encore.setOutputPath('public/build/shop/')
-    .setPublicPath('/build/shop')
-    .addEntry('shop-entry', './vendor/sylius/sylius/src/Sylius/Bundle/ShopBundle/Resources/private/entry.js')
-    .addEntry('webgriffe-sylius-back-in-stock-notification-entry', './vendor/webgriffe/sylius-back-in-stock-notification-plugin/public/js/back-in-stock-notification.js') // The line to add
-    .disableSingleRuntimeChunk()
-    .cleanupOutputBeforeBuild()
-    .enableSourceMaps(!Encore.isProduction())
-    .enableVersioning(Encore.isProduction())
-    .enablePostCssLoader()
-    .enableSassLoader()
-```
-
-7. Run yarn build:
-
-```bash
-bin/console yarn:build
-```
-
-8. Clear cache:
+6. Clear cache:
 
 ```bash
 bin/console cache:clear

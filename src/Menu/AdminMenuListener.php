@@ -18,7 +18,7 @@ final class AdminMenuListener
                 ['route' => 'webgriffe_admin_back_in_stock_notification_subscription_index'],
             )
             ->setLabel('webgriffe_bisn.admin.menu_label')
-            ->setLabelAttribute('icon', 'bell')
+            ->setLabelAttribute('icon', 'tabler:bell')
         ;
     }
 }

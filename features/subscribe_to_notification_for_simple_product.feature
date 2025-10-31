@@ -9,7 +9,7 @@ Feature: Ability to get notified for a specific product when it will be back in 
     And the store has a product "Knitted cap apple"
     And the product "Knitted cap apple" is out of stock
 
-  @ui
+  @ui @javascript
   Scenario: Being able to subscribe to the alert list for the out of stock product as logged customer
     Given there is a customer "Francis Underwood" identified by an email "francis@underwood.com" and a password "whitehouse"
     And I am logged in as "francis@underwood.com"
@@ -18,7 +18,7 @@ Feature: Ability to get notified for a specific product when it will be back in 
     Then I should be notified that the email is subscribed correctly
     And an email with a success message should be sent to "francis@underwood.com"
 
-  @ui
+  @ui @javascript
   Scenario: Being able to subscribe to the alert list for the out of stock product
     When I view product "Knitted cap apple"
     And I subscribe to the alert list for the product "Knitted cap apple" with the email "ted@example.com"

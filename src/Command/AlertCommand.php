@@ -9,6 +9,7 @@ use Sylius\Component\Channel\Model\ChannelInterface;
 use Sylius\Component\Core\Model\ProductVariantInterface;
 use Sylius\Component\Inventory\Checker\AvailabilityCheckerInterface;
 use Sylius\Component\Mailer\Sender\SenderInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,10 +17,12 @@ use Symfony\Component\Routing\RouterInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Repository\SubscriptionRepositoryInterface;
 
+#[AsCommand(
+    name: 'webgriffe:back-in-stock-notification:alert',
+    description: 'Send an email to the user if the product is returned in stock',
+)]
 final class AlertCommand extends Command
 {
-    protected static $defaultName = 'webgriffe:back-in-stock-notification:alert';
-
     public function __construct(
         private LoggerInterface $logger,
         private SenderInterface $sender,
@@ -34,7 +37,6 @@ final class AlertCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Send an email to the user if the product is returned in stock')
             ->setHelp('Check the stock status of the products in the webgriffe_back_in_stock_notification table and send and email to the user if the product is returned in stock')
         ;
     }

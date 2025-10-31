@@ -2,4 +2,4 @@ imports:
     - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/config/packages/sylius_grid.yaml" }
     - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/config/packages/sylius_mailer.yaml" }
     - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/config/packages/sylius_resource.yaml" }
-    - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/config/packages/sylius_ui.yaml" }
+    - { resource: "@WebgriffeSyliusBackInStockNotificationPlugin/config/twig_hooks/**/*.yaml" }

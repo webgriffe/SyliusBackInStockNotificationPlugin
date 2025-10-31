@@ -4,7 +4,7 @@ services:
         arguments:
             - '@monolog.logger'
             - '@sylius.email_sender'
-            - '@sylius.availability_checker.default'
+            - '@sylius.checker.inventory.availability'
             - '@webgriffe.repository.back_in_stock_notification_subscription'
             - '@router'
     
@@ -13,15 +13,8 @@ services:
         calls:
             - [ setContainer, [ '@service_container' ] ]
         arguments:
-            - '@sylius.context.channel.cached'
             - '@translator'
-            - '@sylius.context.customer'
-            - '@sylius.availability_checker.default'
-            - '@sylius.repository.product_variant'
-            - '@sylius.email_sender'
-            - '@sylius.context.locale'
             - '@webgriffe.repository.back_in_stock_notification_subscription'
-            - '@webgriffe.factory.back_in_stock_notification_subscription'
     
     Webgriffe\SyliusBackInStockNotificationPlugin\Menu\AccountMenuListener:
         tags:
@@ -31,15 +24,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: sylius.menu.admin.main, method: addAdminMenuItems }
     
-    Webgriffe\SyliusBackInStockNotificationPlugin\Twig\AvailabilityExtension:
-        tags:
-            - { name: twig.extension }
-        
-    Webgriffe\SyliusBackInStockNotificationPlugin\Twig\AvailabilityRuntime:
-        arguments:
-            - '@sylius.availability_checker.default'
-        tags:
-            - { name: twig.runtime }
     
     Webgriffe\SyliusBackInStockNotificationPlugin\Validator\SubscriptionUniqueValidator:
         arguments:
@@ -48,3 +32,24 @@ services:
             - '@sylius.context.customer'
         tags:
             - { name: validator.constraint_validator }
+
+    Webgriffe\SyliusBackInStockNotificationPlugin\Processor\SubscriptionProcessor:
+        arguments:
+            - '@webgriffe.factory.back_in_stock_notification_subscription'
+            - '@webgriffe.repository.back_in_stock_notification_subscription'
+            - '@sylius.context.channel.cached'
+            - '@sylius.context.locale'
+            - '@sylius.email_sender'
+
+    webgriffe.processor.subscription: '@Webgriffe\SyliusBackInStockNotificationPlugin\Processor\SubscriptionProcessor'
+
+    Webgriffe\SyliusBackInStockNotificationPlugin\Twig\Component\AddNotificationComponent:
+        arguments:
+            - '@form.factory'
+            - '@sylius.resolver.product_variant'
+            - '@sylius.context.customer'
+            - '@Webgriffe\SyliusBackInStockNotificationPlugin\Processor\SubscriptionProcessor'
+            - '@sylius.repository.product'
+            - '@sylius.repository.product_variant'
+        tags:
+            - { name: 'sylius.live_component.shop', key: 'webgriffe:sylius_shop:product:add_notification' }

@@ -1,0 +1,9 @@
+sylius_twig_hooks:
+    hooks:
+        'sylius_shop.product.show.content.info.summary':
+            add_notification:
+                component: 'webgriffe:sylius_shop:product:add_notification'
+                props:
+                    product: '@=_context.product'
+                    template: '@WebgriffeSyliusBackInStockNotificationPlugin/shop/product/show/content/info/summary/add_notification.html.twig'
+                priority: 50

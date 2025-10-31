@@ -40,7 +40,7 @@ final class IndexPage extends SymfonyPage implements IndexPageInterface
     {
         return array_merge(parent::getDefinedElements(), [
             'customer_subscriptions' => '[data-test-grid-table]',
-            'first_subscription' => '[data-test-grid-table-body] [data-test-row]:first-child [data-test-delete-button]',
+            'first_subscription' => '[data-test-grid-table-body] [data-test-row]:first-child [data-test-button-delete]',
             'table' => '[data-test-grid-table-body]',
         ]);
     }

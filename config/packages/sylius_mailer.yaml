@@ -1,6 +1,6 @@
 sylius_mailer:
     emails:
         webgriffe_back_in_stock_notification_success_subscription:
-            template: "@WebgriffeSyliusBackInStockNotificationPlugin/Email/successSubscription.html.twig"
+            template: "@WebgriffeSyliusBackInStockNotificationPlugin/email/success_subscription.html.twig"
         webgriffe_back_in_stock_notification_alert:
-            template: "@WebgriffeSyliusBackInStockNotificationPlugin/Email/notificationAlert.html.twig"
+            template: "@WebgriffeSyliusBackInStockNotificationPlugin/email/notification_alert.html.twig"

@@ -5,3 +5,4 @@ sylius_resource:
             classes:
                 model: Webgriffe\SyliusBackInStockNotificationPlugin\Entity\Subscription
                 repository: Webgriffe\SyliusBackInStockNotificationPlugin\Repository\SubscriptionRepository
+                factory: Webgriffe\SyliusBackInStockNotificationPlugin\Factory\SubscriptionFactory
