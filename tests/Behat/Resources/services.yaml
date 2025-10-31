@@ -4,7 +4,7 @@ services:
 
   Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\Shop\ProductInventoryContext:
     arguments:
-      - '@sylius.behat.notification_checker'
+      - '@sylius.behat.notification_checker.shop'
       - '@sylius.behat.email_checker'
       - '@translator.data_collector'
       - '@Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Element\Product\ShowPage\SubscriptionFormElement'
@@ -12,8 +12,6 @@ services:
   Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Element\Product\ShowPage\SubscriptionFormElement:
     parent: 'sylius.behat.element'
     public: false
-    arguments:
-        - '@sylius.behat.page.shop.product.show'
 
   Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Page\Shop\Account\Subscription\IndexPage:
     parent: 'sylius.behat.symfony_page'
@@ -24,4 +22,4 @@ services:
   Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\Shop\AccountContext:
     arguments:
       - '@Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Page\Shop\Account\Subscription\IndexPage'
-      - '@sylius.behat.notification_checker'
+      - '@sylius.behat.notification_checker.shop'

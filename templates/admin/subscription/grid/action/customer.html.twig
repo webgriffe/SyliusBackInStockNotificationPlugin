@@ -1,0 +1,7 @@
+{% if options.link.data.customer is not null %}
+    {% set path = path(options.link.route, {'id': options.link.data.customer.id}) %}
+
+    <a title="details" href="{{ path }}" class="btn btn-icon" data-bs-toggle="tooltip" data-bs-title="{{ action.label|trans }}">
+        {{ ux_icon(action.icon|default('tabler:user')) }}
+    </a>
+{% endif %}

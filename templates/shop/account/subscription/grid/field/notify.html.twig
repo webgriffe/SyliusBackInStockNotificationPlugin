@@ -1,0 +1,11 @@
+{% if data %}
+    <span class="badge text-bg-success">
+        {{ ux_icon('tabler:bell', {class: 'icon icon-sm'}) }}
+        {{ 'webgriffe_bisn.admin.notified'|trans }}
+    </span>
+{% else %}
+    <span class="badge text-bg-danger">
+        {{ ux_icon('tabler:bell', {class: 'icon icon-sm'}) }}
+        {{ 'webgriffe_bisn.admin.not-notified'|trans }}
+    </span>
+{% endif %}

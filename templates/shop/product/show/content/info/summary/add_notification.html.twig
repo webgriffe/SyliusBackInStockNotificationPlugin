@@ -1,0 +1,27 @@
+{% import '@SyliusShop/shared/buttons.html.twig' as buttons %}
+{% form_theme form '@SyliusShop/form/theme.html.twig' %}
+
+<div class="card my-3" {{ attributes }}>
+    {% if not sylius_inventory_is_available(variant) %}
+        <div class="card-body">
+            <h5>{{ 'webgriffe_bisn.product_page.stock_notify_title'|trans }}:</h5>
+            {% if notificationSent %}
+                <div class="alert alert-success" {{ sylius_test_html_attribute('sylius-flash-message') }}>{{ 'webgriffe_bisn.form_submission.subscription_successfully'|trans }}</div>
+            {% endif %}
+            {{ form_start(form, {'attr': {'data-action': 'live#action:prevent live#$render', 'data-live-action-param': 'addNotification'}}) }}
+
+            {{ form_errors(form) }}
+
+            {% if not isCustomerLoggedIn %}
+                {{ form_widget(form.email, sylius_test_form_attribute('email')|sylius_merge_recursive({'attr': {'placeholder': 'sylius.ui.email'|trans ~ '...'}})) }}
+            {% endif %}
+
+            {{ form_row(form.product_variant_code) }}
+
+            {{ buttons.submit('webgriffe_bisn.product_page.form_action'|trans, 'add-notification', 'tabler:bell', 'btn-primary mt-2') }}
+
+            {{ form_row(form._token) }}
+            {{ form_end(form, {'render_rest': false}) }}
+        </div>
+    {% endif %}
+</div>

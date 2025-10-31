@@ -1,0 +1,24 @@
+{% extends '@SyliusShop/email/layout.html.twig' %}
+
+{% block subject %}{{ 'webgriffe_bisn.subscription_mail.subscription_title'|trans({}, null, localeCode) }}{% endblock %}
+
+{% block content %}
+    <div style="text-align: center; padding-bottom: 30px;">
+        <div style="font-size: 30px; line-height: 1.2;">
+            {{ 'webgriffe_bisn.subscription_mail.subscription_title'|trans({}, null, localeCode) }}
+        </div>
+    </div>
+
+    <div style="text-align: center; padding-bottom: 15px; font-size: 15px;">
+        {{ 'webgriffe_bisn.subscription_mail.subscription_message'|trans({
+            '{product}': subscription.productVariant.product.name,
+            '{url}': url('sylius_shop_product_show', {'slug': subscription.productVariant.product.slug, '_locale': subscription.productVariant.product.translation.locale})
+        }, null, localeCode)|raw }}
+    </div>
+
+    <div style="text-align: center; padding-bottom: 30px; font-size: 15px;">
+        {{ 'webgriffe_bisn.subscription_mail.subscription_unsub'|trans({
+            '{url}': url('webgriffe_back_in_stock_notification_delete_subscription', {'hash': subscription.hash})
+        }, null, localeCode)|raw }}
+    </div>
+{% endblock %}

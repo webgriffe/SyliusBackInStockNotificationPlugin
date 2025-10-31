@@ -1,0 +1,22 @@
+sylius_twig_hooks:
+    hooks:
+        'webgriffe_sylius_back_in_stock_notification_plugin.shop.account.subscription.index.content':
+            breadcrumbs:
+                template: '@WebgriffeSyliusBackInStockNotificationPlugin/shop/account/subscription/index/content/breadcrumbs.html.twig'
+                priority: 200
+            menu:
+                template: '@SyliusShop/account/common/content/menu.html.twig'
+                priority: 100
+            main:
+                template: '@SyliusShop/account/common/content/main.html.twig'
+                priority: 0
+
+        'webgriffe_sylius_back_in_stock_notification_plugin.shop.account.subscription.index.content.main':
+            grid:
+                template: '@SyliusShop/shared/grid.html.twig'
+                priority: 0
+
+        'webgriffe_sylius_back_in_stock_notification_plugin.shop.account.subscription.index.content.main.header':
+            title:
+                template: '@WebgriffeSyliusBackInStockNotificationPlugin/shop/account/subscription/index/content/main/header/title.html.twig'
+                priority: 0

@@ -3,12 +3,10 @@ webgriffe_admin_notification_subscription:
         alias: webgriffe.back_in_stock_notification_subscription
         section: admin
         path: subscriptions
-        templates: "@SyliusAdmin\\Crud"
+        templates: "@SyliusAdmin\\shared\\crud"
         redirect: update
         grid: webgriffe_admin_notification_subscription
         vars:
             all:
-                subheader: webgriffe_bisn.admin.subscriptions_subtitle
-            index:
-                icon: 'bell'
+                hook_prefix: 'webgriffe_sylius_back_in_stock_notification_plugin.admin.notification_subscription'
     type: sylius.resource
