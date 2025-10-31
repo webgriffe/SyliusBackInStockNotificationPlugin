@@ -28,8 +28,8 @@
 
 ## Requirements
 
-* PHP `^8.0`
-* Sylius `^1.11.2`
+* PHP `^8.1`
+* Sylius `^1.14`
 
 ## Installation
 
