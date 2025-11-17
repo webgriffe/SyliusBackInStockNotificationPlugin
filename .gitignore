@@ -15,5 +15,6 @@
 /phpspec.yml
 /phpunit.xml
 /docker-compose.override.yml
+/compose.override.yaml
 
 .phpunit.result.cache
