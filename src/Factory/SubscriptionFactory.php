@@ -12,6 +12,9 @@ use Webmozart\Assert\Assert;
 
 final readonly class SubscriptionFactory implements SubscriptionFactoryInterface
 {
+    /**
+     * @param class-string $className
+     */
     public function __construct(private string $className)
     {
     }
@@ -28,6 +31,7 @@ final readonly class SubscriptionFactory implements SubscriptionFactoryInterface
         string $localeCode,
         ?CustomerInterface $customer = null,
     ): SubscriptionInterface {
+        /** @psalm-suppress MixedMethodCall */
         $subscription = new $this->className();
         Assert::isInstanceOf($subscription, SubscriptionInterface::class);
 

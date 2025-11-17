@@ -41,6 +41,7 @@ final class SubscriptionProcessor implements SubscriptionProcessorInterface
         );
 
         $this->backInStockNotificationRepository->add($subscription);
+        /** @psalm-suppress DeprecatedMethod */
         $this->sender->send(
             'webgriffe_back_in_stock_notification_success_subscription',
             [$subscription->getEmail()],

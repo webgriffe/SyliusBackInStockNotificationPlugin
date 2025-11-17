@@ -67,7 +67,8 @@
         "symfony/dotenv": "^6.4 || ^7.3",
         "symfony/flex": "^2.2.2",
         "symfony/intl": "^6.4 || ^7.3",
-        "symfony/web-profiler-bundle": "^6.4 || ^7.3"
+        "symfony/web-profiler-bundle": "^6.4 || ^7.3",
+        "vimeo/psalm": "^6.13"
     },
     "conflict": {
         "symfony/framework-bundle": "6.2.8"
