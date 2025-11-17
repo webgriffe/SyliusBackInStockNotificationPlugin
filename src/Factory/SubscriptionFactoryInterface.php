@@ -10,6 +10,9 @@ use Sylius\Component\Customer\Model\CustomerInterface;
 use Sylius\Resource\Factory\FactoryInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
 
+/**
+ * @extends FactoryInterface<SubscriptionInterface>
+ */
 interface SubscriptionFactoryInterface extends FactoryInterface
 {
     public function createWithData(

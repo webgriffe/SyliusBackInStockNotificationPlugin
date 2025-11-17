@@ -10,5 +10,8 @@ use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
 
 interface SubscriptionProcessorInterface
 {
+    /**
+     * @psalm-suppress PossiblyUnusedReturnValue
+     */
     public function process(ProductVariantInterface $productVariant, string $email, ?CustomerInterface $customer = null): SubscriptionInterface;
 }

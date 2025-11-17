@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Repository\SubscriptionRepositoryInterface;
 
+/**
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class SubscriptionController extends AbstractController
 {
     public function __construct(

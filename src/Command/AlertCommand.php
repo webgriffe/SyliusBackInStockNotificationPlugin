@@ -78,6 +78,7 @@ final class AlertCommand extends Command
         ProductVariantInterface $productVariant,
         ChannelInterface $channel,
     ): void {
+        /** @psalm-suppress DeprecatedMethod */
         $this->sender->send(
             'webgriffe_back_in_stock_notification_alert',
             [$subscription->getEmail()],
