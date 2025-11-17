@@ -140,9 +140,6 @@ jobs:
             -   name: Run Psalm
                 run: vendor/bin/psalm
 
-            -   name: Run PHPSpec
-                run: vendor/bin/phpspec run --ansi -f progress --no-interaction
-
             -   name: Run PHPUnit
                 run: vendor/bin/phpunit --colors=always
 

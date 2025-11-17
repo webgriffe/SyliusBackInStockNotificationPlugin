@@ -125,12 +125,6 @@ symfony server:start -d
 vendor/bin/phpunit
 ```
 
-#### PHPSpec
-
-```bash
-vendor/bin/phpspec run
-```
-
 #### Behat (non-JS scenarios)
 
 ```bash
