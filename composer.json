@@ -11,7 +11,7 @@
         "php": "^8.2",
         "doctrine/dbal": "^2.7 || ^3.0",
         "doctrine/migrations": "^3.0",
-        "doctrine/orm": "^2.13",
+        "doctrine/orm": "^2.18 || ^3.5",
         "psr/log": "^3.0",
         "sylius/mailer-bundle": "^2.1",
         "sylius/resource": "^1.12",
