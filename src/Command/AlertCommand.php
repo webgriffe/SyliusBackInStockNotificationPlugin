@@ -13,6 +13,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Symfony\Component\Routing\RouterInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Repository\SubscriptionRepositoryInterface;
@@ -46,27 +47,32 @@ final class AlertCommand extends Command
         //I think that this load in the long time can be a bottle necklace
         $subscriptions = $this->backInStockNotificationRepository->findBy(['notify' => false]);
         foreach ($subscriptions as $subscription) {
-            $channel = $subscription->getChannel();
-            $productVariant = $subscription->getProductVariant();
-            if ($productVariant === null || $channel === null) {
-                $this->backInStockNotificationRepository->remove($subscription);
-                $this->logger->warning(
-                    'The back in stock subscription for the product does not have all the information required',
-                    ['subscription' => var_export($subscription, true)],
-                );
+            try {
+                $channel = $subscription->getChannel();
+                $productVariant = $subscription->getProductVariant();
+                if ($productVariant === null || $channel === null) {
+                    $this->backInStockNotificationRepository->remove($subscription);
+                    $this->logger->warning(
+                        'The back in stock subscription for the product does not have all the information required',
+                        ['subscription' => var_export($subscription, true)],
+                    );
 
-                continue;
-            }
+                    continue;
+                }
 
-            if (
-                $this->availabilityChecker->isStockAvailable($productVariant) &&
-                $productVariant->isEnabled() &&
-                $productVariant->getProduct()?->isEnabled() === true
-            ) {
-                $this->router->getContext()->setHost($channel->getHostname() ?? 'localhost');
-                $this->sendEmail($subscription, $productVariant, $channel);
-                $subscription->setNotify(true);
-                $this->backInStockNotificationRepository->add($subscription);
+                if (
+                    $this->availabilityChecker->isStockAvailable($productVariant) &&
+                    $productVariant->isEnabled() &&
+                    $productVariant->getProduct()?->isEnabled() === true
+                ) {
+                    $this->router->getContext()->setHost($channel->getHostname() ?? 'localhost');
+                    $this->sendEmail($subscription, $productVariant, $channel);
+                    $subscription->setNotify(true);
+                    $this->backInStockNotificationRepository->add($subscription);
+                }
+            } catch (RfcComplianceException $e) {
+                // Invalid email address, continue to the next one
+                $this->logger->warning($e->getMessage());
             }
         }
 

@@ -24,7 +24,7 @@ final class SubscriptionType extends AbstractType
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new NotBlank([], null, null, null, ['webgriffe_sylius_back_in_stock_notification_plugin']),
-                    new Email([], null, null, null, ['webgriffe_sylius_back_in_stock_notification_plugin']),
+                    new Email(['mode' => Email::VALIDATION_MODE_STRICT], null, null, null, ['webgriffe_sylius_back_in_stock_notification_plugin']),
                 ],
             ])
             ->add('product_variant_code', HiddenType::class)
