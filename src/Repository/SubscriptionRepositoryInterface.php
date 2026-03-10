@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Webgriffe\SyliusBackInStockNotificationPlugin\Repository;
 
 use Doctrine\ORM\QueryBuilder;
-use Sylius\Component\Resource\Repository\RepositoryInterface;
+use Sylius\Resource\Doctrine\Persistence\RepositoryInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
 
 /**
