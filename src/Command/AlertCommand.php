@@ -45,7 +45,7 @@ final class AlertCommand extends Command
         // I think that this load in the long time can be a bottleneck
         $subscriptions = $this->backInStockNotificationRepository->findBy(['notify' => false]);
         foreach ($subscriptions as $subscription) {
-            $channel        = $subscription->getChannel();
+            $channel = $subscription->getChannel();
             $productVariant = $subscription->getProductVariant();
             if ($productVariant === null || $channel === null) {
                 $this->backInStockNotificationRepository->remove($subscription);
@@ -68,6 +68,7 @@ final class AlertCommand extends Command
                     $this->sendEmail($subscription, $productVariant, $channel);
                 } catch (RfcComplianceException $e) {
                     $this->logger->warning('Invalid email address, continue to the next one: ' . $e->getMessage());
+
                     continue;
                 }
                 $subscription->setNotify(true);
