@@ -28,7 +28,7 @@ jobs:
             DATABASE_URL: "mysql://root:root@127.0.0.1/sylius?serverVersion=${{ matrix.mysql }}"
         
         steps:
-            -   uses: actions/checkout@v3
+            -   uses: actions/checkout@v4
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
@@ -152,7 +152,7 @@ jobs:
                 run: vendor/bin/behat --colors --strict -vvv --no-interaction || vendor/bin/behat --colors --strict -vvv --no-interaction --rerun
 
             -   name: Upload Behat logs
-                uses: actions/upload-artifact@v3
+                uses: actions/upload-artifact@v4
                 if: failure()
                 with:
                     name: Behat logs
@@ -166,9 +166,7 @@ jobs:
             PHP_VERSION: 8.2
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v3
-                with:
-                    fetch-depth: 0
+                uses: actions/checkout@v4
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
