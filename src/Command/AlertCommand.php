@@ -42,7 +42,7 @@ final class AlertCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        //I think that this load in the long time can be a bottle necklace
+        // I think that this load in the long time can be a bottleneck
         $subscriptions = $this->backInStockNotificationRepository->findBy(['notify' => false]);
         foreach ($subscriptions as $subscription) {
             $channel        = $subscription->getChannel();
