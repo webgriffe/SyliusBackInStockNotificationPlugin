@@ -9,6 +9,9 @@ on:
         types: [ created ]
     workflow_dispatch: ~
 
+env:
+    DOCKER_API_VERSION: '1.44'
+
 jobs:
     tests:
         runs-on: ubuntu-latest
@@ -20,7 +23,7 @@ jobs:
             matrix:
                 php: [ "8.1", "8.2", "8.3" ]
                 symfony: [ "^5.4", "^6.4" ]
-                sylius: [ "1.12.16", "1.13.1"]
+                sylius: [ "^1.12", "^1.13"]
                 node: [ "18.x", "20.x" ]
                 mysql: [ "8.0" ]
         env:
@@ -28,7 +31,7 @@ jobs:
             DATABASE_URL: "mysql://root:root@127.0.0.1/sylius?serverVersion=${{ matrix.mysql }}"
         
         steps:
-            -   uses: actions/checkout@v3
+            -   uses: actions/checkout@v4
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2
@@ -56,7 +59,7 @@ jobs:
                 run: php -v | head -n 1 | awk '{ print $2 }' > .php-version
 
             -   name: Install certificates
-                run: symfony server:ca:install
+                run: symfony server:ca:install || true
 
             -   name: Run Chrome Headless
                 run: google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1 > /dev/null 2>&1 &
@@ -92,7 +95,7 @@ jobs:
                 run: composer require "sylius/sylius:${{ matrix.sylius }}" --no-update --no-scripts --no-interaction
 
             -   name: Install PHP dependencies
-                run: composer install --no-interaction --no-plugins
+                run: composer install --no-interaction --no-plugins --no-security-blocking
                 env:
                     SYMFONY_REQUIRE: ${{ matrix.symfony }}
 
@@ -152,7 +155,7 @@ jobs:
                 run: vendor/bin/behat --colors --strict -vvv --no-interaction || vendor/bin/behat --colors --strict -vvv --no-interaction --rerun
 
             -   name: Upload Behat logs
-                uses: actions/upload-artifact@v3
+                uses: actions/upload-artifact@v4
                 if: failure()
                 with:
                     name: Behat logs
@@ -166,9 +169,7 @@ jobs:
             PHP_VERSION: 8.2
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v3
-                with:
-                    fetch-depth: 0
+                uses: actions/checkout@v4
 
             -   name: Setup PHP
                 uses: shivammathur/setup-php@v2

@@ -12,6 +12,7 @@ use Sylius\Component\Mailer\Sender\SenderInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Symfony\Component\Routing\RouterInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Entity\SubscriptionInterface;
 use Webgriffe\SyliusBackInStockNotificationPlugin\Repository\SubscriptionRepositoryInterface;
@@ -41,7 +42,7 @@ final class AlertCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        //I think that this load in the long time can be a bottle necklace
+        // I think that this load in the long time can be a bottleneck
         $subscriptions = $this->backInStockNotificationRepository->findBy(['notify' => false]);
         foreach ($subscriptions as $subscription) {
             $channel = $subscription->getChannel();
@@ -62,7 +63,14 @@ final class AlertCommand extends Command
                 $productVariant->getProduct()?->isEnabled() === true
             ) {
                 $this->router->getContext()->setHost($channel->getHostname() ?? 'localhost');
-                $this->sendEmail($subscription, $productVariant, $channel);
+
+                try {
+                    $this->sendEmail($subscription, $productVariant, $channel);
+                } catch (RfcComplianceException $e) {
+                    $this->logger->warning('Invalid email address, continue to the next one: ' . $e->getMessage());
+
+                    continue;
+                }
                 $subscription->setNotify(true);
                 $this->backInStockNotificationRepository->add($subscription);
             }
