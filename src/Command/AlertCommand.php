@@ -45,32 +45,33 @@ final class AlertCommand extends Command
         //I think that this load in the long time can be a bottle necklace
         $subscriptions = $this->backInStockNotificationRepository->findBy(['notify' => false]);
         foreach ($subscriptions as $subscription) {
-            try {
-                $channel = $subscription->getChannel();
-                $productVariant = $subscription->getProductVariant();
-                if ($productVariant === null || $channel === null) {
-                    $this->backInStockNotificationRepository->remove($subscription);
-                    $this->logger->warning(
-                        'The back in stock subscription for the product does not have all the information required',
-                        ['subscription' => var_export($subscription, true)],
-                    );
+            $channel        = $subscription->getChannel();
+            $productVariant = $subscription->getProductVariant();
+            if ($productVariant === null || $channel === null) {
+                $this->backInStockNotificationRepository->remove($subscription);
+                $this->logger->warning(
+                    'The back in stock subscription for the product does not have all the information required',
+                    ['subscription' => var_export($subscription, true)],
+                );
 
+                continue;
+            }
+
+            if (
+                $this->availabilityChecker->isStockAvailable($productVariant) &&
+                $productVariant->isEnabled() &&
+                $productVariant->getProduct()?->isEnabled() === true
+            ) {
+                $this->router->getContext()->setHost($channel->getHostname() ?? 'localhost');
+
+                try {
+                    $this->sendEmail($subscription, $productVariant, $channel);
+                } catch (RfcComplianceException $e) {
+                    $this->logger->warning('Invalid email address, continue to the next one: ' . $e->getMessage());
                     continue;
                 }
-
-                if (
-                    $this->availabilityChecker->isStockAvailable($productVariant) &&
-                    $productVariant->isEnabled() &&
-                    $productVariant->getProduct()?->isEnabled() === true
-                ) {
-                    $this->router->getContext()->setHost($channel->getHostname() ?? 'localhost');
-                    $this->sendEmail($subscription, $productVariant, $channel);
-                    $subscription->setNotify(true);
-                    $this->backInStockNotificationRepository->add($subscription);
-                }
-            } catch (RfcComplianceException $e) {
-                // Invalid email address, continue to the next one
-                $this->logger->warning($e->getMessage());
+                $subscription->setNotify(true);
+                $this->backInStockNotificationRepository->add($subscription);
             }
         }
 
