@@ -54,6 +54,8 @@ sylius_grid:
                 created_at:
                     type: date
                     label: sylius.ui.date
+                    options:
+                        field: createdAt
                 notify:
                     type: boolean
                     label: sylius.ui.state
