@@ -23,8 +23,8 @@ final class SubscriptionType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'constraints' => [
-                    new NotBlank([], null, null, null, ['webgriffe_sylius_back_in_stock_notification_plugin']),
-                    new Email([], null, null, null, ['webgriffe_sylius_back_in_stock_notification_plugin']),
+                    new NotBlank(groups: ['webgriffe_sylius_back_in_stock_notification_plugin']),
+                    new Email(groups: ['webgriffe_sylius_back_in_stock_notification_plugin']),
                 ],
             ])
             ->add('product_variant_code', HiddenType::class)
@@ -35,10 +35,7 @@ final class SubscriptionType extends AbstractType
     {
         $resolver->setDefaults([
             'validation_groups' => ['webgriffe_sylius_back_in_stock_notification_plugin'],
-            'constraints' => [new SubscriptionUnique(
-                null,
-                ['webgriffe_sylius_back_in_stock_notification_plugin'],
-            )],
+            'constraints' => [new SubscriptionUnique(groups: ['webgriffe_sylius_back_in_stock_notification_plugin'])],
         ]);
     }
 }
