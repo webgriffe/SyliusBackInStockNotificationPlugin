@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Webgriffe\SyliusBackInStockNotificationPlugin\Behat\Context\Ui\Shop;
 
 use Behat\Behat\Context\Context;
+use Behat\Step\Then;
+use Behat\Step\When;
 use RuntimeException;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Service\Checker\EmailCheckerInterface;
@@ -20,11 +22,9 @@ final class ProductInventoryContext implements Context
     {
     }
 
-    /**
-     * @When I subscribe to the alert list for the product :product
-     * @When I subscribe to the alert list for the product :product with the email :email
-     */
-    public function iSubscribeToTheAlertListForThisProduct(ProductInterface $product, string $email = null): void
+    #[When('I subscribe to the alert list for the product :product')]
+    #[When('I subscribe to the alert list for the product :product with the email :email')]
+    public function iSubscribeToTheAlertListForThisProduct(ProductInterface $product, ?string $email = null): void
     {
         $productCode = $product->getCode();
         if ($productCode === null) {
@@ -38,9 +38,7 @@ final class ProductInventoryContext implements Context
         }
     }
 
-    /**
-     * @Then I should be notified that the email is subscribed correctly
-     */
+    #[Then('I should be notified that the email is subscribed correctly')]
     public function iShouldBeNotifiedThatTheEmailIsSubscribedCorrectly(): void
     {
         $this->notificationChecker->checkNotification(
@@ -49,9 +47,7 @@ final class ProductInventoryContext implements Context
         );
     }
 
-    /**
-     * @Then an email with a success message should be sent to :email
-     */
+    #[Then('an email with a success message should be sent to :email')]
     public function anEmailWithASuccessMessageShouldBeSentTo(string $email): void
     {
         Assert::true($this->emailChecker->hasMessageTo(
@@ -60,9 +56,7 @@ final class ProductInventoryContext implements Context
         ));
     }
 
-    /**
-     * @Then I should be notified that the email :email is already subscribed
-     */
+    #[Then('I should be notified that the email :email is already subscribed')]
     public function iShouldBeNotifiedThatTheEmailIsAlreadySubscribed(string $email): void
     {
         $this->notificationChecker->checkNotification(
