@@ -29,7 +29,7 @@ final class AlertCommand extends Command
         private AvailabilityCheckerInterface $availabilityChecker,
         private SubscriptionRepositoryInterface $backInStockNotificationRepository,
         private RouterInterface $router,
-        string $name = null,
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
