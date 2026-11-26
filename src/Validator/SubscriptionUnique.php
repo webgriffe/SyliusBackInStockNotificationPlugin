@@ -13,7 +13,7 @@ final class SubscriptionUnique extends Constraint
 {
     public string $message = 'webgriffe_bisn.subscription.already_saved';
 
-    public function getTargets(): string|array
+    public function getTargets(): string
     {
         return self::CLASS_CONSTRAINT;
     }
