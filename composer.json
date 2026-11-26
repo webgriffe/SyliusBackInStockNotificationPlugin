@@ -36,7 +36,7 @@
         "webmozart/assert": "^1.10"
     },
     "require-dev": {
-        "behat/behat": "^3.14",
+        "behat/behat": "^3.17",
         "behat/mink-selenium2-driver": "^1.6",
         "dbrekelmans/bdi": "^1.1",
         "dmore/behat-chrome-extension": "^1.3",
