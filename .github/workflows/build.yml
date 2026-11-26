@@ -21,18 +21,18 @@ jobs:
                 php: [ "8.2", "8.3" ]
                 symfony: [ "^6.4", "^7.3" ]
                 sylius: [ "^2.0", "^2.1" ]
-                node: [ "20.x" ]
+                node: [ "24.x" ]
                 mysql: [ "8.0" ]
                 include:
                     -   php: "8.4"
                         symfony: "^7.4"
                         sylius: "~2.3.0"
-                        node: "20.x"
+                        node: "24.x"
                         mysql: "8.0"
                     -   php: "8.4"
                         symfony: "^8.0"
                         sylius: "~2.3.0"
-                        node: "20.x"
+                        node: "24.x"
                         mysql: "8.0"
         env:
             APP_ENV: test
@@ -46,7 +46,7 @@ jobs:
                 with:
                     php-version: "${{ matrix.php }}"
                     extensions: intl
-                    tools: composer-require-checker, composer-unused, flex, symfony
+                    tools: composer-require-checker, composer-unused:0.9.8, flex, symfony
                     coverage: none
 
             -   name: Setup Node
@@ -143,7 +143,10 @@ jobs:
                 run: composer-unused
 
             -   name: Validate database schema
-                run: vendor/bin/console doctrine:schema:validate
+                # Sylius' own tables are out of sync with its migrations on recent versions, so only the plugin's table is checked for sync.
+                run: |
+                    vendor/bin/console doctrine:schema:validate --skip-sync
+                    if vendor/bin/console doctrine:schema:update --dump-sql | grep -i webgriffe_back_in_stock_notification; then exit 1; fi
 
             -   name: Run PHPStan
                 run: vendor/bin/phpstan analyse
